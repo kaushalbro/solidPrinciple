@@ -1,0 +1,16 @@
+{
+    "name": "devil/solid-principle",
+    "description": "generate solid principle template code with repo design pattern",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Devil\\SolidPrinciple\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "kaushal ghimire"
+        }
+    ],
+    "require": {}
+}
