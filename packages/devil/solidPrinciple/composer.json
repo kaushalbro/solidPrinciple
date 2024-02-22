@@ -1,16 +1,19 @@
 {
-    "name": "devil/solid-principle",
-    "description": "generate solid principle template code with repo design pattern",
+    "name": "devil/solidprinciple",
+    "description": "generate code",
     "type": "library",
+    "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Devil\\SolidPrinciple\\": "src/"
+            "App\\": "app/",
+            "Devil\\Solidprinciple\\": "src/"
         }
     },
     "authors": [
         {
-            "name": "kaushal ghimire"
+            "name": "kausahl ghimire"
         }
     ],
+    "minimum-stability": "beta",
     "require": {}
 }

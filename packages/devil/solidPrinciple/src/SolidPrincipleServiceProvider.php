@@ -1,10 +1,10 @@
 <?php
+namespace  Devil\SolidPrinciple;
 
-namespace App\Providers;
-
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
-class solidPrincipleProvider extends ServiceProvider
+class SolidPrincipleServiceProvider extends ServiceProvider
 {
     /**
      * Register services.
@@ -23,6 +23,10 @@ class solidPrincipleProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Route::get('/route', function () {
+            dd('fdfd');
+            return 'fdfdf';
+        });
+
     }
 }
