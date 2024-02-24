@@ -1,5 +1,5 @@
 <?php
-namespace  Devil\SolidPrinciple\routes;
+
 
 use Illuminate\Support\Facades\Route;
 
@@ -14,5 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
-
+Route::get('solid', function () {
+    return 'solid';
+});

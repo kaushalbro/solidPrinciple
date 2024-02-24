@@ -7,5 +7,4 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Devil\\Solidprinciple\\' => array($baseDir . '/src'),
-    'App\\' => array($baseDir . '/app'),
 );
