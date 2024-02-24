@@ -6,7 +6,7 @@ namespace Devil\Solidprinciple\app\Http\Controllers;
 use Devil\Solidprinciple\app\Traits\FileFolderManage;
 use Illuminate\Routing\Controller;
 
-class MakeRepo extends Controller
+class MakeModelRepo extends Controller
 {
     use FileFolderManage;
     protected $className,$stub_path,$dir_name;

@@ -2,14 +2,7 @@
 
 namespace Devil\Solidprinciple\app\console\Commands;
 
-use App\Http\Controllers\Controller;
-use Devil\Solidprinciple\app\Http\Controllers\MakeController;
-use Devil\Solidprinciple\app\Http\Controllers\MakeInterface;
-use Devil\Solidprinciple\app\Http\Controllers\MakeMigration;
-use Devil\Solidprinciple\app\Http\Controllers\MakeModel;
-use Devil\Solidprinciple\app\Http\Controllers\MakeRepo;
-use Devil\Solidprinciple\app\Http\Controllers\MakeRequest;
-use Devil\Solidprinciple\app\Http\Controllers\MakeRoute;
+use Devil\Solidprinciple\app\Http\Controllers\OptionController;
 use Illuminate\Console\Command;
 
 class solid extends Command
@@ -48,36 +41,7 @@ class solid extends Command
      */
     public function handle()
     {
-        switch ($this->options()) {
-            case $this->option('interface'):
-                new MakeInterface('interface');
-                break;
-            case $this->option('repo'):
-                new MakeRepo('repo');
-                break;
-            case $this->option('model'):
-                new MakeModel('model');
-                break;
-            case $this->option('controller'):
-                new MakeController('controller');
-                break;
-            case $this->option('request'):
-                new MakeRequest('request');
-                break;
-            case $this->option('migration'):
-                new MakeMigration('migration');
-                break;
-            case $this->option('route'):
-                new MakeRoute('route');
-                break;
-            default:
-                new MakeInterface('interface');
-                new MakeRepo('repo');
-                new MakeModel('model');
-                new MakeController('controller');
-                new MakeRequest('request');
-                new MakeMigration('migration');
-                new MakeRoute('route');
-        }
+        $optionController = new OptionController($this->options());
+        $optionController->chooseOption();
     }
 }
