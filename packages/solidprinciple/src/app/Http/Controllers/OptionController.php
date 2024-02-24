@@ -23,7 +23,7 @@ class OptionController extends Controller
                 break;
             case $this->options['model']:
                 new MakeModel('model');
-                new MakeModelRepo('model');
+//                new MakeModelRepo('model');
                 break;
             case $this->options['controller']:
                 new MakeController('controller');

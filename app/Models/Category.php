@@ -1,11 +1,11 @@
 <?php
 
-namespace {{ namespace }};
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class {{ classname }} extends Model
+class Category extends Model
 {
     use HasFactory;
 
@@ -14,9 +14,9 @@ class {{ classname }} extends Model
          *
          * @var array<int, string>
          */
-    protected $fillable = {{ fillable }};
-    protected $hidden= {{ hidden }};
-    protected $casts= {{ casts }};
-    protected $with= {{ with }};
+    protected $fillable = ['name','description'];
+    protected $hidden= [];
+    protected $casts= [];
+    protected $with= [];
 
 }
