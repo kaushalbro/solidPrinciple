@@ -5,14 +5,18 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
+            "App\\": "src/app/",
             "Devil\\Solidprinciple\\": "src/"
         }
     },
     "authors": [
         {
-            "name": "kaushal ghimire"
+            "name": "kaushal ghimire",
+            "email": "officiak.kaushalg@gmail.com"
         }
     ],
     "minimum-stability": "dev",
-    "require": {}
+    "require": {
+
+    }
 }
