@@ -4,11 +4,12 @@
 namespace Devil\Solidprinciple\app\Http\Controllers;
 
 use Devil\Solidprinciple\app\Traits\FileFolderManage;
+use Devil\Solidprinciple\app\Traits\GetStubContents;
 use Illuminate\Routing\Controller;
 
 class MakeModel extends Controller
 {
-    use FileFolderManage;
+    use FileFolderManage,GetStubContents;
     protected $model_data,$stub_path,$dir_name;
     public function __construct($model_data)
     {
@@ -67,15 +68,6 @@ class MakeModel extends Controller
       new MakeMigration($json_model_details);
     }
 
-    public function getStubContents($stub_path,$stubVariables = [])
-    {
-        $contents = file_get_contents($stub_path);
-        foreach ($stubVariables as $search => $replace)
-        {
-            $contents = str_replace('{{ '.$search.' }}' , $replace, $contents);
-        }
-        return $contents;
-    }
     public function removeDoubleQuote($array){
         $fillableCount = count($array);
         $newFillable = '[';

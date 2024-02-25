@@ -4,11 +4,12 @@
 namespace Devil\Solidprinciple\app\Http\Controllers;
 
 use Devil\Solidprinciple\app\Traits\FileFolderManage;
+use Devil\Solidprinciple\app\Traits\GetStubContents;
 use Illuminate\Routing\Controller;
 
 class MakeMigration extends Controller
 {
-    use FileFolderManage;
+    use FileFolderManage, GetStubContents;
     protected $model_data,$stub_path,$dir_name;
     public function __construct($model_data)
     {
@@ -50,7 +51,7 @@ class MakeMigration extends Controller
             $contents =$this->getStubContents($this->stub_path,[
                 'classname'=> ucwords($table_name),
                 'tablename'=> strtolower($table_name),
-                'db_column_name'=>$column,
+                'db_column_name'=>$column
             ]);
             $dateString = date("Y_m_d_His").'_';
             $migration_name = 'create_'.strtolower($table_name).'_table.php';
@@ -61,16 +62,6 @@ class MakeMigration extends Controller
 
             }
         }
-    }
-
-    public function getStubContents($stub_path,$stubVariables = [])
-    {
-        $contents = file_get_contents($stub_path);
-        foreach ($stubVariables as $search => $replace)
-        {
-            $contents = str_replace('{{ '.$search.' }}' , $replace, $contents);
-        }
-        return $contents;
     }
 
     public function migrationCreated($migration_name): bool

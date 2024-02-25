@@ -3,12 +3,13 @@
 namespace Devil\Solidprinciple\app\Http\Controllers;
 
 use Devil\Solidprinciple\app\Traits\FileFolderManage;
+use Devil\Solidprinciple\app\Traits\GetStubContents;
 use Illuminate\Routing\Controller;
 
 
 class MakeInterface extends Controller
 {
-    use FileFolderManage;
+    use FileFolderManage,GetStubContents;
     protected $interfaceName,$stub_path,$dir_name;
     public function __construct($interfaceName)
     {
@@ -25,13 +26,4 @@ class MakeInterface extends Controller
              $this->makeFile('app/'.$this->dir_name.'/'.$this->interfaceName.'.php', $contents);
     }
 
-    public function getStubContents($stub_path,$stubVariables = [])
-    {
-        $contents = file_get_contents($stub_path);
-        foreach ($stubVariables as $search => $replace)
-        {
-            $contents = str_replace('{{ '.$search.' }}' , $replace, $contents);
-        }
-        return $contents;
-    }
 }
