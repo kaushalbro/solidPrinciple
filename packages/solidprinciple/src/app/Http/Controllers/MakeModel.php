@@ -24,16 +24,17 @@ class MakeModel extends Controller
         $json_model_details= '[{
          "model_name": "product",
          "table_name": "products",
-        "fillable": ["name", "description", "price", "stockQuantity", "categoryID"],
+        "fillable": ["name", "description", "price", "stock_quantity", "category_id"],
          "hidden": [],
          "casts": [],
          "with": [],
          "db_column_name": [
-         "name:string:nullable",
-          "description:string:notnull",
-          "price:float:nullable",
-          "stock_quantity:float:nullable",
-           "category_id:unsignedInteger:nullable"]
+         "name|string|nullable|no-default",
+          "description|string|notnull|no-default",
+          "price|float|nullable|no-default",
+          "status|enum|notnullable|active|active:inactive:activeInactive",
+          "stock_quantity|float|nullable|no-default",
+           "category_id|unsignedInteger|nullable|no-default"]
          },
          {
           "model_name": "Category",
@@ -43,8 +44,8 @@ class MakeModel extends Controller
           "casts": [],
           "with": [],
          "db_column_name": [
-          "name:string:nullable",
-          "description:string:notnull"]
+          "name|string|nullable|no-default",
+          "description|string|notnull|no-default"]
          }
           ]';
       $model_data  = json_decode($json_model_details);

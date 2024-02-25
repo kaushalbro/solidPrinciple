@@ -27,11 +27,24 @@ class MakeMigration extends Controller
             $table_column = $model->db_column_name;
             $column= "";
             foreach ($table_column as $key_1 => $value){
-                $name_datatype= explode(':',$value);
+                $name_datatype= explode('|',$value);
                 $column_name=strtolower($name_datatype[0]);
                 $datatype=lcfirst($name_datatype[1]);
                 $null =  $name_datatype[2]=='nullable'?'->nullable()':'';
-                $col = '$table->'.$datatype.'("'.$column_name.'")'.$null;
+                $default= $name_datatype[3]!='no-default'? "->default('".$name_datatype[3]."')":'';
+                if ($datatype=='enum'){
+                    if (!isset($name_datatype[4])) {
+                        error_log(sprintf("\033[31m%s\033[0m",'Enum values is required'));
+                    }else{
+                        $enum_value ="[";
+                        foreach (explode(':',  $name_datatype[4]) as $key_2 =>$enumval ){
+                            $enum_value.="'".$enumval."',";
+                        }
+                        $col = '$table->'.$datatype.'("'.$column_name.'",'.$enum_value.'])'.$null.$default;
+                    }
+                }else{
+                    $col = '$table->'.$datatype.'("'.$column_name.'")'.$null.$default;
+                }
                 $column .= $col .';'."\n\t\t\t";
             }
             $contents =$this->getStubContents($this->stub_path,[
@@ -44,7 +57,8 @@ class MakeMigration extends Controller
             if (!$this->migrationCreated($migration_name)){
                 $this->makeFile($this->dir_name.'/'.$dateString.$migration_name, $contents);
             }else{
-                error_log($migration_name.' migration already created');
+                error_log(sprintf("\033[33m%s\033[0m", $migration_name.' migration already created.'));
+
             }
         }
     }
