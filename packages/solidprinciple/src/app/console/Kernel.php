@@ -5,7 +5,7 @@ namespace Devil\Solidprinciple\app\console;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
-class KernelBackup extends ConsoleKernel
+class Kernel extends ConsoleKernel
 {
     /**
      * Define the application's command schedule.

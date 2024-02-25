@@ -39,7 +39,8 @@ class MakeModel extends Controller
       new MakeMigration($json_model_details);
       new MakeModelRepo($json_model_details);
       new MakeRequest($json_model_details);
+      new MakeController(['Admin'], 'Admin');
       new MakeController($json_model_details);
-
+      new MakeRoute($json_model_details);
     }
 }

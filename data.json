@@ -1,4 +1,14 @@
-[{
+[ {
+    "model_name": "User",
+    "table_name": "users",
+    "fillable":["name","email","password"],
+    "hidden": [],
+    "casts": [],
+    "with": [],
+    "db_column_name": [],
+    "request_rules":["name-required|string","email-required|string|unique:users,email","password-required|string"],
+    "routes": []
+},{
     "model_name": "Product",
     "table_name": "products",
     "fillable": ["name", "description", "price", "stock_quantity", "category_id"],
@@ -17,7 +27,8 @@
         "description-nullable|string",
         "price-required|numeric|min:|max:10",
         "stock_quantity-required|numeric|min:|max:10",
-        "category_id-required|numeric"]
+        "category_id-required|numeric"],
+    "routes": ["product"]
 }, {
         "model_name": "Category",
         "table_name": "categories",
@@ -26,7 +37,8 @@
         "casts": [],
         "with": [],
         "db_column_name": ["name|string|nullable|no-default","description|string|notnull|no-default"],
-        "request_rules":["name-required|string","description-nullable|string"]
+        "request_rules":["name-required|string","description-nullable|string"],
+        "routes": ["category"]
     },
     {
         "model_name": "Order",
@@ -36,6 +48,7 @@
         "casts": [],
         "with": [],
         "db_column_name": ["name|string|nullable|no-default","description|string|notnull|no-default"],
-        "request_rules":["name-required|string","description-nullable|string"]
+        "request_rules":["name-required|string","description-nullable|string"],
+        "routes": ["order"]
     }
 ]

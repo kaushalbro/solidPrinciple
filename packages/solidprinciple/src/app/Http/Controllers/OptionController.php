@@ -1,6 +1,7 @@
 <?php
 namespace Devil\Solidprinciple\app\Http\Controllers;
 
+use Devil\Solidprinciple\app\Http\Controllers\Admin\MakeAdminPanelController;
 use Illuminate\Routing\Controller;
 
 class OptionController extends Controller
@@ -34,6 +35,9 @@ class OptionController extends Controller
                 break;
             case $this->options['route']:
                 new MakeRoute('route');
+                break;
+            case $this->options['new-admin-panel']:
+                new MakeAdminPanelController(base_path('data.json'));
                 break;
             default:
                 new MakeInterface('interface');

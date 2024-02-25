@@ -1,4 +1,4 @@
-<?php
+
 
 Route::group([
     'namespace'  => 'Admin',
@@ -8,7 +8,7 @@ Route::group([
 ], function () {
       // Admin DashboardController
       Route::get('/', 'AdminController@index')->name('dashboard');
-      {{ routeName }}
+      Route::resource('categories', CategoryController)
       // Route::get('account', 'AdminController@account')->name('account');
       //  Route::post('account', 'AdminController@postAccount')->name('account.update');
       // Resource Routes

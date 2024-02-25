@@ -9,12 +9,16 @@
             "Devil\\Solidprinciple\\": "src/"
         }
     },
+    "files": [
+        "/src/app/Helpers/Helpers.php"
+    ],
     "authors": [
         {
             "name": "kaushal ghimire",
             "email": "officiak.kaushalg@gmail.com"
         }
     ],
+
     "minimum-stability": "dev",
     "require": {
 
