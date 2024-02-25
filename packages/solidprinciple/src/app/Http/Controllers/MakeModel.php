@@ -21,7 +21,6 @@ class MakeModel extends Controller
 
     public function make(): void
     {
-//        $this->makeDirectory('app/'.$this->dir_name);
         $json_model_details= '[{
          "model_name": "product",
          "table_name": "products",
@@ -30,12 +29,18 @@ class MakeModel extends Controller
          "casts": [],
          "with": [],
          "db_column_name": [
-         "name|string|nullable|no-default",
-          "description|string|notnull|no-default",
-          "price|float|nullable|no-default",
-          "status|enum|notnullable|active|active:inactive:activeInactive",
-          "stock_quantity|float|nullable|no-default",
-           "category_id|unsignedInteger|nullable|no-default"]
+           "name|string|nullable|no-default",
+           "description|string|notnull|no-default",
+           "price|float|nullable|no-default",
+           "status|enum|notnullable|active|active:inactive:activeInactive",
+           "stock_quantity|float|nullable|no-default",
+           "category_id|unsignedInteger|nullable|no-default"],
+         "request_rules":[
+              "name-required|string",
+              "description-nullable|string",
+              "price-required|numeric|min:|max:10",
+               "stock_quantity-required|numeric|min:|max:10",
+               "category_id-required|numeric"]
          },
          {
           "model_name": "Category",
@@ -44,9 +49,8 @@ class MakeModel extends Controller
           "hidden": [],
           "casts": [],
           "with": [],
-         "db_column_name": [
-          "name|string|nullable|no-default",
-          "description|string|notnull|no-default"]
+          "db_column_name": ["name|string|nullable|no-default","description|string|notnull|no-default"],
+          "request_rules":["name-required|string","description-nullable|string"]
          }
           ]';
       $model_data  = json_decode($json_model_details);
@@ -68,6 +72,7 @@ class MakeModel extends Controller
       new MakeMigration($json_model_details);
       new MakeModelRepo($json_model_details);
       new MakeController($json_model_details);
+      new MakeRequest($json_model_details);
     }
 
     public function removeDoubleQuote($array){

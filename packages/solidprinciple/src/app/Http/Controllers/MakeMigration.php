@@ -21,7 +21,6 @@ class MakeMigration extends Controller
 
     public function make(): void
     {
-//        $this->makeDirectory($this->dir_name);
         $model_data  = json_decode($this->model_data);
         foreach ($model_data as $key => $model){
             $table_name = $model->table_name;

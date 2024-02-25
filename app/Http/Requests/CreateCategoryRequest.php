@@ -1,10 +1,10 @@
 <?php
 
-namespace {{ namespace }};
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class Create{{ classname }}Request extends FormRequest
+class CreateCategoryRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,6 +23,11 @@ class Create{{ classname }}Request extends FormRequest
      */
     public function rules()
     {
-        return {{ rules }};
+        return [
+			
+			'name' => 'required|string',
+			'description' => 'nullable|string',
+
+			];
     }
 }
