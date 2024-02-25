@@ -1,24 +1,24 @@
 <?php
 
-namespace {{ namespace }};
+namespace App\Http\Controllers;
 
-use {{ rootNamespace }}Http\Controllers\Controller;
-use {{ rootNamespace }}Repositories\{{ classname }}Repository;
+use App\Http\Controllers\Controller;
+use App\Repositories\CategoryRepository;
 use Illuminate\Http\Request;
 
-class {{ classname }}Controller extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    protected ${{ reponame }}Repository;
+    protected $categoryRepository;
 
 
-    public function __construct({{ classname }}Repository ${{ reponame }}Repository)
+    public function __construct(CategoryRepository $categoryRepository)
     {
-        $this->{{ reponame }}Repository = ${{ reponame }}Repository;
+        $this->categoryRepository = $categoryRepository;
     }
 
     public function index()

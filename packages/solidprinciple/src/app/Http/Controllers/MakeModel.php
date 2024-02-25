@@ -21,11 +21,11 @@ class MakeModel extends Controller
 
     public function make(): void
     {
-        $this->makeDirectory('app/'.$this->dir_name);
+//        $this->makeDirectory('app/'.$this->dir_name);
         $json_model_details= '[{
          "model_name": "product",
          "table_name": "products",
-        "fillable": ["name", "description", "price", "stock_quantity", "category_id"],
+         "fillable": ["name", "description", "price", "stock_quantity", "category_id"],
          "hidden": [],
          "casts": [],
          "with": [],
@@ -66,6 +66,8 @@ class MakeModel extends Controller
         $this->makeFile('app/'.$this->dir_name.'/'.$model->model_name.'.php', $contents);
       }
       new MakeMigration($json_model_details);
+      new MakeModelRepo($json_model_details);
+      new MakeController($json_model_details);
     }
 
     public function removeDoubleQuote($array){

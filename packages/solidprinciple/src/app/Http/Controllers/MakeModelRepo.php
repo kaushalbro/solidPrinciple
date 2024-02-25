@@ -4,34 +4,35 @@
 namespace Devil\Solidprinciple\app\Http\Controllers;
 
 use Devil\Solidprinciple\app\Traits\FileFolderManage;
+use Devil\Solidprinciple\app\Traits\GetStubContents;
 use Illuminate\Routing\Controller;
 
 class MakeModelRepo extends Controller
 {
-    use FileFolderManage;
-    protected $className,$stub_path,$dir_name;
-    public function __construct($className)
+    use FileFolderManage, GetStubContents;
+
+    protected $model_data,$stub_path,$dir_name;
+    public function __construct($model_data)
     {
-        $this->className = $className;
-        $this->stub_path =__DIR__.'/../../stubs/repo.stub';
+        $this->model_data = $model_data;
+        $this->stub_path =__DIR__.'/../../stubs/model-repo.stub';
         $this->dir_name='Repositories';
         $this->make();
     }
 
     public function make(): void
     {
-        $this->makeDirectory('app/'.$this->dir_name);
-        $contents =$this->getStubContents($this->stub_path, ['namespace' => 'App\\'.$this->dir_name,'classname'=> $this->className]);
-        $this->makeFile('app/'.$this->dir_name.'/'.$this->className.'.php', $contents);
-    }
-
-    public function getStubContents($stub_path,$stubVariables = [])
-    {
-        $contents = file_get_contents($stub_path);
-        foreach ($stubVariables as $search => $replace)
-        {
-            $contents = str_replace('{{ '.$search.' }}' , $replace, $contents);
+        $this->makeDirectory('app/' . $this->dir_name);
+        $model_data = json_decode($this->model_data);
+        foreach ($model_data as $key => $model) {
+            $model_name = $model->model_name;
+            $contents = $this->getStubContents($this->stub_path, [
+                'namespace' => 'App\\'. $this->dir_name,
+                'rootNamespace' => 'App\\',
+                'classname' => ucwords($model_name),
+                'reponame' => strtolower($model_name)
+            ]);
+            $this->makeFile('app/' . $this->dir_name . '/' . $model_name . 'Repository.php', $contents);
         }
-        return $contents;
     }
 }
