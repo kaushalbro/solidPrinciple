@@ -1,6 +1,4 @@
 <?php
-
-
 namespace Devil\Solidprinciple\app\Http\Controllers;
 
 use Devil\Solidprinciple\app\Traits\FileFolderManage;
@@ -26,13 +24,16 @@ class MakeModelRepo extends Controller
         $model_data = json_decode($this->model_data);
         foreach ($model_data as $key => $model) {
             $model_name = $model->model_name;
+            $fillable = $this->removeDoubleQuote($model->fillable);
             $contents = $this->getStubContents($this->stub_path, [
                 'namespace' => 'App\\'. $this->dir_name,
                 'rootNamespace' => 'App\\',
                 'classname' => ucwords($model_name),
-                'reponame' => strtolower($model_name)
+                'reponame' => strtolower($model_name),
+                'fillable' => $fillable
             ]);
             $this->makeFile('app/' . $this->dir_name . '/' . $model_name . 'Repository.php', $contents);
         }
     }
+
 }

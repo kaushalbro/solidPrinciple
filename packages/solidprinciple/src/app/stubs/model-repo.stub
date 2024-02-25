@@ -10,7 +10,9 @@ class {{ classname }}Repository extends SolidBaseRepository
         $this->model = $model;
     }
 
-
+   public function getFillable(){
+        return {{ fillable }};
+    }
 
 
 }

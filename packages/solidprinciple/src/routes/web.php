@@ -15,5 +15,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('solid', function () {
+    $productRepo = new \App\Repositories\ProductRepository(new \App\Models\Product());
+    $productRepo->create([
+        'name' => 'Product 1',
+        'description' => 'Your description value',
+        'price' => '2.25',
+        'status' => 'active',
+        'stock_quantity' => '352.252',
+        'category_id' => 1,
+    ]);
     return 'solid';
 });

@@ -1,6 +1,4 @@
 <?php
-
-
 namespace Devil\Solidprinciple\app\Http\Controllers;
 
 use Devil\Solidprinciple\app\Traits\FileFolderManage;
@@ -33,15 +31,11 @@ class MakeMigration extends Controller
                 $null =  $name_datatype[2]=='nullable'?'->nullable()':'';
                 $default= $name_datatype[3]!='no-default'? "->default('".$name_datatype[3]."')":'';
                 if ($datatype=='enum'){
-                    if (!isset($name_datatype[4])) {
-                        error_log(sprintf("\033[31m%s\033[0m",'Enum values is required'));
-                    }else{
                         $enum_value ="[";
-                        foreach (explode(':',  $name_datatype[4]) as $key_2 =>$enumval ){
+                        foreach (explode(':',  end($name_datatype)) as $key_2 =>$enumval ){
                             $enum_value.="'".$enumval."',";
                         }
                         $col = '$table->'.$datatype.'("'.$column_name.'",'.$enum_value.'])'.$null.$default;
-                    }
                 }else{
                     $col = '$table->'.$datatype.'("'.$column_name.'")'.$null.$default;
                 }

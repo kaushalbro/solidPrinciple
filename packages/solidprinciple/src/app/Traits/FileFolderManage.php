@@ -29,7 +29,7 @@ trait FileFolderManage
             $is_file =  file_exists($filePath);
             if (!$is_file){
                 file_put_contents($path, $data);
-                error_log(sprintf("\033[32m%s\033[0m",end($path_array).' File Created.'));
+                error_log(sprintf("\033[32m%s\033[0m",$path_array[count($path_array)-2]. ' '.end($path_array).' File Created.'));
                 return $filePath;
             }
             error_log(sprintf("\033[33m%s\033[0m",$file_name.' File already Exists.'));

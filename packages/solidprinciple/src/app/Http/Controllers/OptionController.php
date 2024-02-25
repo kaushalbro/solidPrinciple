@@ -1,6 +1,4 @@
 <?php
-
-
 namespace Devil\Solidprinciple\app\Http\Controllers;
 
 use Illuminate\Routing\Controller;
@@ -22,7 +20,7 @@ class OptionController extends Controller
                 new MakeRepo('SolidBaseRepository');
                 break;
             case $this->options['model']:
-                new MakeModel('model');
+                new MakeModel(base_path('data.json'));
 //                new MakeModelRepo('model');
                 break;
             case $this->options['controller']:
@@ -41,8 +39,8 @@ class OptionController extends Controller
                 new MakeInterface('interface');
                 new MakeRepo('repo');
                 new MakeModel('model');
-                new MakeController('controller');
                 new MakeRequest('request');
+                new MakeController('controller');
                 new MakeMigration('migration');
                 new MakeRoute('route');
         }

@@ -1,0 +1,41 @@
+[{
+    "model_name": "Product",
+    "table_name": "products",
+    "fillable": ["name", "description", "price", "stock_quantity", "category_id"],
+    "hidden": [],
+    "casts": [],
+    "with": [],
+    "db_column_name": [
+        "name|string|notnull|no-default",
+        "description|string|notnull|no-default",
+        "price|float|nullable|no-default",
+        "status|enum|notnullable|active|active:inactive:activeInactive",
+        "stock_quantity|float|nullable|no-default",
+        "category_id|unsignedInteger|nullable|no-default"],
+    "request_rules":[
+        "name-required|string",
+        "description-nullable|string",
+        "price-required|numeric|min:|max:10",
+        "stock_quantity-required|numeric|min:|max:10",
+        "category_id-required|numeric"]
+}, {
+        "model_name": "Category",
+        "table_name": "categories",
+        "fillable":["name", "Description"],
+        "hidden": [],
+        "casts": [],
+        "with": [],
+        "db_column_name": ["name|string|nullable|no-default","description|string|notnull|no-default"],
+        "request_rules":["name-required|string","description-nullable|string"]
+    },
+    {
+        "model_name": "Order",
+        "table_name": "orders",
+        "fillable":["name", "Description"],
+        "hidden": [],
+        "casts": [],
+        "with": [],
+        "db_column_name": ["name|string|nullable|no-default","description|string|notnull|no-default"],
+        "request_rules":["name-required|string","description-nullable|string"]
+    }
+]

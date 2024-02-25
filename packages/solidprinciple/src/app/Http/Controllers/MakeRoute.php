@@ -1,6 +1,4 @@
 <?php
-
-
 namespace Devil\Solidprinciple\app\Http\Controllers;
 
 use Illuminate\Routing\Controller;

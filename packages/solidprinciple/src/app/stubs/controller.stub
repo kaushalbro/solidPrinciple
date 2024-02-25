@@ -2,72 +2,76 @@
 
 namespace {{ namespace }};
 
-use {{ rootNamespace }}Http\Controllers\Controller;
 use {{ rootNamespace }}Repositories\{{ classname }}Repository;
-use Illuminate\Http\Request;
+use {{ rootNamespace }}Models\{{ classname }};
+use {{ rootNamespace }}Http\Requests\Create{{ classname }}Request;
+use Illuminate\Support\Facades\DB;
+
 
 class {{ classname }}Controller extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    protected ${{ reponame }}Repository;
+
+    protected $repository;
 
 
-    public function __construct({{ classname }}Repository ${{ reponame }}Repository)
+    public function __construct()
     {
-        $this->{{ reponame }}Repository = ${{ reponame }}Repository;
+        $this->repository =  new {{ classname }}Repository(new {{ classname }}());
     }
 
     public function index()
     {
-        //
+        $all{{ classname }}=$this->repository->getAll();
+        return view("",compact('all{{ classname }}'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+
+    public function store(Create{{ classname }}Request $request)
     {
-        //
+      try {
+            DB::beginTransaction();
+            $attributes= $request->only($this->repository->getFillable());
+            $this->repository->create($attributes);
+            DB::commit();
+            return redirect()->route('')->with('success', '{{ classname }} created successfully.');
+          } catch (\Exception $e) {
+            DB::rollback();
+            return redirect()->back()->withInput()->with('failed', "Failed to update {{ classname }} : ".$e->getMessage());
+          }
+
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function show($id)
     {
-        //
+         ${{ classname }}=$this->repository->getById($id);
+         return view("",compact('{{ classname }}'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function update(Create{{ classname }}Request $request, $id)
     {
-        //
+      try {
+            DB::beginTransaction();
+            $attributes= $request->only($this->repository->getFillable());
+            $this->repository->update($id,$attributes);
+            DB::commit();
+            return redirect()->route('')->with('success','{{ classname }} updated successfully.');
+          } catch (\Exception $e) {
+            DB::rollback();
+            return redirect()->back()->withInput()->with('failed', "Failed to update. {{ classname }} : " .$e->getMessage());
+          }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-        //
+      try {
+            DB::beginTransaction();
+            $this->repository->delete($id);
+            DB::commit();
+            return redirect()->route('')->with('success','{{ classname }} deleted successfully.');
+          } catch (\Exception $e) {
+             DB::rollback();
+             return redirect()->back()->withInput()->with('failed', 'Failed to delete {{ classname }} : '.$e->getMessage());
+          }
     }
 }

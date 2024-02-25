@@ -16,7 +16,7 @@ class solid extends Command
     //{id? : this is id} here ? means optional while making arguments, after : this is description of argument
     //flag/options {--h|help} here --h also shows help --help also shows help
 
-    protected $signature = 'solid:make {--d|default : Generate model,controller,interface,repository,migration,custom request,route.} {--m|model : Generate model} {--c|controller : Generate Controller } {--i|interface : Generate interface} {--re|repo  : Generate repository} {--mi|migration  : Generate migration} {--r|request : Generate custom request} {--ro|route : Generate routes} {--h|help}';
+    protected $signature = 'solid:make {--a|all : Generate model,controller,interface,repository,migration,custom request,route.} {--m|model : Generate model} {--c|controller : Generate Controller } {--i|interface : Generate interface} {--re|repo  : Generate repository} {--mi|migration  : Generate migration} {--r|request : Generate custom request} {--ro|route : Generate routes} {--h|help}';
     /**
      * The console command description.
      *
