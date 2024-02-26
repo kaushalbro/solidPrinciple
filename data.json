@@ -1,14 +1,4 @@
 [ {
-    "model_name": "User",
-    "table_name": "users",
-    "fillable":["name","email","password"],
-    "hidden": [],
-    "casts": [],
-    "with": [],
-    "db_column_name": [],
-    "request_rules":["name-required|string","email-required|string|unique:users,email","password-required|string"],
-    "routes": []
-},{
     "model_name": "Product",
     "table_name": "products",
     "fillable": ["name", "description", "price", "stock_quantity", "category_id"],
