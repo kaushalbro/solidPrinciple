@@ -29,11 +29,12 @@ class MakeModel extends Controller
           $contents =$this->getStubContents($this->stub_path,[
             'namespace' => 'App\\'.$this->dir_name,
             'classname'=> $model->model_name,
+            'table_name'=> strtolower($model->table_name),
             'fillable'=>$fillable,
             'hidden'=>$hidden,
             'casts'=>$casts,
             'with'=>$with
-        ]);
+          ]);
         $this->makeFile('app/'.$this->dir_name.'/'.$model->model_name.'.php', $contents);
       }
       new MakeMigration($json_model_details);
