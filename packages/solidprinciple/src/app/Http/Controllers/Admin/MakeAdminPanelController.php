@@ -49,7 +49,11 @@ class MakeAdminPanelController extends Controller
             $dest_path= $admin_path.'/includes/';
             $include_sub_path= $this->stub_path.'/admin_view/common/'.$file.'.stub';
             $file_name=$dest_path.$file.'.blade.php';
-            $this->makeFile($file_name, $this->getStubContents($include_sub_path,[]));
+            $variable = [];
+            if ($file=="sidebar"){
+                $variable = $this->sideBarLinks($this->model_data);
+            }
+            $this->makeFile($file_name, $this->getStubContents($include_sub_path,$variable));
         }
         $source_path= $this->admin_resources_path.'/admin_resources.zip';
         $destination_path= base_path('public').'/admin_resources.zip';
@@ -65,5 +69,39 @@ class MakeAdminPanelController extends Controller
                 error_log(sprintf("\033[31m%s\033[0m", ' Failed to Unzip file.'));
             }
         }
+    }
+    public function sideBarLinks($data):void{
+        $model_data  = json_decode($data);
+        dd($model_data);
+        foreach ($model_data as $model){
+            dd($model);
+        }
+        $model_icon = "fa-brands fa-product-hunt";
+        $model_sub_icon ="fa-brands fa-product-hunt";
+            $link_templet=' <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="{{model_icon}}"></i>
+                        <p>
+                            Product
+                            <i class="fas fa-angle-left right"></i>
+                            <span class="badge badge-info right">6</span>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item ml-3">
+                            <a href="/" class="nav-link">
+                                <i class="fa-solid fa-plus mr-2"></i>
+                                <p>Add Product</p>
+                            </a>
+                        </li>
+                        <li class="nav-item ml-3">
+                            <a href="" class="nav-link">
+                                <i class="fa-solid fa-list mr-2"></i>
+                                <p>Lists Products</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>';
+            dd(str_replace("{{model_icon}}",$model_icon, $link_templet ));
     }
 }

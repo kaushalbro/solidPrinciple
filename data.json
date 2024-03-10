@@ -5,6 +5,7 @@
     "hidden": [],
     "casts": [],
     "with": [],
+    "sidebar": [true, "create","list"],
     "db_column_name": [
         "name|string|notnull|no-default",
         "description|string|notnull|no-default",
@@ -20,16 +21,17 @@
         "category_id-required|numeric"],
     "routes": ["product"]
 }, {
-        "model_name": "Category",
-        "table_name": "categories",
-        "fillable":["name", "Description"],
-        "hidden": [],
-        "casts": [],
-        "with": [],
-        "db_column_name": ["name|string|nullable|no-default","description|string|notnull|no-default"],
-        "request_rules":["name-required|string","description-nullable|string"],
-        "routes": ["category"]
-    },
+    "model_name": "Category",
+    "table_name": "categories",
+    "fillable":["name", "Description"],
+    "hidden": [],
+    "casts": [],
+    "with": [],
+    "sidebar": [true, "create","list"],
+    "db_column_name": ["name|string|nullable|no-default","description|string|notnull|no-default"],
+    "request_rules":["name-required|string","description-nullable|string"],
+    "routes": ["category"]
+},
     {
         "model_name": "Order",
         "table_name": "orders",
@@ -37,6 +39,7 @@
         "hidden": [],
         "casts": [],
         "with": [],
+        "sidebar": [true, "create","list"],
         "db_column_name": ["name|string|nullable|no-default","description|string|notnull|no-default"],
         "request_rules":["name-required|string","description-nullable|string"],
         "routes": ["order"]
