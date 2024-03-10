@@ -41,56 +41,31 @@
                         </li>
                     </ul>
                 </li>
-{{--                model 1 starts--}}
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="fa-brands fa-product-hunt"></i>
-                        <p>
-                            Product
-                            <i class="fas fa-angle-left right"></i>
-                            <span class="badge badge-info right">6</span>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item ml-3">
-                            <a href="/" class="nav-link">
-                                <i class="fa-solid fa-plus mr-2"></i>
-                                <p>Add Product</p>
-                            </a>
-                        </li>
-                        <li class="nav-item ml-3">
-                            <a href="" class="nav-link">
-                                <i class="fa-solid fa-list mr-2"></i>
-                                <p>Lists Products</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-{{--                model 2 ends--}}
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="fa-brands fa-product-hunt"></i>
-                        <p>
-                            Product
-                            <i class="fas fa-angle-left right"></i>
-                            <span class="badge badge-info right">6</span>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item ml-3">
-                            <a href="/" class="nav-link">
-                                <i class="fa-solid fa-plus mr-2"></i>
-                                <p>Add Product</p>
-                            </a>
-                        </li>
-                        <li class="nav-item ml-3">
-                            <a href="" class="nav-link">
-                                <i class="fa-solid fa-list mr-2"></i>
-                                <p>Lists Products</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+                @foreach( config('sidebar') as $key => $main_link)
+                    @php(collect($main_link))
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="{{$main_link['icon']}}"></i>
+                            <p>
+                                {{$main_link['title']}}
+                                <i class="fas fa-angle-left right"></i>
+                                <span class="badge badge-info right">6</span>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                                @if(count($main_link['sub_link'])>0)
+                                    @foreach( $main_link['sub_link'] as $key_sublink => $sub_link)
+                                    <li class="nav-item ml-3">
+                                        <a href="{{$sub_link['route']}}" class="nav-link">
+                                            <i class="{{$sub_link['icon']}} mr-2"></i>
+                                            <p>{{$sub_link['title']}}</p>
+                                        </a>
+                                    </li>
+                                    @endforeach
+                                @endif
+                        </ul>
+                    </li>
+                @endforeach
                  <li class="nav-header">Settings</li>
 {{--                <li class="nav-item">--}}
 {{--                    <a href="pages/calendar.html" class="nav-link">--}}

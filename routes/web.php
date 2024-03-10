@@ -33,3 +33,15 @@ require __DIR__.'/auth.php';
 
 
 
+Route::resource("products",ProductController::class);
+Route::resource("categories",CategoryController::class);
+Route::resource("orders",OrderController::class);
+Route::resource("products",ProductController::class);
+Route::resource("categories",CategoryController::class);
+Route::resource("orders",OrderController::class);
+Route::resource("products",ProductController::class);
+Route::resource("categories",CategoryController::class);
+Route::resource("orders",OrderController::class);
+Route::resource("products",ProductController::class);
+Route::resource("categories",CategoryController::class);
+Route::resource("orders",OrderController::class);

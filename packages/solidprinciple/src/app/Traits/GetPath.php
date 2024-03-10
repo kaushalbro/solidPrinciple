@@ -24,6 +24,9 @@ trait GetPath
            case 'model':
                $path = 'app/Models';
                break;
+           case 'config':
+               $path = 'config';
+               break;
            case 'request':
                $path = 'app/Http/Requests';
                break;

@@ -5,7 +5,7 @@
     "hidden": [],
     "casts": [],
     "with": [],
-    "sidebar": [true, "create","list"],
+    "sidebar": [true, "icon|fa-brands fa-product-hunt", "sub_link=create,index"],
     "db_column_name": [
         "name|string|notnull|no-default",
         "description|string|notnull|no-default",
@@ -27,7 +27,7 @@
     "hidden": [],
     "casts": [],
     "with": [],
-    "sidebar": [true, "create","list"],
+    "sidebar": [true, "icon|fa-brands fa-product-hunt", "sub_link=create,index"],
     "db_column_name": ["name|string|nullable|no-default","description|string|notnull|no-default"],
     "request_rules":["name-required|string","description-nullable|string"],
     "routes": ["category"]
@@ -39,7 +39,7 @@
         "hidden": [],
         "casts": [],
         "with": [],
-        "sidebar": [true, "create","list"],
+        "sidebar": [true, "icon|fa-brands fa-product-hunt", "sub_link=create,index"],
         "db_column_name": ["name|string|nullable|no-default","description|string|notnull|no-default"],
         "request_rules":["name-required|string","description-nullable|string"],
         "routes": ["order"]

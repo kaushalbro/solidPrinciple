@@ -11,12 +11,11 @@ class MakeAdminPanelController extends Controller
 {
     use FileFolderManage, GetStubContents, GetPath;
 
-    protected $model_data,$stub_path,$dir_name,$admin_resources_path ;
+    protected $model_data,$stub_path,$dir_name ;
     public function __construct($model_data)
     {
-        $this->model_data = $model_data;
+        $this->model_data = file_get_contents($model_data);
         $this->stub_path =__DIR__.'/../../../stubs';
-        $this->admin_resources_path=__DIR__.'/../../../stubs';
         $this->dir_name=$this->path('controller');
         $this->makeLayout();
     }
@@ -49,13 +48,13 @@ class MakeAdminPanelController extends Controller
             $dest_path= $admin_path.'/includes/';
             $include_sub_path= $this->stub_path.'/admin_view/common/'.$file.'.stub';
             $file_name=$dest_path.$file.'.blade.php';
-            $variable = [];
             if ($file=="sidebar"){
-                $variable = $this->sideBarLinks($this->model_data);
+                 $this->sideBarLinks($this->model_data);
+            }else{
+                $this->makeFile($file_name, $this->getStubContents($include_sub_path,[]));
             }
-            $this->makeFile($file_name, $this->getStubContents($include_sub_path,$variable));
         }
-        $source_path= $this->admin_resources_path.'/admin_resources.zip';
+        $source_path= $this->stub_path.'/admin_resources.zip';
         $destination_path= base_path('public').'/admin_resources.zip';
         if ($this->copy($source_path,$destination_path)){
             $zip = new ZipArchive();
@@ -70,38 +69,67 @@ class MakeAdminPanelController extends Controller
             }
         }
     }
-    public function sideBarLinks($data):void{
+    public function sideBarLinks($data)
+    {
         $model_data  = json_decode($data);
-        dd($model_data);
+        $sidebar_config_sub_path= $this->stub_path.'/admin_view/sidebar_config.stub';
+        $side_bar_content=[];
         foreach ($model_data as $model){
-            dd($model);
+            $side_bar = $model->sidebar[0];
+            $model_name = ucfirst($model->model_name);
+            $table_name = $model->table_name;
+            $route = $model->routes[0];
+            $icon=  explode('|', $model->sidebar[1])[1];
+            $sub_links = explode(',',explode('=', $model->sidebar[2])[1]);
+            if ($side_bar){
+                $side_bar_content += [
+                    $model_name=>[
+                        'icon'=>$icon,
+                        'route'=>"",
+                        'title'=>$model_name,
+                        'class'=>'',
+                        "sub_link"=>[]
+                    ],
+                ];
+                if (count($sub_links)>0)
+                {
+                    foreach ($sub_links as $sub_link){
+                        $sub_route = "";
+                        $sub_icon="";
+                        $title= "";
+                        if ($sub_link == 'create'){
+                            $sub_icon = "fa-solid fa-plus";
+                            $sub_route = "/admin/".$route.'/create';
+                            $title= "Add ".$model_name;
+
+                        }elseif($sub_link == 'index'){
+                            $sub_icon = "fa-solid fa-list";
+                            $route_array = str_split($route);
+                            $last_letter = end($route_array);
+                            if ($last_letter == 'y'){
+                                $sub_route = "/admin/".$table_name;
+                                $title= "List ".ucfirst($table_name);
+                            }else{
+                                $sub_route = "/admin/".$route.'s';
+                                $title= "List ".$model_name."s";
+                            }
+                        }
+                            $side_bar_content[$model_name]['sub_link']+=[
+                                    $sub_link=>[
+                                        'icon'=>$sub_icon,
+                                        'route'=>$sub_route,
+                                        'title'=>$title,
+                                    ]
+                            ];
+                    }
+                }
+            }
         }
-        $model_icon = "fa-brands fa-product-hunt";
-        $model_sub_icon ="fa-brands fa-product-hunt";
-            $link_templet=' <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="{{model_icon}}"></i>
-                        <p>
-                            Product
-                            <i class="fas fa-angle-left right"></i>
-                            <span class="badge badge-info right">6</span>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item ml-3">
-                            <a href="/" class="nav-link">
-                                <i class="fa-solid fa-plus mr-2"></i>
-                                <p>Add Product</p>
-                            </a>
-                        </li>
-                        <li class="nav-item ml-3">
-                            <a href="" class="nav-link">
-                                <i class="fa-solid fa-list mr-2"></i>
-                                <p>Lists Products</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>';
-            dd(str_replace("{{model_icon}}",$model_icon, $link_templet ));
+        $side_bar_content = str_replace(array("array (", ")"), array("[", "]"), var_export($side_bar_content, true));
+        $sidebar_stub_content =$this->getStubContents($sidebar_config_sub_path,
+            [
+                'sidebar'=> $side_bar_content,
+            ]);
+        $this->makeFile($this->path('config').'/sidebar.php', $sidebar_stub_content);
     }
 }
