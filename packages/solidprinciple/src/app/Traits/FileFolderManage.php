@@ -15,6 +15,7 @@ trait FileFolderManage
                 return $directoryPath;
             }
             error_log(sprintf("\033[33m%s\033[0m",end($path_array).' Folder already Exists.'));
+            return $directoryPath;
         }catch (\Exception $e){
             error_log($e->getMessage());
         }
@@ -25,6 +26,7 @@ trait FileFolderManage
         try {
             $filePath= base_path($path);
             $path_array = explode('/', $path);
+
             $file_name= end($path_array);
             $is_file =  file_exists($filePath);
             if (!$is_file){
@@ -37,6 +39,21 @@ trait FileFolderManage
         }catch (\Exception $e){
             error_log($e->getMessage());
         }
+    }
+
+    public function copy($source_path,$destination_path){
+        $path_array = explode('/', $source_path);
+        $file_name= end($path_array);
+        if (!file_exists($destination_path)) {
+            if (copy($source_path, $destination_path)) {
+                error_log(sprintf("\033[32m%s\033[0m",$file_name.' File Copied successfully.'));
+                return true;
+            } else {
+                error_log(sprintf("\033[31m%s\033[0m", ' Failed to copy file.'. $file_name));
+            }
+        }
+        error_log(sprintf("\033[33m%s\033[0m",$file_name.' File already Exists.'));
+        return false;
     }
 
 
