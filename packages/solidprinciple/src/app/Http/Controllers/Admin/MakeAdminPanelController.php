@@ -56,17 +56,9 @@ class MakeAdminPanelController extends Controller
         }
         $source_path= $this->stub_path.'/admin_resources.zip';
         $destination_path= base_path('public').'/admin_resources.zip';
-        if ($this->copy($source_path,$destination_path)){
-            $zip = new ZipArchive();
-            if ($zip->open($destination_path) === true) {
-                $zip->extractTo(base_path('public'));
-                $zip->close();
-                unlink($destination_path);
-                fopen($destination_path, 'wb');
-                error_log(sprintf("\033[32m%s\033[0m",'File Unzipped successfully.'));
-            } else {
-                error_log(sprintf("\033[31m%s\033[0m", ' Failed to Unzip file.'));
-            }
+        if ($this->copy($source_path, $destination_path) && $this->unzip($source_path, $destination_path, base_path('public'))) {
+            unlink($destination_path);
+            fopen($destination_path, 'wb');
         }
     }
     public function sideBarLinks($data)
