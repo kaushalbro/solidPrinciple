@@ -88,6 +88,8 @@ class MakeAdminPanelController extends Controller
                         'route'=>"",
                         'title'=>$model_name,
                         'class'=>'',
+                        'visibility'=>true,
+                        'permission'=>'',
                         "sub_link"=>[]
                     ],
                 ];
@@ -119,6 +121,9 @@ class MakeAdminPanelController extends Controller
                                         'icon'=>$sub_icon,
                                         'route'=>$sub_route,
                                         'title'=>$title,
+                                        'visibility'=>true,
+                                        'permission'=>''
+
                                     ]
                             ];
                     }

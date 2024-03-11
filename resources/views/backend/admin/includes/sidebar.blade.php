@@ -22,8 +22,6 @@
         <!-- Sidebar Menu -->
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                <!-- Add icons to the links using the .nav-icon class
-                     with font-awesome or any other icon font library -->
                 <li class="nav-item menu-open">
                     <a href="#" class="nav-link active">
                         <i class="fa-solid fa-house"></i>
@@ -42,9 +40,10 @@
                     </ul>
                 </li>
                 @foreach( config('sidebar') as $key => $main_link)
+                    @if($main_link['visibility'])
                     @php(collect($main_link))
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="#" class="nav-link" data-model="{{$main_link['title']}}">
                             <i class="{{$main_link['icon']}}"></i>
                             <p>
                                 {{$main_link['title']}}
@@ -55,29 +54,63 @@
                         <ul class="nav nav-treeview">
                                 @if(count($main_link['sub_link'])>0)
                                     @foreach( $main_link['sub_link'] as $key_sublink => $sub_link)
-                                    <li class="nav-item ml-3">
+                                    @if($sub_link['visibility'])
+                                    <li class="nav-item ml-3" data-model="{{$sub_link['title']}}">
                                         <a href="{{$sub_link['route']}}" class="nav-link">
                                             <i class="{{$sub_link['icon']}} mr-2"></i>
                                             <p>{{$sub_link['title']}}</p>
                                         </a>
                                     </li>
+                                    @endif
                                     @endforeach
                                 @endif
                         </ul>
                     </li>
+                    @endif
                 @endforeach
-                 <li class="nav-header">Settings</li>
-{{--                <li class="nav-item">--}}
-{{--                    <a href="pages/calendar.html" class="nav-link">--}}
-{{--                        <i class="nav-icon fas fa-calendar-alt"></i>--}}
-{{--                        <p>--}}
-{{--                            User Roles--}}
-{{--                        </p>--}}
-{{--                    </a>--}}
-{{--                </li>--}}
+                 <li class="nav-header">SETTINGS</li>
+                   <li class="nav-item">
+                    <a href="#" class="nav-link" >
+                        <i class="nav-icon fa-solid fa-users"></i>
+                        <p>
+                            User and Roles
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                       <li class="nav-item ml-3" >
+                        <a href="/" class="nav-link">
+                            <i class="nav-icon fa-solid fa-user  mr-2"></i>
+                         <p>Users</p>
+                         </a>
+                      </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" >
+                        <i class="nav-icon fa-solid fa-gear"></i>
+                        <p>
+                            Application Setting
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item ml-3" >
+                            <a href="/" class="nav-link">
+                                <i class="fa-solid fa-f mr-2"></i>
+                                <p>Frontend</p>
+                            </a>
+                        </li>
+                        <li class="nav-item ml-3" >
+                            <a href="/" class="nav-link">
+                                <i class="fa-solid fa-a mr-2"></i>
+                                <p>Admin Panel</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
             </ul>
         </nav>
-        <!-- /.sidebar-menu -->
     </div>
-    <!-- /.sidebar -->
 </aside>

@@ -1,6 +1,8 @@
 <?php
 namespace Devil\Solidprinciple\app\Traits;
 
+use ZipArchive;
+
 trait FileFolderManage
 {
     public function makeDirectory($path)
@@ -56,5 +58,21 @@ trait FileFolderManage
         return false;
     }
 
+    public function unzip($source_file_path,$dest_file_name, $extraction_path){
+        if (!file_exists($source_file_path)){
+          error_log(sprintf("\033[31m%s\033[0m", ' File No exists.'));
+            return false;
+        }
+            $zip = new ZipArchive();
+        if ($zip->open($source_file_path) === true) {
+            $zip->extractTo($unzip_destination);
+            $zip->close();
+            error_log(sprintf("\033[32m%s\033[0m",'File Unzipped successfully.'));
+            return true ;
+        } else {
+            error_log(sprintf("\033[31m%s\033[0m", ' Failed to Unzip file.'));
+            return false ;
+        }
+    }
 
 }

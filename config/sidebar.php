@@ -1,69 +1,87 @@
 <?php
 
 return [
-  'Product' => 
+  'Product' =>
   [
     'icon' => 'fa-brands fa-product-hunt',
     'route' => '',
     'title' => 'Product',
     'class' => '',
-    'sub_link' => 
+    'visibility' => true,
+    'permission' => '',
+    'sub_link' =>
     [
-      'create' => 
+      'create' =>
       [
         'icon' => 'fa-solid fa-plus',
         'route' => '/admin/product/create',
         'title' => 'Add Product',
+        'visibility' => true,
+        'permission' => '',
       ],
-      'index' => 
+      'index' =>
       [
         'icon' => 'fa-solid fa-list',
         'route' => '/admin/products',
         'title' => 'List Products',
+        'visibility' => true,
+        'permission' => '',
       ],
     ],
   ],
-  'Category' => 
+  'Category' =>
   [
     'icon' => 'fa-brands fa-product-hunt',
     'route' => '',
     'title' => 'Category',
     'class' => '',
-    'sub_link' => 
+    'visibility' => true,
+    'permission' => '',
+    'sub_link' =>
     [
-      'create' => 
+      'create' =>
       [
         'icon' => 'fa-solid fa-plus',
         'route' => '/admin/category/create',
         'title' => 'Add Category',
+        'visibility' => true,
+        'permission' => '',
       ],
-      'index' => 
+      'index' =>
       [
         'icon' => 'fa-solid fa-list',
         'route' => '/admin/categories',
         'title' => 'List Categories',
+        'visibility' => true,
+        'permission' => '',
       ],
     ],
   ],
-  'Order' => 
+  'Order' =>
   [
     'icon' => 'fa-brands fa-product-hunt',
     'route' => '',
     'title' => 'Order',
     'class' => '',
-    'sub_link' => 
+    'visibility' => true,
+    'permission' => '',
+    'sub_link' =>
     [
-      'create' => 
+      'create' =>
       [
         'icon' => 'fa-solid fa-plus',
         'route' => '/admin/order/create',
         'title' => 'Add Order',
+        'visibility' => true,
+        'permission' => '',
       ],
-      'index' => 
+      'index' =>
       [
         'icon' => 'fa-solid fa-list',
         'route' => '/admin/orders',
         'title' => 'List Orders',
+        'visibility' => true,
+        'permission' => '',
       ],
     ],
   ],
