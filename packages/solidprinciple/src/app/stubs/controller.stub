@@ -12,6 +12,7 @@ class {{ classname }}Controller extends Controller
 {
 
     protected $repository;
+    protected $view_path="backend.admin.{{ viewfolder }}.";
 
 
     public function __construct()
@@ -21,10 +22,27 @@ class {{ classname }}Controller extends Controller
 
     public function index()
     {
-        $all{{ classname }}=$this->repository->getAll();
-        return view("",compact('all{{ classname }}'));
+        ${{ viewfolder }}s=$this->repository->getAll();
+        return view($this->view_path."index",compact('{{ viewfolder }}s'));
     }
 
+
+    public function show($id)
+    {
+         ${{ viewfolder }}=$this->repository->getById($id);
+         return view($this->view_path."show",compact('{{ viewfolder }}'));
+    }
+
+    public function edit($id)
+    {
+          ${{ viewfolder }}=$this->repository->getById($id);
+          return view($this->view_path."edit",compact('{{ viewfolder }}'));
+    }
+
+    public function create()
+    {
+         return view($this->view_path."create");
+    }
 
     public function store(Create{{ classname }}Request $request)
     {
@@ -42,11 +60,6 @@ class {{ classname }}Controller extends Controller
     }
 
 
-    public function show($id)
-    {
-         ${{ classname }}=$this->repository->getById($id);
-         return view("",compact('{{ classname }}'));
-    }
 
     public function update(Create{{ classname }}Request $request, $id)
     {

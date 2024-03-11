@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,19 +32,38 @@ Route::get('/admin/dashboard', function () {
     return view('backend.admin.dashboard');
 })->middleware(['auth'])->name('dashboard');
 
+Route::get('/admin/product/create', function () {
+    return view('backend.admin.product.create');
+})->middleware(['auth'])->name('product');
+
+Route::group(['middleware'=>"auth",'prefix' => 'admin/product', 'as' => 'product.'], function(){
+    Route::get('/', [ProductController::class, 'index'])->name('index');
+    Route::get('create', [ProductController::class, 'create'])->name('create');
+    Route::get('{id}/edit', [ProductController::class, 'edit'])->name('edit');
+    Route::get('{id}/show', [ProductController::class, 'show'])->name('show');
+    Route::post('/', [ProductController::class, 'show'])->name('store');
+    Route::patch('{id}', [ProductController::class, 'show'])->name('update');
+});
+Route::group(['middleware'=>"auth",'prefix' => 'admin/category', 'as' => 'category.'], function(){
+    Route::get('/', [CategoryController::class, 'index'])->name('index');
+    Route::get('create', [CategoryController::class, 'create'])->name('create');
+    Route::get('{id}/edit', [CategoryController::class, 'edit'])->name('edit');
+    Route::get('{id}/show', [CategoryController::class, 'show'])->name('show');
+    Route::post('/', [CategoryController::class, 'show'])->name('store');
+    Route::patch('{id}', [CategoryController::class, 'show'])->name('update');
+});
+Route::group(['middleware'=>"auth",'prefix' => 'admin/order', 'as' => 'order.'], function(){
+    Route::get('/', [OrderController::class, 'index'])->name('index');
+    Route::get('create', [OrderController::class, 'create'])->name('create');
+    Route::get('{id}/edit', [OrderController::class, 'edit'])->name('edit');
+    Route::get('{id}/show', [OrderController::class, 'show'])->name('show');
+    Route::post('/', [OrderController::class, 'show'])->name('store');
+    Route::patch('{id}', [OrderController::class, 'show'])->name('update');
+});
+
+
 require __DIR__.'/auth.php';
 
-
-
-Route::resource("products",ProductController::class);
-Route::resource("categories",CategoryController::class);
-Route::resource("orders",OrderController::class);
-Route::resource("products",ProductController::class);
-Route::resource("categories",CategoryController::class);
-Route::resource("orders",OrderController::class);
-Route::resource("products",ProductController::class);
-Route::resource("categories",CategoryController::class);
-Route::resource("orders",OrderController::class);
 Route::resource("products",ProductController::class);
 Route::resource("categories",CategoryController::class);
 Route::resource("orders",OrderController::class);

@@ -25,7 +25,6 @@ class MakeController extends Controller
 
     public function make(): void
     {
-//        dd($this->dir_name);
         $this->makeDirectory($this->dir_name);
         if ($this->model_data){
             $model_data  = json_decode($this->model_data);
@@ -35,7 +34,8 @@ class MakeController extends Controller
                     'namespace' => 'App\\Http\\Controllers',
                     'rootNamespace'=>'App\\',
                     'classname'=> ucwords($model_name),
-                    'reponame'=> strtolower($model_name)
+                    'reponame'=> strtolower($model_name),
+                    'viewfolder'=>strtolower($model_name),
                 ]);
                 $this->makeFile($this->dir_name.'/'.ucwords($model->model_name).'Controller.php', $contents);
             }
@@ -44,6 +44,7 @@ class MakeController extends Controller
                 'namespace' =>$this->folder?('App\\Http\\Controllers\\'.$this->folder):'App\\Http\\Controllers',
                 'rootNamespace'=>'App\\',
                 'classname'=> ucwords($this->controller_name),
+                'viewfolder'=>strtolower($this->controller_name),
                 'reponame'=> ''
             ]);
             $this->makeFile($this->dir_name.'/'.ucwords($this->controller_name).'Controller.php', $contents);

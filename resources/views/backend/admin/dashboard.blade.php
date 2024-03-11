@@ -1,7 +1,12 @@
 @extends('backend.master')
+@section('title')
+   Dashboard
+@stop
+
+@section('breadcum')
+    @include('backend.admin.includes.breadcum',['heading'=>"Dashboard","sub_heading"=>''])
+@stop
 @section('content')
-    <section class="content">
-        <div class="container-fluid">
             <!-- Info boxes -->
             <div class="row">
                 <div class="col-12 col-sm-6 col-md-3">
@@ -59,9 +64,5 @@
                 <!-- /.col -->
             </div>
             <!-- /.row -->
-        </div>
-        <!--/. container-fluid -->
-    </section>
-
 @stop
 

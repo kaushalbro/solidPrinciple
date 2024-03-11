@@ -1,0 +1,15 @@
+@extends('backend.master')
+@section('title')
+    {{ classname }} | {{ action }}
+@stop
+@section('breadcum')
+    @include('backend.admin.includes.breadcum',['heading'=>"{{ classname }}","sub_heading"=>'{{ action }}'])
+@stop
+@section('content')
+    <form class="form-control" action="{{ route('{{ routeprefix }}.{{ action }}') }}" method="{{ method }}" enctype="multipart/form-data">
+    @csrf
+         @include("backend.admin.{{ routeprefix }}.partial.form",['type'=>'{{ action }}'])
+           @include("backend.admin.includes.form_footer",['type'=>'{{ action }}'])
+    </form>
+@stop
+@include("backend.admin.{{ routeprefix }}.script")

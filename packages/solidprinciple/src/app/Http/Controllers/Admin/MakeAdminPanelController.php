@@ -1,11 +1,11 @@
 <?php
 namespace Devil\Solidprinciple\app\Http\Controllers\Admin;
 
+use Devil\Solidprinciple\app\Http\Controllers\MakeView;
 use Devil\Solidprinciple\app\Traits\GetPath;
 use Devil\Solidprinciple\app\Traits\FileFolderManage;
 use Devil\Solidprinciple\app\Traits\GetStubContents;
 use Illuminate\Routing\Controller;
-use ZipArchive;
 
 class MakeAdminPanelController extends Controller
 {
@@ -43,7 +43,7 @@ class MakeAdminPanelController extends Controller
         $dashboard_contents =$this->getStubContents($dashboard_sub_path);
         $this->makeFile($this->path('view').'/backend/master.blade.php', $master_contents);
         $this->makeFile($this->path('view').'/backend/admin/dashboard.blade.php', $dashboard_contents);
-        $include_files =['header','footer','breadcum','scripts','navbar','sidebar'];
+        $include_files =['header','footer','breadcum','scripts','navbar','sidebar','form_footer'];
         foreach ($include_files as $file){
             $dest_path= $admin_path.'/includes/';
             $include_sub_path= $this->stub_path.'/admin_view/common/'.$file.'.stub';
@@ -60,6 +60,8 @@ class MakeAdminPanelController extends Controller
             unlink($destination_path);
             fopen($destination_path, 'wb');
         }
+        // make view folder and files
+            $this->makeView($this->model_data);
     }
     public function sideBarLinks($data)
     {
@@ -128,5 +130,10 @@ class MakeAdminPanelController extends Controller
                 'sidebar'=> $side_bar_content,
             ]);
         $this->makeFile($this->path('config').'/sidebar.php', $sidebar_stub_content);
+    }
+
+    public function makeView($data): void
+    {
+        new MakeView($data, "resources/views/backend/admin");
     }
 }
