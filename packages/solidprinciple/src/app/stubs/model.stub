@@ -14,8 +14,8 @@ class {{ classname }} extends Model
          *
          * @var array<int, string>
          */
-    protected $table = '{{ table_name }}';
-    protected $fillable = {{ fillable }};
+    protected $table= '{{ table_name }}';
+    protected $fillable= {{ fillable }};
     protected $hidden= {{ hidden }}; //hidden fields
     protected $casts= {{ casts }};   //dates to cast
     protected $with= {{ with }};     // default relation
