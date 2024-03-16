@@ -6,10 +6,17 @@
     @include('backend.admin.includes.breadcum',['heading'=>"{{ classname }}","sub_heading"=>'{{ action }}'])
 @stop
 @section('content')
-        <form class="form-control" action="{{ route('{{ routeprefix }}.{{ action }}', ['id' => ${{ routeprefix }}->id]) }}" method="{{ method }}" enctype="multipart/form-data">
-             @csrf
-             @include("backend.admin.{{ routeprefix }}.partial.form",['type'=>'{{ action }}'])
-               @include("backend.admin.includes.form_footer",['type'=>'{{ action }}'])
-        </form>
+    @include("backend.admin.includes.errors")
+        <form class="form-control" action="{{ route('{{ form_route }}') }}', ['id' => ${{ routeprefix }}->id]) }}" method="{{ method }}" enctype="multipart/form-data">
+    @csrf
+        <div class="card-header">
+           <h3 class="card-title">Create</h3>
+         </div>
+         <div class="card-body">
+            @include("backend.admin.{{ routeprefix }}.partial.form",['type'=>'{{ action }}'])
+          </div>
+    </form>
 @stop
-@include("backend.admin.{{ routeprefix }}.script")
+@push('scripts')
+   @include("backend.admin.{{ routeprefix }}.script")
+@endpush

@@ -12,14 +12,24 @@
         "price|float|nullable|no-default",
         "status|enum|notnullable|active|active:inactive:activeInactive",
         "stock_quantity|float|nullable|no-default",
-        "category_id|unsignedInteger|nullable|no-default"],
+        "category_id|unsignedInteger|nullable|no-default"
+    ],
     "request_rules":[
         "name-required|string",
         "description-nullable|string",
         "price-required|numeric|min:|max:10",
         "stock_quantity-required|numeric|min:|max:10",
         "category_id-required|numeric"],
-    "routes": ["product"]
+    "routes": ["product"],
+    "view_input": [
+        "'Name'=>name|text",
+        "'Description'=>description|textarea",
+        "'Price'=>price|float",
+        "'Stock Quantity'=>stock_quantity|float",
+        "'Category'=>category_id|select",
+        "'Image'=>image|file",
+        "'Status'=>status|onOff|active:inactive"
+    ]
 }, {
     "model_name": "Category",
     "table_name": "categories",
@@ -30,8 +40,16 @@
     "sidebar": [true, "icon|fa-brands fa-product-hunt", "sub_link=create,index"],
     "db_column_name": ["name|string|nullable|no-default","description|string|notnull|no-default"],
     "request_rules":["name-required|string","description-nullable|string"],
-    "routes": ["category"]
-},
+    "routes": ["category"],
+    "view_input": [
+        "'Name'=>name|text",
+        "'Description'=>description|textarea",
+        "'Price'=>price|float",
+        "'Stock Quantity'=>stock_quantity|float",
+        "'Category'=>category_id|select",
+        "'Image'=>image|file",
+        "'Status'=>status|onOff|active:inactive"
+    ]},
     {
         "model_name": "Order",
         "table_name": "orders",
@@ -42,6 +60,14 @@
         "sidebar": [true, "icon|fa-brands fa-product-hunt", "sub_link=create,index"],
         "db_column_name": ["name|string|nullable|no-default","description|string|notnull|no-default"],
         "request_rules":["name-required|string","description-nullable|string"],
-        "routes": ["order"]
-    }
+        "routes": ["order"],
+        "view_input": [
+            "'Name'=>name|text",
+            "'Description'=>description|textarea",
+            "'Price'=>price|float",
+            "'Stock Quantity'=>stock_quantity|float",
+            "'Category'=>category_id|select",
+            "'Image'=>image|file",
+            "'Status'=>status|onOff|active:inactive"
+        ]    }
 ]

@@ -1,0 +1,4 @@
+<div class="row">
+{{ input }}
+</div>
+@include("backend.admin.includes.form_footer",['type'=>'create'])

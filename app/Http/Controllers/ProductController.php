@@ -51,7 +51,7 @@ class ProductController extends Controller
             $attributes= $request->only($this->repository->getFillable());
             $this->repository->create($attributes);
             DB::commit();
-            return redirect()->route('')->with('success', 'Product created successfully.');
+            return redirect()->back()->with('success', 'Product created successfully.');
           } catch (\Exception $e) {
             DB::rollback();
             return redirect()->back()->withInput()->with('failed', "Failed to update Product : ".$e->getMessage());

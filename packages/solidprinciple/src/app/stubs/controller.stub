@@ -51,7 +51,7 @@ class {{ classname }}Controller extends Controller
             $attributes= $request->only($this->repository->getFillable());
             $this->repository->create($attributes);
             DB::commit();
-            return redirect()->route('')->with('success', '{{ classname }} created successfully.');
+            return redirect()->back()->with('success', '{{ classname }} created successfully.');
           } catch (\Exception $e) {
             DB::rollback();
             return redirect()->back()->withInput()->with('failed', "Failed to update {{ classname }} : ".$e->getMessage());

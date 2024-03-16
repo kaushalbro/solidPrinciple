@@ -19,5 +19,6 @@
     @include('backend.admin.includes.footer')
 </div>
 @include('backend.admin.includes.scripts')
+@stack('scripts')
 </body>
 </html>

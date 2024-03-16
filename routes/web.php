@@ -36,15 +36,15 @@ Route::get('/admin/product/create', function () {
     return view('backend.admin.product.create');
 })->middleware(['auth'])->name('product');
 
-Route::group(['middleware'=>"auth",'prefix' => 'admin/product', 'as' => 'product.'], function(){
+Route::group(['middleware'=>"auth",'prefix' => 'admin/products', 'as' => 'products.'], function(){
     Route::get('/', [ProductController::class, 'index'])->name('index');
     Route::get('create', [ProductController::class, 'create'])->name('create');
     Route::get('{id}/edit', [ProductController::class, 'edit'])->name('edit');
     Route::get('{id}/show', [ProductController::class, 'show'])->name('show');
-    Route::post('/', [ProductController::class, 'show'])->name('store');
-    Route::patch('{id}', [ProductController::class, 'show'])->name('update');
+    Route::post('/', [ProductController::class, 'store'])->name('store');
+    Route::patch('{id}', [ProductController::class, 'update'])->name('update');
 });
-Route::group(['middleware'=>"auth",'prefix' => 'admin/category', 'as' => 'category.'], function(){
+Route::group(['middleware'=>"auth",'prefix' => 'admin/categories', 'as' => 'categories.'], function(){
     Route::get('/', [CategoryController::class, 'index'])->name('index');
     Route::get('create', [CategoryController::class, 'create'])->name('create');
     Route::get('{id}/edit', [CategoryController::class, 'edit'])->name('edit');
@@ -52,7 +52,7 @@ Route::group(['middleware'=>"auth",'prefix' => 'admin/category', 'as' => 'catego
     Route::post('/', [CategoryController::class, 'show'])->name('store');
     Route::patch('{id}', [CategoryController::class, 'show'])->name('update');
 });
-Route::group(['middleware'=>"auth",'prefix' => 'admin/order', 'as' => 'order.'], function(){
+Route::group(['middleware'=>"auth",'prefix' => 'admin/orders', 'as' => 'orders.'], function(){
     Route::get('/', [OrderController::class, 'index'])->name('index');
     Route::get('create', [OrderController::class, 'create'])->name('create');
     Route::get('{id}/edit', [OrderController::class, 'edit'])->name('edit');
@@ -63,7 +63,3 @@ Route::group(['middleware'=>"auth",'prefix' => 'admin/order', 'as' => 'order.'],
 
 
 require __DIR__.'/auth.php';
-
-Route::resource("products",ProductController::class);
-Route::resource("categories",CategoryController::class);
-Route::resource("orders",OrderController::class);
