@@ -10,7 +10,7 @@
         "name|string|notnull|no-default",
         "description|string|notnull|no-default",
         "price|float|nullable|no-default",
-        "status|enum|notnullable|active|active:inactive:activeInactive",
+        "status|enum|notnullable|active|active:inactive",
         "stock_quantity|float|nullable|no-default",
         "category_id|unsignedInteger|nullable|no-default"
     ],
