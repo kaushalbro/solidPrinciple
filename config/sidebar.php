@@ -14,7 +14,7 @@ return [
       'create' =>
       [
         'icon' => 'fa-solid fa-plus',
-        'route' => '/admin/product/create',
+        'route' => '/admin/products/create',
         'title' => 'Add Product',
         'visibility' => true,
         'permission' => '',
@@ -42,7 +42,7 @@ return [
       'create' =>
       [
         'icon' => 'fa-solid fa-plus',
-        'route' => '/admin/category/create',
+        'route' => '/admin/categories/create',
         'title' => 'Add Category',
         'visibility' => true,
         'permission' => '',
@@ -70,7 +70,7 @@ return [
       'create' =>
       [
         'icon' => 'fa-solid fa-plus',
-        'route' => '/admin/order/create',
+        'route' => '/admin/orders/create',
         'title' => 'Add Order',
         'visibility' => true,
         'permission' => '',

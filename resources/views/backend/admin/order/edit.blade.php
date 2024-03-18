@@ -6,9 +6,17 @@
     @include('backend.admin.includes.breadcum',['heading'=>"Order","sub_heading"=>'edit'])
 @stop
 @section('content')
-        <form class="form-control" action="{{ route('order.edit', ['id' => $order->id]) }}" method="PUT" enctype="multipart/form-data">
-             @include("backend.admin.order.partial.form",['type'=>'edit'])
-               @include("backend.admin.includes.form_footer",['type'=>'edit'])
-        </form>
+    @include("backend.admin.includes.errors")
+        <form class="form-control" action="{{ route('orders.update') }}', ['id' => $order->id]) }}" method="PUT" enctype="multipart/form-data">
+    @csrf
+        <div class="card-header">
+           <h3 class="card-title">Create</h3>
+         </div>
+         <div class="card-body">
+            @include("backend.admin.order.partial.form",['type'=>'edit'])
+          </div>
+    </form>
 @stop
-@include("backend.admin.order.script")
+@push('scripts')
+   @include("backend.admin.order.script")
+@endpush

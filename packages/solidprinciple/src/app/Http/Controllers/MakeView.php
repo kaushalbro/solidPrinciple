@@ -104,7 +104,7 @@ class MakeView extends Controller
                     if ($file == 'create' ||$file == 'edit'){
                         $model_view_stub= __DIR__.'/../../stubs/admin_view/model_views/'.$file.'.stub';
                         $method= ($file == 'create')?'POST':"PUT" ;
-                        $route_name = Str::plural(strtolower($model_name)).'.'.($file == 'create'?'store':'update');
+                        $route_name = strtolower(Str::plural ($model_name)).'.'.($file == 'create'?'store':'update');
                         $contents =$this->getStubContents($model_view_stub,[
                             'classname'=> ucwords($model_name),
                             'action'=>$file,

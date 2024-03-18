@@ -6,9 +6,17 @@
     @include('backend.admin.includes.breadcum',['heading'=>"Category","sub_heading"=>'edit'])
 @stop
 @section('content')
-        <form class="form-control" action="{{ route('category.edit', ['id' => $category->id]) }}" method="PUT" enctype="multipart/form-data">
-             @include("backend.admin.category.partial.form",['type'=>'edit'])
-               @include("backend.admin.includes.form_footer",['type'=>'edit'])
-        </form>
+    @include("backend.admin.includes.errors")
+        <form class="form-control" action="{{ route('categories.update') }}', ['id' => $category->id]) }}" method="PUT" enctype="multipart/form-data">
+    @csrf
+        <div class="card-header">
+           <h3 class="card-title">Create</h3>
+         </div>
+         <div class="card-body">
+            @include("backend.admin.category.partial.form",['type'=>'edit'])
+          </div>
+    </form>
 @stop
-@include("backend.admin.category.script")
+@push('scripts')
+   @include("backend.admin.category.script")
+@endpush

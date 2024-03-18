@@ -6,9 +6,17 @@
     @include('backend.admin.includes.breadcum',['heading'=>"Order","sub_heading"=>'create'])
 @stop
 @section('content')
-    <form class="form-control" action="{{ route('order.create') }}" method="POST" enctype="multipart/form-data">
-         @include("backend.admin.order.partial.form",['type'=>'create'])
-           @include("backend.admin.includes.form_footer",['type'=>'create'])
+    @include("backend.admin.includes.errors")
+    <form class="" action="{{ route('orders.store') }}" method="POST" enctype="multipart/form-data">
+    @csrf
+         <div class="card-header">
+           <h3 class="card-title">Create</h3>
+         </div>
+         <div class="card-body">
+            @include("backend.admin.order.partial.form",['type'=>'create'])
+          </div>
     </form>
 @stop
-@include("backend.admin.order.script")
+@push('scripts')
+   @include("backend.admin.order.script")
+@endpush

@@ -6,6 +6,7 @@ use Devil\Solidprinciple\app\Traits\GetPath;
 use Devil\Solidprinciple\app\Traits\FileFolderManage;
 use Devil\Solidprinciple\app\Traits\GetStubContents;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Str;
 
 class MakeAdminPanelController extends Controller
 {
@@ -50,6 +51,7 @@ class MakeAdminPanelController extends Controller
             $file_name=$dest_path.$file.'.blade.php';
             if ($file=="sidebar"){
                  $this->sideBarLinks($this->model_data);
+                 $this->makeFile($file_name, $this->getStubContents($include_sub_path,[]));
             }else{
                 $this->makeFile($file_name, $this->getStubContents($include_sub_path,[]));
             }
@@ -72,7 +74,7 @@ class MakeAdminPanelController extends Controller
             $side_bar = $model->sidebar[0];
             $model_name = ucfirst($model->model_name);
             $table_name = $model->table_name;
-            $route = $model->routes[0];
+            $route =strtolower(Str::plural($model->routes[0]));
             $icon=  explode('|', $model->sidebar[1])[1];
             $sub_links = explode(',',explode('=', $model->sidebar[2])[1]);
             if ($side_bar){
@@ -100,15 +102,8 @@ class MakeAdminPanelController extends Controller
 
                         }elseif($sub_link == 'index'){
                             $sub_icon = "fa-solid fa-list";
-                            $route_array = str_split($route);
-                            $last_letter = end($route_array);
-                            if ($last_letter == 'y'){
-                                $sub_route = "/admin/".$table_name;
-                                $title= "List ".ucfirst($table_name);
-                            }else{
-                                $sub_route = "/admin/".$route.'s';
-                                $title= "List ".$model_name."s";
-                            }
+                            $sub_route = "/admin/".$route;
+                            $title= "List ".ucfirst($route);
                         }
                             $side_bar_content[$model_name]['sub_link']+=[
                                     $sub_link=>[

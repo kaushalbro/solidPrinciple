@@ -48,7 +48,9 @@
                             <p>
                                 {{$main_link['title']}}
                                 <i class="fas fa-angle-left right"></i>
-                                <span class="badge badge-info right">6</span>
+                                @php($modelClassName = "\App\Models\\" . $main_link['title'])
+                                @php($count = $modelClassName::all()->count())
+                                <span class="badge badge-info right">{{$count}} </span>
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
