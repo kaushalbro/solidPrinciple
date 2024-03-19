@@ -49,16 +49,16 @@ Route::group(['middleware'=>"auth",'prefix' => 'admin/categories', 'as' => 'cate
     Route::get('create', [CategoryController::class, 'create'])->name('create');
     Route::get('{id}/edit', [CategoryController::class, 'edit'])->name('edit');
     Route::get('{id}/show', [CategoryController::class, 'show'])->name('show');
-    Route::post('/', [CategoryController::class, 'show'])->name('store');
-    Route::patch('{id}', [CategoryController::class, 'show'])->name('update');
+    Route::post('/', [CategoryController::class, 'store'])->name('store');
+    Route::patch('{id}', [CategoryController::class, 'update'])->name('update');
 });
 Route::group(['middleware'=>"auth",'prefix' => 'admin/orders', 'as' => 'orders.'], function(){
     Route::get('/', [OrderController::class, 'index'])->name('index');
     Route::get('create', [OrderController::class, 'create'])->name('create');
     Route::get('{id}/edit', [OrderController::class, 'edit'])->name('edit');
     Route::get('{id}/show', [OrderController::class, 'show'])->name('show');
-    Route::post('/', [OrderController::class, 'show'])->name('store');
-    Route::patch('{id}', [OrderController::class, 'show'])->name('update');
+    Route::post('/', [OrderController::class, 'store'])->name('store');
+    Route::patch('{id}', [OrderController::class, 'update'])->name('update');
 });
 
 
