@@ -9,9 +9,6 @@
     @include("backend.admin.includes.errors")
     <form class="" action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
     @csrf
-         <div class="card-header">
-           <h3 class="card-title">Create</h3>
-         </div>
          <div class="card-body">
             @include("backend.admin.product.partial.form",['type'=>'create'])
           </div>

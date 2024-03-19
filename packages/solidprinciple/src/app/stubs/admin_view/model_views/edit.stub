@@ -7,11 +7,8 @@
 @stop
 @section('content')
     @include("backend.admin.includes.errors")
-        <form class="form-control" action="{{ route('{{ form_route }}') }}', ['id' => ${{ routeprefix }}->id]) }}" method="{{ method }}" enctype="multipart/form-data">
+        <form class="form-control" action="{{ route('{{ form_route }}',['id' => ${{ routeprefix }}->id])}}" method="{{ method }}" enctype="multipart/form-data">
     @csrf
-        <div class="card-header">
-           <h3 class="card-title">Create</h3>
-         </div>
          <div class="card-body">
             @include("backend.admin.{{ routeprefix }}.partial.form",['type'=>'{{ action }}'])
           </div>

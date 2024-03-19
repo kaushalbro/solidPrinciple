@@ -18,12 +18,11 @@
                         </div>
                         <div class="col-md-6 d-flex mb-3">
                         <label for="category_id" class="col-2 text-left col-form-label">Category:</label>
-
+                        
                         <select name="category_id" id="category_id"  class="form-control  col-10 {{$errors->has("name")?"is-invalid":""}}">
                           <option value="" selected>Select Category</option>
-                            <option value="1" >Cat 1</option>
                         </select>
-
+                        
                         </div>
                         <div class="col-md-6 d-flex mb-3">
                         <label for="image" class="col-2 text-left col-form-label">Image:</label>
