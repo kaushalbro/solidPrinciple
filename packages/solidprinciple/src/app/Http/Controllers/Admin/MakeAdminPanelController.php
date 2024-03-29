@@ -15,6 +15,10 @@ class MakeAdminPanelController extends Controller
     protected $model_data,$stub_path,$dir_name ;
     public function __construct($model_data)
     {
+        $default_path=['model_path','controller_path','repo_path','frontend_view_path','backend_view_path'];
+        $config_stub = __DIR__."/../../../stubs/config.stub";
+        $config_contents =$this->getStubContents($config_stub);
+        $this->makeFile("config/solid.php",$config_contents);
         $this->model_data = file_get_contents($model_data);
         $this->stub_path =__DIR__.'/../../../stubs';
         $this->dir_name=$this->path('controller');

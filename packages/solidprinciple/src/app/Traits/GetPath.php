@@ -15,42 +15,42 @@ trait GetPath
      * 'view_admin_common'=>resources/views/backend/admin/backend/common,
      * .
      */
-   public function path(string $path_to): string
-   {
-       switch ($path_to) {
-           case 'controller':
-               $path = 'app/Http/Controllers';
-               break;
-           case 'model':
-               $path = 'app/Models';
-               break;
-           case 'config':
-               $path = 'config';
-               break;
-           case 'request':
-               $path = 'app/Http/Requests';
-               break;
-           case 'view':
-               $path = 'resources/views';
-               break;
-           case 'view_admin':
-               $path = 'resources/views/backend/admin';
-               break;
-           case 'view_backend':
-               $path = 'resources/views/backend/admin/backend';
-               break;
-           case 'view_admin_common':
-               $path = 'resources/views/backend/admin/backend/common';
-               break;
-           default:
-               $path = '';
-               break;
-       }
-       return $path;
-   }
-   public function stub(){
-       return __DIR__.'/../stubs/';
-   }
+    public function path(string $path_to): string
+    {
+        switch ($path_to) {
+            case 'controller':
+                $path = config('solid.controller_path');
+                break;
+            case 'model':
+                $path = config('solid.model_path');
+                break;
+            case 'config':
+                $path = 'config';
+                break;
+            case 'request':
+                $path = config('solid.request_path');
+                break;
+            case 'view':
+                $path = config('solid.view_path');
+                break;
+            case 'view_admin':
+                $path = config('solid.backend_admin_view_path');
+                break;
+            case 'view_backend':
+                $path =config('solid.backend_view_path');
+                break;
+            case 'view_admin_common':
+                $path = 'resources/views/backend/admin/backend/common';
+                break;
+            default:
+                $path = '';
+                break;
+        }
+        return $path;
+    }
+    public function stub(){
+        return __DIR__.'/../stubs/';
+    }
     public function admin_stub(){
         return __DIR__.'/../stubs/admin_view';
     }
