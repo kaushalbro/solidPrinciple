@@ -175,6 +175,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         Devil\Solidprinciple\SolidprincipleServiceProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
+        Spatie\Permission\PermissionServiceProvider::class,
     ],
 
     /*
