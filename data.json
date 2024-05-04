@@ -30,7 +30,8 @@
         "'Image'=>image|file",
         "'Status'=>status|onOff|active:inactive"
     ]
-}, {
+},
+{
     "model_name": "Category",
     "table_name": "categories",
     "fillable":["name", "Description"],

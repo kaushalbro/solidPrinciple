@@ -16,7 +16,9 @@ trait FileFolderManage
                 error_log(sprintf("\033[32m%s\033[0m",end($path_array).' Folder Created.'));
                 return $directoryPath;
             }
-            error_log(sprintf("\033[33m%s\033[0m",end($path_array).' Folder already Exists.'));
+            if (config('solid.show_folder_already_exists_warning')){
+                error_log(sprintf("\033[33m%s\033[0m",end($path_array).' Folder already Exists.'));
+            }
             return $directoryPath;
         }catch (\Exception $e){
             error_log($e->getMessage());
@@ -36,7 +38,9 @@ trait FileFolderManage
                 error_log(sprintf("\033[32m%s\033[0m",$path_array[count($path_array)-2]. ' '.end($path_array).' File Created.'));
                 return $filePath;
             }
-            error_log(sprintf("\033[33m%s\033[0m",$file_name.' File already Exists.'));
+            if (config('solid.show_file_already_exists_warning')){
+                error_log(sprintf("\033[33m%s\033[0m",$file_name.' File already Exists.'));
+            }
             return $filePath;
         }catch (\Exception $e){
             error_log($e->getMessage());

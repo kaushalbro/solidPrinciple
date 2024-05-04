@@ -10,9 +10,9 @@ class MakeModelRepo extends Controller
     use FileFolderManage, GetStubContents;
 
     protected $model_data,$stub_path,$dir_name;
-    public function __construct($model_data)
+    public function __construct($model_data_path)
     {
-        $this->model_data = $model_data;
+        $this->model_data = file_get_contents($model_data_path);;
         $this->stub_path =__DIR__.'/../../stubs/model-repo.stub';
         $this->dir_name='Repositories';
         $this->make();

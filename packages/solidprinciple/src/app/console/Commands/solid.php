@@ -17,11 +17,12 @@ class solid extends Command
     //flag/options {--h|help} here --h also shows help --help also shows help
 
     protected $signature = 'solid:make
-                         {--a|all : Generate model,controller,interface,repository,migration,custom request,route.}
+                         {--config|config : Generate Package configuration }
+                         {--crud|crud : Generate Plain CRUD files}
+                         {--repo-crud|repo-crud : Generate CRUD files for Repository design pattern }
                          {--m|model : Generate model}
                          {--c|controller : Generate Controller }
                          {--i|interface : Generate interface}
-                         {--crud|crud : Generate CRUD files}
                          {--re|repo  : Generate repository}
                          {--mi|migration  : Generate migration}
                          {--r|request : Generate custom request}

@@ -11,7 +11,7 @@ class MakeMigration extends Controller
     protected $model_data,$stub_path,$dir_name;
     public function __construct($model_data)
     {
-        $this->model_data = $model_data;
+        $this->model_data = file_get_contents($model_data);
         $this->stub_path =__DIR__.'/../../stubs/migration.stub';
         $this->dir_name=base_path('database/migrations');
         $this->make();
@@ -50,9 +50,8 @@ class MakeMigration extends Controller
             $migration_name = 'create_'.strtolower($table_name).'_table.php';
             if (!$this->migrationCreated($migration_name)){
                 $this->makeFile($this->dir_name.'/'.$dateString.$migration_name, $contents);
-            }else{
+            }else if (config('solid.show_folder_already_exists_warning')){
                 error_log(sprintf("\033[33m%s\033[0m", $migration_name.' migration already created.'));
-
             }
         }
     }

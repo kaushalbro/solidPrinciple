@@ -10,12 +10,12 @@ class MakeController extends Controller
     use FileFolderManage, GetStubContents;
 
     protected $model_data,$stub_path,$dir_name,$controller_name,$folder;
-    public function __construct($model_data, $folder=null)
+    public function __construct($model_data_or_path, $folder=null)
     {
-        if (is_array($model_data)){
-          $this->controller_name = $model_data[0];
+        if (is_array($model_data_or_path)){
+          $this->controller_name = $model_data_or_path[0];
         }else{
-            $this->model_data = $model_data;
+            $this->model_data = file_get_contents($model_data_or_path);
         }
         $this->folder = $folder;
         $this->stub_path = $folder=='Admin'?(__DIR__.'/../../stubs/admincontroller.stub'):(__DIR__.'/../../stubs/controller.stub');;
