@@ -4,6 +4,7 @@ namespace Devil\Solidprinciple\app\Http\Controllers;
 use Devil\Solidprinciple\app\Traits\FileFolderManage;
 use Devil\Solidprinciple\app\Traits\GetStubContents;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Str;
 
 class MakeRoute extends Controller
 {
@@ -25,9 +26,10 @@ class MakeRoute extends Controller
 
         foreach ($model_data as $key => $model) {
             $routes = $model->routes;
+            $table_name=$model->table_name??strtolower(Str::plural($model->model_name));
             if (count($routes)>0){
                 $current = file_get_contents($this->dir_name.'/web.php');
-                $current .= 'Route::resource("'.$model->table_name.'",'.$model->model_name.'Controller::class);'."\n";
+                $current .= 'Route::resource("'.$table_name.'",'.$model->model_name.'Controller::class);'."\n";
                 file_put_contents($this->dir_name.'/web.php', $current);
             }
 

@@ -76,7 +76,7 @@ class MakeAdminPanelController extends Controller
         foreach ($model_data as $model){
             $side_bar = $model->sidebar[0];
             $model_name = ucfirst($model->model_name);
-            $table_name = $model->table_name;
+            $table_name = $model->table_name??strtolower(Str::plural($model->model_name));
             $route =strtolower(Str::plural($model->routes[0]));
             $icon=  explode('|', $model->sidebar[1])[1];
             $sub_links = explode(',',explode('=', $model->sidebar[2])[1]);
@@ -132,7 +132,7 @@ class MakeAdminPanelController extends Controller
 
     public function makeView($data): void
     {
-        new MakeView($data, "resources/views/backend/admin");
+        new MakeView($data, $this->path('view_admin'));
     }
 
     public function makeUserAndRoleControllerRepoViews(){

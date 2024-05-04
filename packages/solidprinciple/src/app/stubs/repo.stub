@@ -1,8 +1,8 @@
 <?php
 namespace {{ namespace }};
-use App\Interfaces\SolidInterface;
+use App\Interfaces\{{ baseInterfaceName }};
 
-class {{ classname }} implements SolidInterface
+class {{ classname }} implements {{ baseInterfaceName }}
 {
      protected $model;
 

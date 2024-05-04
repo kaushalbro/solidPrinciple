@@ -4,6 +4,7 @@ namespace Devil\Solidprinciple\app\Http\Controllers;
 use Devil\Solidprinciple\app\Traits\FileFolderManage;
 use Devil\Solidprinciple\app\Traits\GetStubContents;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Str;
 
 class MakeModel extends Controller
 {
@@ -24,13 +25,13 @@ class MakeModel extends Controller
        $model_data  = json_decode($json_model_details);
       foreach ($model_data as $key => $model){
           $fillable = $this->removeDoubleQuote($model->fillable);
-          $hidden = $this->removeDoubleQuote($model->hidden);
-          $casts = $this->removeDoubleQuote($model->casts);
-          $with = $this->removeDoubleQuote($model->with);
+          $hidden = $this->removeDoubleQuote($model->hidden ?? []);
+          $casts = $this->removeDoubleQuote($model->casts ?? []);
+          $with = $this->removeDoubleQuote($model->with ?? []);
           $contents =$this->getStubContents($this->stub_path,[
             'namespace' => 'App\\'.$this->dir_name,
             'classname'=> $model->model_name,
-            'table_name'=> strtolower($model->table_name),
+            'table_name'=> $model->table_name??strtolower(Str::plural($model->model_name)),
             'fillable'=>$fillable,
             'hidden'=>$hidden,
             'casts'=>$casts,

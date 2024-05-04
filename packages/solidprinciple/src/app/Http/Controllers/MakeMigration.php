@@ -4,6 +4,7 @@ namespace Devil\Solidprinciple\app\Http\Controllers;
 use Devil\Solidprinciple\app\Traits\FileFolderManage;
 use Devil\Solidprinciple\app\Traits\GetStubContents;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Str;
 
 class MakeMigration extends Controller
 {
@@ -21,7 +22,7 @@ class MakeMigration extends Controller
     {
         $model_data  = json_decode($this->model_data);
         foreach ($model_data as $key => $model){
-            $table_name = $model->table_name;
+            $table_name = $model->table_name??strtolower(Str::plural($model->model_name));
             $table_column = $model->db_column_name;
             $column= "";
             foreach ($table_column as $key_1 => $value){

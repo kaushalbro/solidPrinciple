@@ -30,6 +30,7 @@ class MakeModelRepo extends Controller
                 'rootNamespace' => 'App\\',
                 'classname' => ucwords($model_name),
                 'reponame' => strtolower($model_name),
+                'baseRepository'=>config('solid.base_repository_name'),
                 'fillable' => $fillable
             ]);
             $this->makeFile('app/' . $this->dir_name . '/' . $model_name . 'Repository.php', $contents);

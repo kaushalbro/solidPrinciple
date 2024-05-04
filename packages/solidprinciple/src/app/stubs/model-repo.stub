@@ -2,7 +2,7 @@
 namespace {{ namespace }};
 use {{ rootNamespace }}Models\{{ classname }};
 
-class {{ classname }}Repository extends SolidBaseRepository
+class {{ classname }}Repository extends {{ baseRepository }}
 {
      protected $model;
     public function __construct({{ classname }} $model)

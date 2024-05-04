@@ -1,6 +1,5 @@
 [ {
     "model_name": "Product",
-    "table_name": "products",
     "fillable": ["name", "description", "price", "stock_quantity", "category_id"],
     "hidden": [],
     "casts": [],
@@ -34,11 +33,7 @@
 },
 {
     "model_name": "Category",
-    "table_name": "categories",
     "fillable":["name", "Description"],
-    "hidden": [],
-    "casts": [],
-    "with": [],
     "sidebar": [true, "icon|fa-brands fa-product-hunt", "sub_link=create,index"],
     "db_column_name": ["name|string|nullable|no-default","description|string|notnull|no-default"],
     "request_rules":["name-required|string","description-nullable|string"],
@@ -52,7 +47,8 @@
         "'Category'=>category_id|select",
         "'Image'=>image|file",
         "'Status'=>status|onOff|active:inactive"
-    ]},
+    ]
+},
     {
         "model_name": "Order",
         "table_name": "orders",
@@ -76,11 +72,7 @@
         ]    },
     {
         "model_name": "Payment",
-        "table_name": "payments",
         "fillable":["name", "description","user_id", "mode"],
-        "hidden": [],
-        "casts": [],
-        "with": [],
         "sidebar": [true, "icon|fa-brands fa-product-hunt", "sub_link=create,index"],
         "db_column_name": ["name|string|nullable|no-default","description|string|notnull|no-default"],
         "request_rules":["name-required|string","description-nullable|string", "user_id-required|integer"],

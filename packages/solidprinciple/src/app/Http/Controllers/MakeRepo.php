@@ -20,7 +20,7 @@ class MakeRepo extends Controller
     public function make(): void
     {
         $this->makeDirectory('app/'.$this->dir_name);
-        $contents =$this->getStubContents($this->stub_path, ['namespace' => 'App\\'.$this->dir_name,'classname'=> $this->className]);
+        $contents =$this->getStubContents($this->stub_path, ['namespace' => 'App\\'.$this->dir_name,'baseInterfaceName'=>config('solid.base_interface_name'),'classname'=> $this->className]);
         $this->makeFile('app/'.$this->dir_name.'/'.$this->className.'.php', $contents);
     }
 }

@@ -8,6 +8,8 @@ return [
 //                   ALTERING HERE MAY CAUSE MALFUNCTION                  //
 //                                                                        //
 ////////////////////////////////////////////////////////////////////////////
+        'is_repository_design_pattern'=>false,
+
         'api_key' => "DEVIL SOLID API KEY HERE(NULL DEFAULT)",
 
         'raw_json_data_path' => base_path("data.json"),  // root path/base_path
@@ -21,19 +23,21 @@ return [
         'view_path' =>"resources/views",
 
         'migration_path'=>"database/migrations",
-    
+
         'backend_admin_view_path' => "resources/views/backend/admin",
 
         'frontend_view_path' => "resources/views/frontend",
 
         // Configuration for Repo pattern
-        'repo_design_pattern'=>false,
         'interface_path' => "app/Interfaces",
 
         'repo_path' => "app/Repositories",
 
-        // Other Configuration
+        'base_interface_name' => "SolidInterface",
+        'base_repository_name' => "SolidBaseRepository",
 
+
+        // Other Configuration
          'show_file_already_exists_warning' => false,
          'show_folder_already_exists_warning' => false,
       ];

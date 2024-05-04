@@ -3,11 +3,13 @@ namespace Devil\Solidprinciple\app\Http\Controllers;
 
 use Devil\Solidprinciple\app\Http\Controllers\Admin\MakeAdminPanelController;
 use Devil\Solidprinciple\app\Traits\CheckConfigFile;
+use Devil\Solidprinciple\app\Traits\FileFolderManage;
+use Devil\Solidprinciple\app\Traits\GetPath;
 use Illuminate\Routing\Controller;
 
 class OptionController extends Controller
 {
-    use CheckConfigFile;
+    use CheckConfigFile,GetPath;
     public $options;
     public function __construct($options)
     {
@@ -17,6 +19,8 @@ class OptionController extends Controller
     {
         if (!$this->options['config']){
             $this->checkConfig();
+        }else{
+            new MakeConfig();
         }
         if (!file_exists(config('solid.raw_json_data_path'))){
             error_log(sprintf("\033[31m%s\033[0m", config('solid.raw_json_data_path')." => Raw data file not found in the path "));
@@ -28,10 +32,10 @@ class OptionController extends Controller
                 new MakeConfig();
                 break;
             case $this->options['interface']:
-                new MakeInterface('SolidInterface');
+                new MakeInterface(config('solid.base_interface_name'));
                 break;
             case $this->options['repo']:
-                new MakeRepo('SolidBaseRepository');
+                new MakeRepo(config('solid.base_repository_name'));
                 break;
             case $this->options['model']:
                 new MakeModel($data_path);
@@ -61,9 +65,9 @@ class OptionController extends Controller
     }
     public function makeRepoCrud($data_path){
         //Generating Base Interface for Base Repository
-        new MakeInterface('SolidInterface');
+        new MakeInterface(config('solid.base_interface_name'));
         //Generating Base Repository for Model Repository
-        new MakeRepo('SolidBaseRepository');
+        new MakeRepo(config('solid.base_repository_name'));
         //Generating Models
         new MakeModel($data_path);
         //Generating Model's Repositories
@@ -76,6 +80,8 @@ class OptionController extends Controller
            //new MakeRoute($data_path);
         //Generating Migrations
         new MakeMigration($data_path);
+        //Generating View
+        new MakeView(file_get_contents($data_path), $this->path('view_admin'));
     }
 
 }
