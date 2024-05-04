@@ -36,11 +36,8 @@ trait GetPath
             case 'view_admin':
                 $path = config('solid.backend_admin_view_path');
                 break;
-            case 'view_backend':
-                $path =config('solid.backend_view_path');
-                break;
             case 'view_admin_common':
-                $path = 'resources/views/backend/admin/backend/common';
+                $path = config('solid.backend_admin_view_path').'/common';
                 break;
             default:
                 $path = '';

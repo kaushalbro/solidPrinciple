@@ -18,7 +18,7 @@ class MakeConfig extends Controller
 
     public function make(): void
     {
-        $default_path=['model_path','controller_path','repo_path','frontend_view_path','backend_view_path'];
+        $default_path=['model_path','controller_path','repo_path','frontend_view_path'];
         $config_contents =$this->getStubContents($this->stub_path);
         $this->makeFile("config/solid.php",$config_contents);
     }

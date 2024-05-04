@@ -22,8 +22,6 @@ return [
 
         'migration_path'=>"database/migrations",
 
-        'backend_view_path'=>"resources/views/backend",
-
         'backend_admin_view_path' => "resources/views/backend/admin",
 
         'frontend_view_path' => "resources/views/frontend",

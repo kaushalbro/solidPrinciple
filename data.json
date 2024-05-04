@@ -21,6 +21,7 @@
         "stock_quantity-required|numeric|min:|max:10",
         "category_id-required|numeric"],
     "routes": ["product"],
+    "view_for": "frontend",
     "view_input": [
         "'Name'=>name|text",
         "'Description'=>description|textarea",
@@ -42,6 +43,7 @@
     "db_column_name": ["name|string|nullable|no-default","description|string|notnull|no-default"],
     "request_rules":["name-required|string","description-nullable|string"],
     "routes": ["category"],
+    "view_for": "frontend",
     "view_input": [
         "'Name'=>name|text",
         "'Description'=>description|textarea",
@@ -62,6 +64,7 @@
         "db_column_name": ["name|string|nullable|no-default","description|string|notnull|no-default"],
         "request_rules":["name-required|string","description-nullable|string"],
         "routes": ["order"],
+        "view_for": "frontend",
         "view_input": [
             "'Name'=>name|text",
             "'Description'=>description|textarea",
@@ -70,5 +73,26 @@
             "'Category'=>category_id|select",
             "'Image'=>image|file",
             "'Status'=>status|onOff|active:inactive"
-        ]    }
+        ]    },
+    {
+        "model_name": "Payment",
+        "table_name": "payments",
+        "fillable":["name", "description","user_id", "mode"],
+        "hidden": [],
+        "casts": [],
+        "with": [],
+        "sidebar": [true, "icon|fa-brands fa-product-hunt", "sub_link=create,index"],
+        "db_column_name": ["name|string|nullable|no-default","description|string|notnull|no-default"],
+        "request_rules":["name-required|string","description-nullable|string", "user_id-required|integer"],
+        "routes": ["order"],
+        "view_input": [
+            "'Name'=>name|text",
+            "'Description'=>description|textarea",
+            "'Price'=>price|float",
+            "'Stock Quantity'=>stock_quantity|float",
+            "'Category'=>category_id|select",
+            "'Image'=>image|file",
+            "'Status'=>status|onOff|active:inactive"
+        ]
+    }
 ]
