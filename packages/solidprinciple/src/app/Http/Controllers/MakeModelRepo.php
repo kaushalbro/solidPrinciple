@@ -12,7 +12,8 @@ class MakeModelRepo extends Controller
     protected $model_data,$stub_path,$dir_name;
     public function __construct($model_data_path)
     {
-        $this->model_data = file_get_contents($model_data_path);;
+        $data =is_array($model_data_path)?$model_data_path[1]:file_get_contents($model_data_path);
+        $this->model_data =$data;
         $this->stub_path =__DIR__.'/../../stubs/model-repo.stub';
         $this->dir_name='Repositories';
         $this->make();

@@ -12,7 +12,8 @@ class MakeRequest extends Controller
     protected $model_data,$stub_path,$dir_name;
     public function __construct($model_data_path)
     {
-        $this->model_data = file_get_contents($model_data_path);
+        $data =is_array($model_data_path)?$model_data_path[1]:file_get_contents($model_data_path);
+        $this->model_data =$data;
         $this->stub_path =__DIR__.'/../../stubs/request.stub';
         $this->dir_name='app/Http/Requests';
         $this->make();

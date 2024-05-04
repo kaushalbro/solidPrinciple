@@ -12,10 +12,11 @@ class MakeController extends Controller
     protected $model_data,$stub_path,$dir_name,$controller_name,$folder;
     public function __construct($model_data_or_path, $folder=null)
     {
-        if (is_array($model_data_or_path)){
+        if (is_array($model_data_or_path) && ($model_data_or_path[0] != 'from_param')){
           $this->controller_name = $model_data_or_path[0];
         }else{
-            $this->model_data = file_get_contents($model_data_or_path);
+            $data =is_array($model_data_or_path)?$model_data_or_path[1]:file_get_contents($model_data_or_path);
+            $this->model_data =$data;
         }
         $this->folder = $folder;
         $this->stub_path = $folder=='Admin'?(__DIR__.'/../../stubs/admincontroller.stub'):(__DIR__.'/../../stubs/controller.stub');;

@@ -18,9 +18,10 @@ class solid extends Command
 
     protected $signature = 'solid:make
                          {--config|config : Generate Package configuration }
-                         {--crud|crud : Generate Plain CRUD files}
+                         {--crud|crud : Generate Plain CRUD files }
                          {--repo-crud|repo-crud : Generate CRUD files for Repository design pattern }
                          {--m|model : Generate model}
+                         {--view|view : Generate model}
                          {--c|controller : Generate Controller }
                          {--i|interface : Generate interface}
                          {--re|repo  : Generate repository}
@@ -28,7 +29,9 @@ class solid extends Command
                          {--r|request : Generate custom request}
                          {--ro|route : Generate routes}
                          {--newAdminPanel|new-admin-panel : Generate fresh Admin panel}
-                         {--h|help}';
+                         {--h|help}
+                         {model_name? : Optional model_name parameter}
+                         ';
     /**
      * The console command description.
      *
@@ -53,7 +56,7 @@ class solid extends Command
      */
     public function handle()
     {
-        $optionController = new OptionController($this->options());
+        $optionController = new OptionController($this->options(),$this->arguments());
         $optionController->chooseOption();
     }
 }

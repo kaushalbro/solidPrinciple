@@ -12,15 +12,11 @@ class MakeMigration extends Controller
     protected $model_data,$stub_path,$dir_name;
     public function __construct($model_data)
     {
-        try {
-            $this->model_data = file_get_contents($model_data);
+            $data =is_array($model_data)?$model_data[1]:file_get_contents($model_data);
+            $this->model_data =$data;
             $this->stub_path =__DIR__.'/../../stubs/migration.stub';
             $this->dir_name=base_path('database/migrations');
             $this->make();
-        }catch (\Exception $e){
-                    dd($e);
-        }
-
     }
 
     public function make(): void

@@ -6,14 +6,16 @@ use Devil\Solidprinciple\app\Traits\CheckConfigFile;
 use Devil\Solidprinciple\app\Traits\FileFolderManage;
 use Devil\Solidprinciple\app\Traits\GetPath;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Str;
 
 class OptionController extends Controller
 {
     use CheckConfigFile,GetPath;
-    public $options;
-    public function __construct($options)
+    public $options,$arguments;
+    public function __construct($options,$arguments)
     {
         $this->options=$options;
+        $this->arguments=$arguments;
     }
     public function chooseOption()
     {
@@ -27,6 +29,7 @@ class OptionController extends Controller
             return exit();
         }
         $data_path=config('solid.raw_json_data_path');
+        $model_name = $this->arguments['model_name'];
         switch ($this->options) {
             case $this->options['config']:
                 new MakeConfig();
@@ -38,25 +41,38 @@ class OptionController extends Controller
                 new MakeRepo(config('solid.base_repository_name'));
                 break;
             case $this->options['model']:
-                new MakeModel($data_path);
+                if ($model_name){
+                    new MakeModel($this->makeModelRepoCrud($model_name));
+                }
                 break;
             case $this->options['controller']:
-                new MakeController('controller');
+                if ($model_name){
+                    new MakeController($this->makeModelRepoCrud($model_name));
+                }
                 break;
             case $this->options['request']:
-                new MakeRequest('request');
+                if ($model_name){
+                    new MakeRequest($this->makeModelRepoCrud($model_name));
+                }
                 break;
             case $this->options['migration']:
-                new MakeMigration('migration');
+                if ($model_name){
+                    new MakeMigration($this->makeModelRepoCrud($model_name));
+                }
                 break;
             case $this->options['route']:
                 new MakeRoute('route');
+                break;
+            case $this->options['view']:
+                if ($model_name){
+                    new MakeView($this->makeModelRepoCrud($model_name), $this->path('view_admin'));
+                }
                 break;
             case $this->options['new-admin-panel']:
                 new MakeAdminPanelController($data_path);
                 break;
             case $this->options['repo-crud']:
-                $this->makeRepoCrud($data_path);
+                $this->makeRepoCrud($model_name?( $this->makeModelRepoCrud($model_name)):$data_path);
                 break;
             default:
                  exit();
@@ -81,7 +97,28 @@ class OptionController extends Controller
         //Generating Migrations
         new MakeMigration($data_path);
         //Generating View
-        new MakeView(file_get_contents($data_path), $this->path('view_admin'));
+        new MakeView(is_array($data_path)?$data_path[1]:file_get_contents($data_path), $this->path('view_admin'));
+    }
+
+    public function makeModelRepoCrud($model_name)
+    {
+        $model_name_formated =ucfirst(Str::singular($model_name));
+        $table_name = strtolower(Str::plural($model_name));
+        return ['from_param','
+                [ {
+                    "model_name": "'.$model_name_formated.'",
+                    "table_name": "'.$table_name.'",
+                    "fillable":[],
+                    "hidden": [],
+                    "casts": [],
+                    "with": [],
+                    "sidebar": [false, "", ""],
+                    "table_column_name": [],
+                    "routes": [],
+                    "request_rules":[],
+                    "view_input":[]
+                   }
+                ]'];
     }
 
 }
