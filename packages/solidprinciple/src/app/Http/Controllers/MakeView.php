@@ -101,8 +101,11 @@ class MakeView extends Controller
                 $files=['create','edit','index','show','script'];
                 foreach ($files as $file){
                     $file_name=$view_folder_path."/".$file.".blade.php";
-                    if ($file == 'create' ||$file == 'edit'){
-                        $model_view_stub= __DIR__.'/../../stubs/admin_view/model_views/'.$file.'.stub';
+                    $model_view_stub= __DIR__.'/../../stubs/admin_view/model_views/'.$file.'.stub';
+//                    if ($model_name =='Payment' && $file=='index'){
+//                        dd($model_view_stub);
+//                    }
+                    if ($file == 'create' || $file == 'edit'){
                         $method= ($file == 'create')?'POST':"PUT" ;
                         $route_name = strtolower(Str::plural ($model_name)).'.'.($file == 'create'?'store':'update');
                         $contents =$this->getStubContents($model_view_stub,[
@@ -114,7 +117,10 @@ class MakeView extends Controller
                         ]);
                         $this->makeFile($file_name,$contents);
                     }else{
-                        $this->makeFile($file_name,[]);
+                        $contents =$this->getStubContents($model_view_stub,[
+                            'routeprefix'=>strtolower($model_name)
+                        ]);
+                        $this->makeFile($file_name,$contents);
                     }
                 }
 

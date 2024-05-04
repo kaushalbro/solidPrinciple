@@ -15,7 +15,7 @@ class Create{{ classname }}Table extends Migration
     {
         Schema::create('{{ tablename }}', function (Blueprint $table) {
             $table->id();
-            {{ db_column_name }}
+            {{ table_column_name }}
             $table->timestamps();
         });
     }

@@ -1,0 +1,8 @@
+<div>
+
+</div>
+
+
+@push('scripts')
+   @include("backend.admin.{{ routeprefix }}.script")
+@endpush

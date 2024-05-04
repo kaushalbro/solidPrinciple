@@ -12,10 +12,15 @@ class MakeMigration extends Controller
     protected $model_data,$stub_path,$dir_name;
     public function __construct($model_data)
     {
-        $this->model_data = file_get_contents($model_data);
-        $this->stub_path =__DIR__.'/../../stubs/migration.stub';
-        $this->dir_name=base_path('database/migrations');
-        $this->make();
+        try {
+            $this->model_data = file_get_contents($model_data);
+            $this->stub_path =__DIR__.'/../../stubs/migration.stub';
+            $this->dir_name=base_path('database/migrations');
+            $this->make();
+        }catch (\Exception $e){
+                    dd($e);
+        }
+
     }
 
     public function make(): void
@@ -23,7 +28,8 @@ class MakeMigration extends Controller
         $model_data  = json_decode($this->model_data);
         foreach ($model_data as $key => $model){
             $table_name = $model->table_name??strtolower(Str::plural($model->model_name));
-            $table_column = $model->db_column_name;
+            $table_column = $model->table_column_name;
+            $foreign_column= $model->table_foreign_key??[];
             $column= "";
             foreach ($table_column as $key_1 => $value){
                 $name_datatype= explode('|',$value);
@@ -42,10 +48,25 @@ class MakeMigration extends Controller
                 }
                 $column .= $col .';'."\n\t\t\t";
             }
+            foreach ($foreign_column as $key_2 => $value){
+                $first_hierarchy=explode('|',$value);
+                $foreing_col= $first_hierarchy[0];
+                $table_column_name=explode('=',$foreing_col)[0];
+                $data_type=explode('=',$foreing_col)[1];
+                $references=$first_hierarchy[1];
+                $references_table=explode('=>',$references)[0];
+                $references_table_column=explode('=>',$references)[1];
+                $null_1=$first_hierarchy[2]=='nullable'?'->nullable()':'';
+                $for_col= '$table->integer("'.$table_column_name.'")'.$null_1.'->unsigned()';
+                $column.=$for_col.';'."\n\t\t\t";
+                $reference_key='$table->foreign("'.$table_column_name.'")->references("'.$references_table_column.'")->on("'.$references_table.'")';
+                $column.=$reference_key.';'."\n\t\t\t";
+            }
+
             $contents =$this->getStubContents($this->stub_path,[
                 'classname'=> ucwords($table_name),
                 'tablename'=> strtolower($table_name),
-                'db_column_name'=>$column
+                'table_column_name'=>$column
             ]);
             $dateString = date("Y_m_d_His").'_';
             $migration_name = 'create_'.strtolower($table_name).'_table.php';
