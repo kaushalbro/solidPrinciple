@@ -22,7 +22,9 @@ class MakeAdminPanelController extends Controller
         $this->model_data = file_get_contents($model_data);
         $this->stub_path =__DIR__.'/../../../stubs';
         $this->dir_name=$this->path('controller');
-        $this->makeLayout();
+//        $this->makeLayout()
+        $this->makeUserAndRoleControllerRepoViews();
+
     }
     public function make(): void
     {
@@ -134,5 +136,17 @@ class MakeAdminPanelController extends Controller
     public function makeView($data): void
     {
         new MakeView($data, "resources/views/backend/admin");
+    }
+
+    public function makeUserAndRoleControllerRepoViews(){
+    $user_data = '{
+    "model_name": "User",
+    "table_name": "users",
+    "fillable": ["name", "email","password"],
+    "hidden": [],
+    "casts": [],
+    "with": []
+    }';
+     dd(json_decode($user_data));
     }
 }

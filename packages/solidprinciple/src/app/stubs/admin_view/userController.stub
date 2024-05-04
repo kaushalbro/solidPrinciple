@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace {{ controllerPath }};
 
-use App\Repositories\UserRepository;
-use App\Models\User;
+use {{ repoPath }};
+use {{ modelPath }};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;

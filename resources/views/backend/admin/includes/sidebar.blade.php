@@ -81,11 +81,17 @@
                     </a>
                     <ul class="nav nav-treeview">
                        <li class="nav-item ml-3" >
-                        <a href="/" class="nav-link">
+                        <a href="/admin/users/" class="nav-link">
                             <i class="nav-icon fa-solid fa-user  mr-2"></i>
                          <p>Users</p>
                          </a>
                       </li>
+                        <li class="nav-item ml-3" >
+                            <a href="/admin/roles/" class="nav-link">
+                                <i class="nav-icon fa-solid fa-user  mr-2"></i>
+                                <p>Roles</p>
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 <li class="nav-item">

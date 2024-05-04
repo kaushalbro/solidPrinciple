@@ -21,6 +21,7 @@ class solid extends Command
                          {--m|model : Generate model}
                          {--c|controller : Generate Controller }
                          {--i|interface : Generate interface}
+                         {--crud|crud : Generate CRUD files}
                          {--re|repo  : Generate repository}
                          {--mi|migration  : Generate migration}
                          {--r|request : Generate custom request}

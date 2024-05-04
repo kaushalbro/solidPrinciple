@@ -3,6 +3,7 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -59,6 +60,25 @@ Route::group(['middleware'=>"auth",'prefix' => 'admin/orders', 'as' => 'orders.'
     Route::get('{id}/show', [OrderController::class, 'show'])->name('show');
     Route::post('/', [OrderController::class, 'store'])->name('store');
     Route::patch('{id}', [OrderController::class, 'update'])->name('update');
+});
+
+Route::group(['middleware'=>"auth",'prefix' => 'admin/users', 'as' => 'users.'], function(){
+    Route::get('/', [UserController::class, 'index'])->name('index');
+    Route::get('list', [UserController::class, 'getUsers'])->name('list');
+    Route::get('create', [UserController::class, 'create'])->name('create');
+    Route::get('{id}/edit', [UserController::class, 'edit'])->name('edit');
+    Route::get('{id}/show', [UserController::class, 'show'])->name('show');
+    Route::post('/', [UserController::class, 'store'])->name('store');
+    Route::patch('{id}', [UserController::class, 'update'])->name('update');
+});
+Route::group(['middleware'=>"auth",'prefix' => 'admin/roles', 'as' => 'roles.'], function(){
+    Route::get('/', [UserController::class, 'index'])->name('index');
+    Route::get('list', [UserController::class, 'getUsers'])->name('list');
+    Route::get('create', [UserController::class, 'create'])->name('create');
+    Route::get('{id}/edit', [UserController::class, 'edit'])->name('edit');
+    Route::get('{id}/show', [UserController::class, 'show'])->name('show');
+    Route::post('/', [UserController::class, 'store'])->name('store');
+    Route::patch('{id}', [UserController::class, 'update'])->name('update');
 });
 
 
