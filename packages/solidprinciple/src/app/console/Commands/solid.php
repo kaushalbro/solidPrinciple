@@ -28,6 +28,7 @@ class solid extends Command
                          {--mi|migration  : Generate migration}
                          {--r|request : Generate custom request}
                          {--ro|route : Generate routes}
+                         {--layout|layout : Generate Layout}
                          {--newAdminPanel|new-admin-panel : Generate fresh Admin panel}
                          {--h|help}
                          {model_name? : Optional model_name parameter}

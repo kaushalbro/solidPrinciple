@@ -8,6 +8,13 @@ return [
 //                   ALTERING HERE MAY CAUSE MALFUNCTION                  //
 //                                                                        //
 ////////////////////////////////////////////////////////////////////////////
+                                //NOTE:NOTE
+////////////////////////////////////////////////////////////////////////////
+//                                                                        //
+//         All Directory Name pattern should match the pattern bellow     //
+//                                                                        //
+////////////////////////////////////////////////////////////////////////////
+
         'is_repository_design_pattern'=>false,
 
         'api_key' => "DEVIL SOLID API KEY HERE(NULL DEFAULT)",
@@ -28,7 +35,7 @@ return [
 
         'frontend_view_path' => "resources/views/frontend",
 
-        // Configuration for Repo pattern
+        // Configuration for Repository pattern
         'interface_path' => "app/Interfaces",
 
         'repo_path' => "app/Repositories",
@@ -40,4 +47,6 @@ return [
         // Other Configuration
          'show_file_already_exists_warning' => false,
          'show_folder_already_exists_warning' => false,
+        // Override created file : this my delete content of previous file
+         'override_previous_file_data' => false,
       ];
