@@ -16,7 +16,7 @@ class solid extends Command
     //{id? : this is id} here ? means optional while making arguments, after : this is description of argument
     //flag/options {--h|help} here --h also shows help --help also shows help
 
-    protected $signature = 'solid:make
+    protected $signature = 'solid:make {model_name? : Optional model_name parameter}
                          {--config|config : Generate Package configuration }
                          {--crud|crud : Generate Plain CRUD files }
                          {--repo-crud|repo-crud : Generate CRUD files for Repository design pattern }
@@ -28,10 +28,10 @@ class solid extends Command
                          {--mi|migration  : Generate migration}
                          {--r|request : Generate custom request}
                          {--ro|route : Generate routes}
-                         {--layout|layout : Generate Layout}
+                         {--layout|layout  } layout_type? : Generate Layout}
                          {--newAdminPanel|new-admin-panel : Generate fresh Admin panel}
                          {--h|help}
-                         {model_name? : Optional model_name parameter}
+
                          ';
     /**
      * The console command description.

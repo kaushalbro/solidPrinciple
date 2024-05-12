@@ -45,8 +45,8 @@ return [
 
 
         // Other Configuration
-         'show_file_already_exists_warning' => false,
-         'show_folder_already_exists_warning' => false,
+         'show_file_already_exists_warning' => true,
+         'show_folder_already_exists_warning' => true,
         // Override created file : this my delete content of previous file
          'override_previous_file_data' => false,
       ];

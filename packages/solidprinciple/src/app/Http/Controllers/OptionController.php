@@ -68,6 +68,9 @@ class OptionController extends Controller
                     new MakeView($this->makeModelRepoCrud($model_name), $this->path('view_admin'));
                 }
                 break;
+            case $this->options['layout']:
+                new MakeLayout(($model_name=='frontend'||$model_name=='admin')?$model_name:"frontend",$data_path);
+                break;
             case $this->options['new-admin-panel']:
                 new MakeAdminPanelController($data_path);
                 break;
@@ -92,12 +95,12 @@ class OptionController extends Controller
         new MakeRequest($data_path);
         //Generating Controller
         new MakeController($data_path);
-        //Generating Routes
-           //new MakeRoute($data_path);
         //Generating Migrations
         new MakeMigration($data_path);
         //Generating View
         new MakeView(is_array($data_path)?$data_path[1]:file_get_contents($data_path), $this->path('view_admin'));
+        //Generating Routes
+        //new MakeRoute($data_path);
     }
 
     public function makeModelRepoCrud($model_name)
