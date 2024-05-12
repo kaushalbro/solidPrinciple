@@ -12,15 +12,16 @@ class MakeAdminPanelController extends Controller
 {
     use FileFolderManage, GetStubContents, GetPath;
 
-    protected $model_data,$stub_path,$dir_name ;
+    protected $model_data,$stub_path,$dir_name, $model_data_path ;
     public function __construct($model_data)
     {
 
         $this->model_data = file_get_contents($model_data);
+        $this->model_data_path= $model_data;
         $this->stub_path =__DIR__.'/../../../stubs';
         $this->dir_name=$this->path('controller');
-//        $this->makeLayout()
-        $this->makeUserAndRoleControllerRepoViews();
+        $this->makeLayout();
+//        $this->makeUserAndRoleControllerRepoViews();
 
     }
     public function make(): void
@@ -66,7 +67,7 @@ class MakeAdminPanelController extends Controller
             fopen($destination_path, 'wb');
         }
         // make view folder and files
-            $this->makeView($this->model_data);
+            $this->makeView(["params",$this->model_data]);
     }
     public function sideBarLinks($data)
     {
@@ -144,6 +145,6 @@ class MakeAdminPanelController extends Controller
     "casts": [],
     "with": []
     }';
-     dd(json_decode($user_data));
+//     dd(json_decode($user_data));
     }
 }
