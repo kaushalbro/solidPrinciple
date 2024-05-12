@@ -98,7 +98,7 @@ class OptionController extends Controller
         //Generating Migrations
         new MakeMigration($data_path);
         //Generating View
-        new MakeView(is_array($data_path)?$data_path[1]:file_get_contents($data_path), $this->path('view_admin'));
+        new MakeView(is_array($data_path)?$data_path:file_get_contents($data_path), $this->path('view_admin'));
         //Generating Routes
         //new MakeRoute($data_path);
     }
