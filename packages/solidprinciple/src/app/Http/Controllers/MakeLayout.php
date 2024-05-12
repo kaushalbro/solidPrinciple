@@ -24,7 +24,7 @@ class MakeLayout extends Controller
 
     public function make(): void
     {
-        $view_path=base_path($this->path('view'));
+        $view_path=$this->path('view');
         $stub=$this->stub_path;
         $stub_files=scandir($stub);
         $includes_stub_files=scandir($stub."/includes");
@@ -39,6 +39,8 @@ class MakeLayout extends Controller
         foreach ($filter_stub_files as $file_1){
             $this->makeFile($view_path.'/'.explode(".",$file_1)[0].'.blade.php', $this->getStubContents($stub."/".$file_1));
         }
-
+        foreach ($filter_includes_stub_files as $file_2){
+            $this->makeFile($view_path.'/includes/'.explode(".",$file_2)[0].'.blade.php', $this->getStubContents($stub."/includes/".$file_2));
+        }
     }
 }
