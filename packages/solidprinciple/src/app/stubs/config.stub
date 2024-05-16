@@ -17,6 +17,8 @@ return [
 
         'is_repository_design_pattern'=>false,
 
+        'frontend_design'=>"REACT",  // OR "BLADE"
+
         'api_key' => "DEVIL SOLID API KEY HERE(NULL DEFAULT)",
 
         'raw_json_data_path' => base_path("data.json"),  // root path/base_path
