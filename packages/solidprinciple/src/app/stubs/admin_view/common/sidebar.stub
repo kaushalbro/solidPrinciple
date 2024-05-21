@@ -60,7 +60,7 @@
                                     <li class="nav-item ml-3" data-model="{{$sub_link['title']}}">
                                         <a href="{{$sub_link['route']}}" class="nav-link">
                                             <i class="{{$sub_link['icon']}} mr-2"></i>
-                                            <p>{{$sub_link['title']}}</p>
+                                            <p style="font-size: 15px">{{$sub_link['title']}}</p>
                                         </a>
                                     </li>
                                     @endif

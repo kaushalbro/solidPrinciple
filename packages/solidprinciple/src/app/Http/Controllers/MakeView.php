@@ -15,7 +15,7 @@ class MakeView extends Controller
     protected $model_data,$stub_path,$controller_name, $view_path;
     public function __construct($model_data, $view_path)
     {
-        $this->model_data =is_array($model_data)?json_decode($model_data[1]):file_get_contents($model_data);
+        $this->model_data =is_array($model_data)?json_decode($model_data[1]):json_decode(file_get_contents($model_data));
         $this->view_path = $view_path;
         $this->stub_path =__DIR__.'/../../../stubs/view.stub';
         $this->make();
@@ -117,9 +117,20 @@ class MakeView extends Controller
                         ]);
                         $this->makeFile($file_name,$contents);
                     }else{
-                        $contents =$this->getStubContents($model_view_stub,[
-                            'routeprefix'=>strtolower($model_name)
-                        ]);
+                        $attributes=[
+                            'routeprefix'=>strtolower($model_name),
+                        ];
+                        if ($file == 'index' ) {
+                        $attributes=[
+                            'classname'=> ucwords($model_name),
+                            'action'=>$file,
+                            'datatable_list_route'=>"{{ route('".Strtolower(Str::plural ($model_name)).".list') }}",
+                            'table_headers'=>'',
+                            'table_header_data'=>'',
+                            'routeprefix'=>strtolower($model_name),
+                        ] ;
+                        }
+                        $contents =$this->getStubContents($model_view_stub,$attributes);
                         $this->makeFile($file_name,$contents);
                     }
                 }

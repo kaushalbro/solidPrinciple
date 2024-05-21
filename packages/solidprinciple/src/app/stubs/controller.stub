@@ -5,7 +5,10 @@ namespace {{ namespace }};
 use {{ rootNamespace }}Repositories\{{ classname }}Repository;
 use {{ rootNamespace }}Models\{{ classname }};
 use {{ rootNamespace }}Http\Requests\Create{{ classname }}Request;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Yajra\DataTables\DataTables;
 
 
 class {{ classname }}Controller extends Controller
@@ -26,6 +29,39 @@ class {{ classname }}Controller extends Controller
         return view($this->view_path."index",compact('{{ viewfolder }}s'));
     }
 
+    public function getList(Request $request)
+    {
+        ${{ viewfolder }}s=$this->repository->getAll();
+             return Datatables::of(${{ viewfolder }}s)
+                    ->addIndexColumn()
+                    ->addColumn('action', function(${{ viewfolder }}){
+                        return $this->actionButtons(${{ viewfolder }});
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+    }
+        public function actionButtons(${{ viewfolder }}){
+             $is_auth_id=(Auth::id()==${{ viewfolder }}->id)?true:false;
+            $actionBtns='';
+                 $show_btn = '<a href="'.route("{{ viewfolder }}s.show", ${{ viewfolder }}->id).'" class="actions btn btn-sm btn-info" data-tooltip="true" title="Show">
+                    <i class="far fa-eye" aria-hidden="true"></i></a>';
+               //   if(!$is_auth_id)  }}
+                 // {
+                      $delete_btn= '<a class="btn btn-danger btn-sm delete-asset" title="delete" onclick="return false;">
+                    <i class="fas fa-trash"></i></a>';
+                      $edit_btn= '<a href="/" class="actions btn btn-sm btn-warning" data-tooltip="true" title="Edit">
+                    <i class="fas fa-pencil-alt" aria-hidden="true"></i></a>';
+                  //}else{
+                    //  $delete_btn ='';
+                    //  $edit_btn='';
+                  //}
+                $actionBtns = '
+                    <nobr>
+                        '.$show_btn.' '.$edit_btn.' '.$delete_btn.'
+                    </nobr>
+                    ';
+                return $actionBtns;
+        }
 
     public function show($id)
     {

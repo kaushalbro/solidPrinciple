@@ -3,6 +3,7 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -72,13 +73,13 @@ Route::group(['middleware'=>"auth",'prefix' => 'admin/users', 'as' => 'users.'],
     Route::patch('{id}', [UserController::class, 'update'])->name('update');
 });
 Route::group(['middleware'=>"auth",'prefix' => 'admin/roles', 'as' => 'roles.'], function(){
-    Route::get('/', [UserController::class, 'index'])->name('index');
-    Route::get('list', [UserController::class, 'getUsers'])->name('list');
-    Route::get('create', [UserController::class, 'create'])->name('create');
-    Route::get('{id}/edit', [UserController::class, 'edit'])->name('edit');
-    Route::get('{id}/show', [UserController::class, 'show'])->name('show');
-    Route::post('/', [UserController::class, 'store'])->name('store');
-    Route::patch('{id}', [UserController::class, 'update'])->name('update');
+    Route::get('/', [RoleController::class, 'index'])->name('index');
+    Route::get('list', [RoleController::class, 'getList'])->name('list');
+    Route::get('create', [RoleController::class, 'create'])->name('create');
+    Route::get('{id}/edit', [RoleController::class, 'edit'])->name('edit');
+    Route::get('{id}/show', [RoleController::class, 'show'])->name('show');
+    Route::post('/', [RoleController::class, 'store'])->name('store');
+    Route::patch('{id}', [RoleController::class, 'update'])->name('update');
 });
 
 
