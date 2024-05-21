@@ -8,7 +8,7 @@ return [
     'title' => 'Product',
     'class' => '',
     'visibility' => true,
-    'permission' => '',
+    'permission' => [true],
     'sub_link' =>
     [
       'create' =>

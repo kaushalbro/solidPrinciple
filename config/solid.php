@@ -19,6 +19,8 @@ return [
 
         'api_key' => "DEVIL SOLID API KEY HERE(NULL DEFAULT)",
 
+        'frontend_design'=>"BLADE",  // OR "REACT" OR "BLADE"
+
         'raw_json_data_path' => base_path("data.json"),  // root path/base_path
 
         'model_path' => "app/Models",
