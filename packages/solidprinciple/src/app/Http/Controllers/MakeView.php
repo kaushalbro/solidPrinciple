@@ -125,6 +125,7 @@ class MakeView extends Controller
                             'classname'=> ucwords($model_name),
                             'action'=>$file,
                             'datatable_list_route'=>"{{ route('".Strtolower(Str::plural ($model_name)).".list') }}",
+                            'model_create_route'=>"{{ route('".Strtolower(Str::plural ($model_name)).".create') }}",
                             'table_headers'=>'',
                             'table_header_data'=>'',
                             'routeprefix'=>strtolower($model_name),
