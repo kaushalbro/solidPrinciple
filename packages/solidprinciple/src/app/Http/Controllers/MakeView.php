@@ -131,6 +131,13 @@ class MakeView extends Controller
                             'routeprefix'=>strtolower($model_name),
                         ] ;
                         }
+                        if ($file == 'show' ) {
+                            $attributes=[
+                                'classname'=> ucwords($model_name),
+                                'action'=>$file,
+                                'routeprefix'=>strtolower($model_name),
+                            ] ;
+                        }
                         $contents =$this->getStubContents($model_view_stub,$attributes);
                         $this->makeFile($file_name,$contents);
                     }

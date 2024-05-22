@@ -15,7 +15,6 @@ class MakeAdminPanelController extends Controller
     protected $model_data,$stub_path,$dir_name, $model_data_path ;
     public function __construct($model_data)
     {
-
         $this->model_data = file_get_contents($model_data);
         $this->model_data_path= $model_data;
         $this->stub_path =__DIR__.'/../../../stubs';
