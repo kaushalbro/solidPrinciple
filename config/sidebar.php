@@ -1,5 +1,5 @@
 <?php
-
+$current_route='';
 return [
   'Product' =>
   [
@@ -7,8 +7,9 @@ return [
     'route' => '',
     'title' => 'Product',
     'class' => '',
-    'visibility' => true,
-    'permission' => [true],
+    'visibility' => false,
+    'permission' => true,
+    'active' => false,
     'sub_link' =>
     [
       'create' =>
@@ -17,7 +18,8 @@ return [
         'route' => '/admin/products/create',
         'title' => 'Add Product',
         'visibility' => true,
-        'permission' => '',
+        'permission' => true,
+        'active' => '$current_route == "/admin/products/create"',
       ],
       'index' =>
       [
@@ -25,7 +27,8 @@ return [
         'route' => '/admin/products',
         'title' => 'List Products',
         'visibility' => true,
-        'permission' => '',
+        'permission' => true,
+        'active' => false,
       ],
     ],
   ],
@@ -35,8 +38,9 @@ return [
     'route' => '',
     'title' => 'Category',
     'class' => '',
-    'visibility' => true,
-    'permission' => '',
+    'visibility' => false,
+    'permission' => true,
+    'active' => false,
     'sub_link' =>
     [
       'create' =>
@@ -45,7 +49,8 @@ return [
         'route' => '/admin/categories/create',
         'title' => 'Add Category',
         'visibility' => true,
-        'permission' => '',
+        'permission' => true,
+        'active' => '$current_route == "/admin/categories/create"',
       ],
       'index' =>
       [
@@ -53,7 +58,8 @@ return [
         'route' => '/admin/categories',
         'title' => 'List Categories',
         'visibility' => true,
-        'permission' => '',
+        'permission' => true,
+        'active' => false,
       ],
     ],
   ],
@@ -63,8 +69,9 @@ return [
     'route' => '',
     'title' => 'Order',
     'class' => '',
-    'visibility' => true,
-    'permission' => '',
+    'visibility' => false,
+    'permission' => true,
+    'active' => false,
     'sub_link' =>
     [
       'create' =>
@@ -73,7 +80,8 @@ return [
         'route' => '/admin/orders/create',
         'title' => 'Add Order',
         'visibility' => true,
-        'permission' => '',
+        'permission' => true,
+        'active' => '$current_route == "/admin/orders/create"',
       ],
       'index' =>
       [
@@ -81,7 +89,39 @@ return [
         'route' => '/admin/orders',
         'title' => 'List Orders',
         'visibility' => true,
-        'permission' => '',
+        'permission' => true,
+        'active' => false,
+      ],
+    ],
+  ],
+  'Payment' =>
+  [
+    'icon' => 'fa-brands fa-product-hunt',
+    'route' => '',
+    'title' => 'Payment',
+    'class' => '',
+    'visibility' => false,
+    'permission' => true,
+    'active' => false,
+    'sub_link' =>
+    [
+      'create' =>
+      [
+        'icon' => 'fa-solid fa-plus',
+        'route' => '/admin/orders/create',
+        'title' => 'Add Payment',
+        'visibility' => true,
+        'permission' => true,
+        'active' => '$current_route == "/admin/orders/create"',
+      ],
+      'index' =>
+      [
+        'icon' => 'fa-solid fa-list',
+        'route' => '/admin/orders',
+        'title' => 'List Orders',
+        'visibility' => true,
+        'permission' => true,
+        'active' => false,
       ],
     ],
   ],

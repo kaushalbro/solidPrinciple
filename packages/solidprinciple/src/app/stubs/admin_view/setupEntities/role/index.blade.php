@@ -1,23 +1,24 @@
 @extends('backend.master')
 @section('title')
-    {{ classname }} | {{ action }}
+    Role | index
 @stop
 @section('breadcum')
-    @include('backend.admin.includes.breadcum',['heading'=>"{{ classname }}","sub_heading"=>'{{ action }}'])
+    @include('backend.admin.includes.breadcum',['heading'=>"Role","sub_heading"=>'index'])
 @stop
 @section('content')
     @include("backend.admin.includes.errors")
     <div class="row ">
             <div class="col-12 text-right mb-2">
-                <a href="{{ model_create_route }}" class="btn btn-primary" > Add {{ classname }}</a>
+                <a href="{{ route('roles.create') }}" class="btn btn-primary" > Add Role</a>
             </div>
         <div class="col-12">
             <table class="table table-bordered datatable">
                 <thead>
                 <tr>
                     <th width="10px">S.N</th>
-                    {{ table_headers }}
-                    <th width="10%">Action</th>
+                    <th width="">Name</th>
+                    <th width="15%">Total Permissions</th>
+                    <th width="10px">Action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -35,7 +36,7 @@
          order: [[0, 'desc']],
          ajax:{
             method: 'GET',
-            url: "{{ datatable_list_route }}",
+            url: "{{ route('roles.list') }}",
             data: function(d) {
                d.startDate = '';
                d.endDate = '';
@@ -44,7 +45,8 @@
             },
             columns: [
                 {data: 'DT_RowIndex', name: 'DT_RowIndex'},
-                {{ table_header_data }}
+                {data: 'name', name: 'name'},
+                {data: 'permissions', name: 'permissions'},
                 {data: 'action', name: 'action'},
             ]
         });
@@ -53,5 +55,5 @@
             $("[name='DataTables_Table_0_length']").css("margin-right", "10px");
         });
 </script>
-@include("backend.admin.{{ routeprefix }}.script")
+@include("backend.admin.role.script")
 @endpush

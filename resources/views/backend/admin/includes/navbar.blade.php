@@ -56,7 +56,7 @@
                     </div>
                 </div>
                 <div class="dropdown-divider" style=""></div>
-                <a href="#" class="dropdown-item">
+                <a href="{{'/admin/users/'.\Illuminate\Support\Facades\Auth::id().'/edit'}}" class="dropdown-item">
                     <i class="fa-regular fa-user mr-2"></i>
                     Manage Account
                 </a>

@@ -26,4 +26,19 @@
 
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.3/css/dataTables.dataTables.min.css">
     <script src="https://cdn.datatables.net/2.0.3/js/dataTables.min.js"></script>
+
+    <style>
+        *{
+         font-family: Roboto,sans-serif;
+        }
+        .datatable{
+            box-shadow: 0 20px 40px rgba(8, 112, 184, 0.7);
+        }
+        #dt-search-0{
+            max-width: 160px;
+        }
+        p{
+            font-size: 15px;
+        }
+    </style>
 </head>

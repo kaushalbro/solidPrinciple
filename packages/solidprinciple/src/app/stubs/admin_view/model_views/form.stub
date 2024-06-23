@@ -1,3 +1,4 @@
+@php($is_edit=$type=='edit'?:false)
 <div class="row">
 {{ input }}
 </div>

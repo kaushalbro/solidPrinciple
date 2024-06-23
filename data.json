@@ -10,12 +10,11 @@
         "description|string|notnull|no-default",
         "price|float|nullable|no-default",
         "status|enum|notnullable|active|active:inactive",
-        "stock_quantity|float|nullable|no-default",
-        "category_id|unsignedInteger|nullable|no-default"
+        "stock_quantity|float|nullable|no-default"
     ],
     "table_foreign_key": [
-        "user_id=unsigned_integer|users=>id|nullable|cascade=>delete,update",
-        "category_id=unsigned_integer|categories=>id|notnull|cascade=>delete,update"
+        "user_id:unsigned_integer|users:id|nullable|cascade:delete,update",
+        "category_id:unsigned_integer|categories:id|notnull|cascade:delete,update"
     ],
     "request_rules":[
         "name-required|string",
@@ -73,7 +72,8 @@
             "'Category'=>category_id|select",
             "'Image'=>image|file",
             "'Status'=>status|onOff|active:inactive"
-        ]    },
+        ]    }
+,
     {
         "model_name": "Payment",
         "fillable":["name", "description","user_id", "mode"],
@@ -82,31 +82,8 @@
             "name|string|nullable|no-default",
             "description|string|notnull|no-default"],
         "table_foreign_key": [
-            "user_id=unsigned_integer|users=>id|nullable|cascade=>delete,update",
-            "category_id=unsigned_integer|categories=>id|notnull|cascade=>delete,update"
-        ],
-        "request_rules":["name-required|string","description-nullable|string", "user_id-required|integer"],
-        "routes": ["order"],
-        "view_input": [
-            "'Name'=>name|text",
-            "'Description'=>description|textarea",
-            "'Price'=>price|float",
-            "'Stock Quantity'=>stock_quantity|float",
-            "'Category'=>category_id|select",
-            "'Image'=>image|file",
-            "'Status'=>status|onOff|active:inactive"
-        ]
-    },
-    {
-        "model_name": "Payment",
-        "fillable":["name", "description","user_id", "mode"],
-        "sidebar": [true, "icon|fa-brands fa-product-hunt", "sub_link=create,index"],
-        "table_column_name": [
-            "name|string|nullable|no-default",
-            "description|string|notnull|no-default"],
-        "table_foreign_key": [
-            "user_id=unsigned_integer|users=>id|nullable|cascade=>delete,update",
-            "category_id=unsigned_integer|categories=>id|notnull|cascade=>delete,update"
+            "user_id:unsigned_integer|users:id|nullable|cascade:delete,update",
+            "category_id:unsigned_integer|categories:id|notnull|cascade:delete,update"
         ],
         "request_rules":["name-required|string","description-nullable|string", "user_id-required|integer"],
         "routes": ["order"],

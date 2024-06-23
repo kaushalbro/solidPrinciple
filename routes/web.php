@@ -27,19 +27,13 @@ Route::get('/', function () {
 //})->middleware(['auth'])->name('dashboard');
 //
 
-
-
-
 Route::get('/admin/dashboard', function () {
     return view('backend.admin.dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-Route::get('/admin/product/create', function () {
-    return view('backend.admin.product.create');
-})->middleware(['auth'])->name('product');
-
 Route::group(['middleware'=>"auth",'prefix' => 'admin/products', 'as' => 'products.'], function(){
     Route::get('/', [ProductController::class, 'index'])->name('index');
+    Route::get('list', [ProductController::class, 'getList'])->name('list');
     Route::get('create', [ProductController::class, 'create'])->name('create');
     Route::get('{id}/edit', [ProductController::class, 'edit'])->name('edit');
     Route::get('{id}/show', [ProductController::class, 'show'])->name('show');
@@ -48,6 +42,7 @@ Route::group(['middleware'=>"auth",'prefix' => 'admin/products', 'as' => 'produc
 });
 Route::group(['middleware'=>"auth",'prefix' => 'admin/categories', 'as' => 'categories.'], function(){
     Route::get('/', [CategoryController::class, 'index'])->name('index');
+    Route::get('list', [CategoryController::class, 'getList'])->name('list');
     Route::get('create', [CategoryController::class, 'create'])->name('create');
     Route::get('{id}/edit', [CategoryController::class, 'edit'])->name('edit');
     Route::get('{id}/show', [CategoryController::class, 'show'])->name('show');
@@ -56,6 +51,7 @@ Route::group(['middleware'=>"auth",'prefix' => 'admin/categories', 'as' => 'cate
 });
 Route::group(['middleware'=>"auth",'prefix' => 'admin/orders', 'as' => 'orders.'], function(){
     Route::get('/', [OrderController::class, 'index'])->name('index');
+    Route::get('list', [OrderController::class, 'getList'])->name('list');
     Route::get('create', [OrderController::class, 'create'])->name('create');
     Route::get('{id}/edit', [OrderController::class, 'edit'])->name('edit');
     Route::get('{id}/show', [OrderController::class, 'show'])->name('show');
@@ -71,6 +67,8 @@ Route::group(['middleware'=>"auth",'prefix' => 'admin/users', 'as' => 'users.'],
     Route::get('{id}/show', [UserController::class, 'show'])->name('show');
     Route::post('/', [UserController::class, 'store'])->name('store');
     Route::patch('{id}', [UserController::class, 'update'])->name('update');
+    Route::get  ('{id}/delete', [UserController ::class, 'destroy'])->name('destroy');
+
 });
 Route::group(['middleware'=>"auth",'prefix' => 'admin/roles', 'as' => 'roles.'], function(){
     Route::get('/', [RoleController::class, 'index'])->name('index');
@@ -79,7 +77,8 @@ Route::group(['middleware'=>"auth",'prefix' => 'admin/roles', 'as' => 'roles.'],
     Route::get('{id}/edit', [RoleController::class, 'edit'])->name('edit');
     Route::get('{id}/show', [RoleController::class, 'show'])->name('show');
     Route::post('/', [RoleController::class, 'store'])->name('store');
-    Route::patch('{id}', [RoleController::class, 'update'])->name('update');
+    Route::get  ('{id}/delete', [RoleController::class, 'destroy'])->name('destroy');
+    Route::put('{id}', [RoleController::class, 'update'])->name('update');
 });
 
 

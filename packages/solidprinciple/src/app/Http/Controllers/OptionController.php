@@ -3,8 +3,8 @@ namespace Devil\Solidprinciple\app\Http\Controllers;
 
 use Devil\Solidprinciple\app\Http\Controllers\Admin\MakeAdminPanelController;
 use Devil\Solidprinciple\app\Traits\CheckConfigFile;
-use Devil\Solidprinciple\app\Traits\FileFolderManage;
 use Devil\Solidprinciple\app\Traits\GetPath;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Str;
 

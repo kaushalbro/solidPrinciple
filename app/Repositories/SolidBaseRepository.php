@@ -28,4 +28,21 @@ class SolidBaseRepository implements SolidInterface
      public function getById($id){
         return $this->model->findOrFail($id);
      }
+
+    public function getByIdWith($id, $withs)
+    {
+        return $this->model->with($withs)->where('id', $id)->first();
+    }
+    public function getSelectAll()
+    {
+        return $this->model->all()->sortBy('name')->pluck('name', 'id');
+    }
+    public function getNext($id)
+    {
+        return $this->model->where('id', '>', $id)->orderBy('id', 'ASC')->first();
+    }
+    public function getPrevious($id)
+    {
+        return $this->model->where('id', '<', $id)->orderBy('id', 'DESC')->first();
+    }
 }

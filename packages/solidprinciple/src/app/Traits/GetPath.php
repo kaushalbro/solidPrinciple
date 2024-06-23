@@ -24,6 +24,9 @@ trait GetPath
             case 'model':
                 $path = config('solid.model_path');
                 break;
+            case 'repository':
+                $path = config('solid.repo_path');
+                break;
             case 'config':
                 $path = 'config';
                 break;

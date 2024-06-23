@@ -16,10 +16,18 @@ class {{ classname }}Controller extends Controller
 
     protected $repository;
     protected $view_path="backend.admin.{{ viewfolder }}.";
+    protected $model;
 
 
     public function __construct()
     {
+        $this->middleware('auth');
+        $this->middleware(['permission:{{ viewfolder }}-view|{{ viewfolder }}-create|{{ viewfolder }}-edit|{{ viewfolder }}-delete'], ['only' => ['show']]);
+        $this->middleware(['permission:{{ viewfolder }}-create'], ['only' => ['create', 'store', 'show']]);
+        $this->middleware(['permission:{{ viewfolder }}-edit'], ['only' => ['edit', 'update', 'show']]);
+        $this->middleware(['permission:{{ viewfolder }}-delete'], ['only' => ['destroy']]);
+        $this->middleware(['permission:{{ viewfolder }}-view'], ['only' => ['index']]);
+        $this->model = new {{ classname }}();
         $this->repository =  new {{ classname }}Repository(new {{ classname }}());
     }
 

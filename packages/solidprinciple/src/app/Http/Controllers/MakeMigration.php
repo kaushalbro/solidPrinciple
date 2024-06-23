@@ -47,13 +47,13 @@ class MakeMigration extends Controller
             foreach ($foreign_column as $key_2 => $value){
                 $first_hierarchy=explode('|',$value);
                 $foreing_col= $first_hierarchy[0];
-                $table_column_name=explode('=',$foreing_col)[0];
-                $data_type=explode('=',$foreing_col)[1];
+                $table_column_name=explode(':',$foreing_col)[0];
+                $data_type=explode(':',$foreing_col)[1];
                 $references=$first_hierarchy[1];
-                $references_table=explode('=>',$references)[0];
-                $references_table_column=explode('=>',$references)[1];
+                $references_table=explode(':',$references)[0];
+                $references_table_column=explode(':',$references)[1];
                 $null_1=$first_hierarchy[2]=='nullable'?'->nullable()':'';
-                $for_col= '$table->integer("'.$table_column_name.'")'.$null_1.'->unsigned()';
+                $for_col= '$table->unsignedBigInteger("'.$table_column_name.'")'.$null_1;
                 $column.=$for_col.';'."\n\t\t\t";
                 $reference_key='$table->foreign("'.$table_column_name.'")->references("'.$references_table_column.'")->on("'.$references_table.'")';
                 $column.=$reference_key.';'."\n\t\t\t";
