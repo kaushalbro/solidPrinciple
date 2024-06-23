@@ -43,7 +43,7 @@
                     </ul>
                 </li>
                 @foreach( config('sidebar') as $key => $main_link)
-                    @if($main_link['visibility'] && $main_link['permission'])
+                    @if(isset($main_link['visibility']) && $main_link['visibility'] && isset($main_link['permission']) && $main_link['permission'])
                     @php(collect($main_link))
                     <li class="nav-item {{$main_link['active']?'menu-open':'menu-close'}}">
                         <a href="#" class="nav-link" data-model="{{$main_link['title']}}">

@@ -1,18 +1,19 @@
 <?php
-$current_route='';
+$current_route="request()->getRequestUri()";
+
 return [
-  'Product' =>
+  'Product' => 
   [
     'icon' => 'fa-brands fa-product-hunt',
     'route' => '',
     'title' => 'Product',
     'class' => '',
-    'visibility' => false,
+    'visibility' => true,
     'permission' => true,
     'active' => false,
-    'sub_link' =>
+    'sub_link' => 
     [
-      'create' =>
+      'create' => 
       [
         'icon' => 'fa-solid fa-plus',
         'route' => '/admin/products/create',
@@ -21,7 +22,7 @@ return [
         'permission' => true,
         'active' => '$current_route == "/admin/products/create"',
       ],
-      'index' =>
+      'index' => 
       [
         'icon' => 'fa-solid fa-list',
         'route' => '/admin/products',
@@ -32,18 +33,18 @@ return [
       ],
     ],
   ],
-  'Category' =>
+  'Category' => 
   [
     'icon' => 'fa-brands fa-product-hunt',
     'route' => '',
     'title' => 'Category',
     'class' => '',
-    'visibility' => false,
+    'visibility' => true,
     'permission' => true,
     'active' => false,
-    'sub_link' =>
+    'sub_link' => 
     [
-      'create' =>
+      'create' => 
       [
         'icon' => 'fa-solid fa-plus',
         'route' => '/admin/categories/create',
@@ -52,7 +53,7 @@ return [
         'permission' => true,
         'active' => '$current_route == "/admin/categories/create"',
       ],
-      'index' =>
+      'index' => 
       [
         'icon' => 'fa-solid fa-list',
         'route' => '/admin/categories',
@@ -63,18 +64,18 @@ return [
       ],
     ],
   ],
-  'Order' =>
+  'Order' => 
   [
     'icon' => 'fa-brands fa-product-hunt',
     'route' => '',
     'title' => 'Order',
     'class' => '',
-    'visibility' => false,
+    'visibility' => true,
     'permission' => true,
     'active' => false,
-    'sub_link' =>
+    'sub_link' => 
     [
-      'create' =>
+      'create' => 
       [
         'icon' => 'fa-solid fa-plus',
         'route' => '/admin/orders/create',
@@ -83,7 +84,7 @@ return [
         'permission' => true,
         'active' => '$current_route == "/admin/orders/create"',
       ],
-      'index' =>
+      'index' => 
       [
         'icon' => 'fa-solid fa-list',
         'route' => '/admin/orders',
@@ -94,18 +95,18 @@ return [
       ],
     ],
   ],
-  'Payment' =>
+  'Payment' => 
   [
     'icon' => 'fa-brands fa-product-hunt',
     'route' => '',
     'title' => 'Payment',
     'class' => '',
-    'visibility' => false,
+    'visibility' => true,
     'permission' => true,
     'active' => false,
-    'sub_link' =>
+    'sub_link' => 
     [
-      'create' =>
+      'create' => 
       [
         'icon' => 'fa-solid fa-plus',
         'route' => '/admin/orders/create',
@@ -114,7 +115,7 @@ return [
         'permission' => true,
         'active' => '$current_route == "/admin/orders/create"',
       ],
-      'index' =>
+      'index' => 
       [
         'icon' => 'fa-solid fa-list',
         'route' => '/admin/orders',
@@ -125,4 +126,67 @@ return [
       ],
     ],
   ],
+  'Kaushalgg' => 
+  [
+    'icon' => 'fa-brands fa-product-hunt',
+    'route' => '',
+    'title' => 'Kaushalgg',
+    'class' => '',
+    'visibility' => true,
+    'permission' => true,
+    'active' => false,
+    'sub_link' => 
+    [
+      'create' => 
+      [
+        'icon' => 'fa-solid fa-plus',
+        'route' => '/admin/orders/create',
+        'title' => 'Add Kaushalgg',
+        'visibility' => true,
+        'permission' => true,
+        'active' => '$current_route == "/admin/orders/create"',
+      ],
+      'index' => 
+      [
+        'icon' => 'fa-solid fa-list',
+        'route' => '/admin/orders',
+        'title' => 'List Orders',
+        'visibility' => true,
+        'permission' => true,
+        'active' => false,
+      ],
+    ],
+  ],
+  
+  'Hari' =>
+  [
+    'icon' => 'fa-brands fa-product-hunt',
+    'route' => '',
+    'title' => 'Hari',
+    'class' => '',
+    'visibility' => true,
+    'permission' => true,
+    'active' => true,
+    'sub_link' =>
+    [
+      'create' =>
+      [
+        'icon' => 'fa-solid fa-plus',
+        'route' => '',
+        'title' => 'Add Hari',
+        'visibility' => true,
+        'permission' => true,
+        'active' => '',
+      ],
+      'index' =>
+      [
+         'icon' => 'fa-solid fa-list',
+         'route' => '',
+         'title' => 'List Haris',
+         'visibility' => true,
+         'permission' => true,
+         'active' => true,
+      ],
+  ],
+],'[solid_auto_generated_sidebar]' => NULL,
 ];

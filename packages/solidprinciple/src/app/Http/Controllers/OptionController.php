@@ -4,13 +4,14 @@ namespace Devil\Solidprinciple\app\Http\Controllers;
 use Devil\Solidprinciple\app\Http\Controllers\Admin\MakeAdminPanelController;
 use Devil\Solidprinciple\app\Traits\CheckConfigFile;
 use Devil\Solidprinciple\app\Traits\GetPath;
+use Devil\Solidprinciple\app\Traits\MakeSidebar;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Str;
 
 class OptionController extends Controller
 {
-    use CheckConfigFile,GetPath;
+    use CheckConfigFile,GetPath, MakeSidebar;
     public $options,$arguments;
     public function __construct($options,$arguments)
     {
@@ -78,6 +79,9 @@ class OptionController extends Controller
                 $this->makeRepoCrud($model_name?( $this->makeModelRepoCrud($model_name)):$data_path);
                 break;
             default:
+                if ($model_name){
+                    $this->makeRepoCrud($model_name?( $this->makeModelRepoCrud($model_name)):$data_path);
+                }
                  exit();
         }
 
@@ -100,7 +104,7 @@ class OptionController extends Controller
         //Generating View
         new MakeView($data_path, $this->path('view_admin'));
 //            new MakeView(is_array($data_path)?$data_path:file_get_contents($data_path), $this->path('view_admin'));
-
+        $this->appendToSidebar($data_path);
         //Generating Routes
         //new MakeRoute($data_path);
     }
