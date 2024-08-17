@@ -60,9 +60,8 @@ class MakeAdminPanelController extends Controller
             $file_name=$dest_path.$file.'.blade.php';
             if ($file=="sidebar"){
                  $this->makeSidebar($this->model_data);
-            }else{
-                $this->makeFile($file_name, $this->getStubContents($include_sub_path,[]));
             }
+            $this->makeFile($file_name, $this->getStubContents($include_sub_path,[]));
         }
         $source_path= $this->stub_path.'/admin_resources.zip';
         $destination_path= base_path('public').'/admin_resources.zip';
