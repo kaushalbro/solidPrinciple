@@ -78,7 +78,7 @@
                     <a href="#" class="nav-link" >
                         <i class="nav-icon fa-solid fa-users"></i>
                         <p>
-                            User and Roles
+                            User Management
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
@@ -101,7 +101,7 @@
                     <a href="#" class="nav-link" >
                         <i class="nav-icon fa-solid fa-gear"></i>
                         <p>
-                            Application Setting
+                            Settings
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
@@ -120,7 +120,14 @@
                         </li>
                     </ul>
                 </li>
-
+                <li class="nav-item">
+                    <a href="/activity-logs" class="nav-link" >
+                        <i class="nav-icon fa-solid fa-history"></i>
+                        <p class="text-bold">
+                            Activity Logs
+                        </p>
+                    </a>
+                </li>
             </ul>
         </nav>
     </div>

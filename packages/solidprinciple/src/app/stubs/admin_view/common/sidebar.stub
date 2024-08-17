@@ -78,7 +78,7 @@
                     <a href="#" class="nav-link" >
                         <i class="nav-icon fa-solid fa-users"></i>
                         <p>
-                            User and Roles
+                            User Management
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
