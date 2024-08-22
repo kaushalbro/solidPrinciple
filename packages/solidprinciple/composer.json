@@ -21,6 +21,8 @@
 
     "minimum-stability": "dev",
     "require": {
-      "ext-zip": "*"
+      "ext-zip": "*",
+      "spatie/laravel-permission": "*",
+      "yajra/laravel-datatables-oracle": "*"
     }
 }
