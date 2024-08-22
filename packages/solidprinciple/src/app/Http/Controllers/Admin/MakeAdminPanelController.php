@@ -150,5 +150,7 @@ class MakeAdminPanelController extends Controller
             }
 
         }
+        //MAKING Roles Seeder
+        $this->makeFile($this->path('seeder_path').'/UserRolePermissionSeeder.php', $this->getStubContents(__DIR__ . '/../../../stubs/UserRolePermissionSeeder.stub',[]));
     }
 }

@@ -44,12 +44,7 @@
     "view_for": "frontend",
     "view_input": [
         "'Name'=>name|text",
-        "'Description'=>description|textarea",
-        "'Price'=>price|float",
-        "'Stock Quantity'=>stock_quantity|float",
-        "'Category'=>category_id|select",
-        "'Image'=>image|file",
-        "'Status'=>status|onOff|active:inactive"
+        "'Description'=>description|textarea"
     ]
 }
 ]

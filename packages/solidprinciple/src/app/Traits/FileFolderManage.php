@@ -33,6 +33,11 @@ trait FileFolderManage
 
             $file_name= end($path_array);
             $is_file =  file_exists($filePath);
+//            if (config('solid.override_previous_file_data')){
+//                if ($is_file){
+////                    unlink($filePath);
+//                }
+//            }
             if (!$is_file){
                 file_put_contents($path, $data);
                 error_log(sprintf("\033[32m%s\033[0m",$path_array[count($path_array)-2]. ' '.end($path_array).' File Created.'));

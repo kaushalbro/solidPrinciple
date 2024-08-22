@@ -36,6 +36,9 @@ trait GetPath
             case 'view':
                 $path = config('solid.view_path');
                 break;
+            case 'seeder_path':
+                $path = config('solid.seeder_path');
+                break;
             case 'view_admin':
                 $path = config('solid.backend_admin_view_path');
                 break;
