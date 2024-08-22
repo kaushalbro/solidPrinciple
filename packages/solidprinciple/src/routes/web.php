@@ -14,10 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('solid', function () {
-    $productRepo = new \App\Repositories\ProductRepository(new \App\Models\Product());
-    $userRepo = new \App\Repositories\UserRepository(new \App\Models\User());
-    $userRepo->create(['name'=>'kaushal','email'=>'kaushal@gmail.com','password'=>'kaushal123']);
-    dd($userRepo->getAll());
+//    $userRepo->create(['name'=>'kaushal','email'=>'official.kaushalg@gmail.com','password'=>'kaushal123']);
+//    dd($userRepo->getAll());
 //    $productRepo->create([
 //        'name' => 'Product 1',
 //        'description' => 'Your description value',
