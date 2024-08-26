@@ -17,6 +17,7 @@ class {{ classname }}Controller extends Controller
     protected $repository;
     protected $view_path="backend.admin.{{ viewfolder }}.";
     protected $model;
+    protected $user_permissions;
 
 
     public function __construct()
@@ -28,6 +29,7 @@ class {{ classname }}Controller extends Controller
         $this->middleware(['permission:{{ viewfolder }}-delete'], ['only' => ['destroy']]);
         $this->middleware(['permission:{{ viewfolder }}-view'], ['only' => ['index']]);
         $this->model = new {{ classname }}();
+        $this->user_permissions = "";
         $this->repository =  new {{ classname }}Repository(new {{ classname }}());
     }
 

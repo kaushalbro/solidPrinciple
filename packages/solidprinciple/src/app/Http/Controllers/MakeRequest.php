@@ -3,19 +3,26 @@ namespace Devil\Solidprinciple\app\Http\Controllers;
 
 use Devil\Solidprinciple\app\Traits\FileFolderManage;
 use Devil\Solidprinciple\app\Traits\GetStubContents;
+use Devil\Solidprinciple\app\Traits\HelperTrait;
 use Illuminate\Routing\Controller;
 
 class MakeRequest extends Controller
 {
-    use FileFolderManage, GetStubContents;
+    use FileFolderManage, GetStubContents,HelperTrait;
 
-    protected $model_data,$stub_path,$dir_name;
+    protected $model_data,$stub_path,$dir_name, $is_api;
     public function __construct($model_data_path)
     {
         $data =is_array($model_data_path)?$model_data_path[1]:file_get_contents($model_data_path);
         $this->model_data =$data;
         $this->stub_path =__DIR__.'/../../stubs/request.stub';
+        $this->is_api = $this->frontend_request_type();
         $this->dir_name='app/Http/Requests';
+        if ($this->is_api){
+            $this->stub_path =__DIR__.'/../../stubs/api/request.stub';
+            $this->dir_name='app/Http/Requests/API';
+            $this->makeDirectory($this->dir_name);
+        }
         $this->make();
     }
 
@@ -40,8 +47,10 @@ class MakeRequest extends Controller
                     }
                 }
             }
+
+            $name_space= $this->is_api?'App\\Http\\Requests\\API':'App\\Http\\Requests';
             $contents =$this->getStubContents($this->stub_path,[
-                'namespace' => 'App\\Http\\Requests',
+                'namespace' =>$name_space,
                 'rootNamespace'=>'App\\',
                 'classname'=> ucwords($model_name),
                 'rules'=>$rules
