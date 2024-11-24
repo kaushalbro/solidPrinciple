@@ -23,7 +23,7 @@
         "stock_quantity-required|numeric|min:|max:10",
         "category_id-required|numeric"],
     "routes": ["product"],
-    "view_for": "frontend",
+    "view_for": "admin_panel",
     "view_input": [
         "'Name'=>name|text",
         "'Description'=>description|textarea",

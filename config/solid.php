@@ -29,8 +29,6 @@ return [
 
         'request_path'=>"app/Http/Requests",
 
-        'has_blade_view'=>false,
-
         'view_path' =>"resources/views",
 
         'migration_path'=>"database/migrations",
@@ -38,6 +36,8 @@ return [
         'seeder_path'=>"database/seeders",
 
         'backend_admin_view_path' => "resources/views/backend/admin",
+
+        'has_blade_view'=>false,
 
         'frontend_view_path' => "resources/views/frontend",
 

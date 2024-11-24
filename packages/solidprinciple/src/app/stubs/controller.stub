@@ -17,7 +17,9 @@ class {{ classname }}Controller extends Controller
     protected $repository;
     protected $view_path="backend.admin.{{ viewfolder }}.";
     protected $model;
+    protected $is_api;
     protected $user_permissions;
+    protected $route_prefix="{{ viewfolder }}s";
 
 
     public function __construct()
@@ -28,6 +30,7 @@ class {{ classname }}Controller extends Controller
         $this->middleware(['permission:{{ viewfolder }}-edit'], ['only' => ['edit', 'update', 'show']]);
         $this->middleware(['permission:{{ viewfolder }}-delete'], ['only' => ['destroy']]);
         $this->middleware(['permission:{{ viewfolder }}-view'], ['only' => ['index']]);
+        $this->$is_api = \request()->expectsJson();
         $this->model = new {{ classname }}();
         $this->user_permissions = "";
         $this->repository =  new {{ classname }}Repository(new {{ classname }}());
@@ -50,33 +53,15 @@ class {{ classname }}Controller extends Controller
                     ->rawColumns(['action'])
                     ->make(true);
     }
-        public function actionButtons(${{ viewfolder }}){
-             $is_auth_id=(Auth::id()==${{ viewfolder }}->id)?true:false;
-            $actionBtns='';
-                 $show_btn = '<a href="'.route("{{ viewfolder }}s.show", ${{ viewfolder }}->id).'" class="actions btn btn-sm btn-info" data-tooltip="true" title="Show">
-                    <i class="far fa-eye" aria-hidden="true"></i></a>';
-               //   if(!$is_auth_id)  }}
-                 // {
-                      $delete_btn= '<a class="btn btn-danger btn-sm delete-asset" title="delete" onclick="return false;">
-                    <i class="fas fa-trash"></i></a>';
-                      $edit_btn= '<a href="/" class="actions btn btn-sm btn-warning" data-tooltip="true" title="Edit">
-                    <i class="fas fa-pencil-alt" aria-hidden="true"></i></a>';
-                  //}else{
-                    //  $delete_btn ='';
-                    //  $edit_btn='';
-                  //}
-                $actionBtns = '
-                    <nobr>
-                        '.$show_btn.' '.$edit_btn.' '.$delete_btn.'
-                    </nobr>
-                    ';
-                return $actionBtns;
-        }
+   public function actionButtons(${{ viewfolder }}){
+           $is_auth_id=(Auth::id()==${{ viewfolder }}->id)?true:false;
+           return $this->generateActionButtons(${{ viewfolder }});
+   }
 
     public function show($id)
     {
          ${{ viewfolder }}=$this->repository->getById($id);
-         if(\request()->expectsJson()){
+         if($is_api){
               return response()->json([]);
          }
          return view($this->view_path."show",compact('{{ viewfolder }}'));
@@ -85,6 +70,9 @@ class {{ classname }}Controller extends Controller
     public function edit($id)
     {
           ${{ viewfolder }}=$this->repository->getById($id);
+          if($this->is_api){
+            return '';
+          }
           return view($this->view_path."edit",compact('{{ viewfolder }}'));
     }
 
@@ -97,7 +85,7 @@ class {{ classname }}Controller extends Controller
     {
       try {
             DB::beginTransaction();
-            $attributes= $request->only($this->repository->getFillable());
+            $attributes= $request->only($this->model->getFillable());
             $this->repository->create($attributes);
             DB::commit();
             if($request->expectsJson()){
@@ -117,16 +105,16 @@ class {{ classname }}Controller extends Controller
     {
       try {
             DB::beginTransaction();
-            $attributes= $request->only($this->repository->getFillable());
+            $attributes= $request->only($this->model->getFillable());
             $this->repository->update($id,$attributes);
             DB::commit();
             if($request->expectsJson()){
               return response()->json([]);
             }
-            return redirect()->route('')->with('success','{{ classname }} updated successfully.');
+            return redirect()->route($this->route_prefix.'.index')->with('success','{{ classname }} updated successfully.');
           } catch (\Exception $e) {
             DB::rollback();
-            return redirect()->back()->withInput()->with('failed', "Failed to update. {{ classname }} : " .$e->getMessage());
+            return redirect()->route($this->route_prefix.'.index')->withInput()->with('failed', "Failed to update. {{ classname }} : " .$e->getMessage());
           }
     }
 
@@ -136,13 +124,27 @@ class {{ classname }}Controller extends Controller
             DB::beginTransaction();
             $this->repository->delete($id);
             DB::commit();
-            if($request->expectsJson()){
+            if($is_api){
               return response()->json([]);
             }
-            return redirect()->route('')->with('success','{{ classname }} deleted successfully.');
+            return redirect()->back()->with('success','{{ classname }} deleted successfully.');
           } catch (\Exception $e) {
              DB::rollback();
              return redirect()->back()->withInput()->with('failed', 'Failed to delete {{ classname }} : '.$e->getMessage());
           }
     }
+     public function generateActionButtons($model){
+            $show_btn = '<a href="'.route($this->route_prefix.".show", $model->id).'" class="actions btn btn-sm btn-info" data-tooltip="true" title="Show">
+                        <i class="far fa-eye" aria-hidden="true"></i></a>';
+            $delete_btn= '<form style="display:inline" action="'. route($this->route_prefix.'.destroy' , $model->id ).'" method="POST">
+                                        '.csrf_field(). method_field("DELETE").'
+                                        <button class="btn btn-danger btn-sm delete-asset" title="delete" onclick="deleteModel()">
+                                        <i class="fas fa-trash" aria-hidden="true"></i>
+                                    </button>
+
+                                        </form>';
+            $edit_btn= '<a href="'.route($this->route_prefix.'.edit', $model->id).'" class="actions btn btn-sm btn-warning" data-tooltip="true" title="Edit">
+                        <i class="fas fa-pencil-alt" aria-hidden="true"></i></a>';
+          return   '<nobr>'.$show_btn.' '.$edit_btn.' '.$delete_btn.'</nobr>';
+        }
 }

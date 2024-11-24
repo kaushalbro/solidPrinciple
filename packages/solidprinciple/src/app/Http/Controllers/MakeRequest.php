@@ -16,7 +16,7 @@ class MakeRequest extends Controller
         $data =is_array($model_data_path)?$model_data_path[1]:file_get_contents($model_data_path);
         $this->model_data =$data;
         $this->stub_path =__DIR__.'/../../stubs/request.stub';
-        $this->is_api = $this->frontend_request_type();
+        $this->is_api = $this->is_api();
         $this->dir_name='app/Http/Requests';
         if ($this->is_api){
             $this->stub_path =__DIR__.'/../../stubs/api/request.stub';
