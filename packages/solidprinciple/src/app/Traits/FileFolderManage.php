@@ -73,6 +73,8 @@ trait FileFolderManage
             return false;
         }
             $zip = new ZipArchive();
+        //            sudo apt update
+        //            sudo apt install php-zip
         if ($zip->open($file_destination) === true) {
             $zip->extractTo($extraction_path);
             $zip->close();
