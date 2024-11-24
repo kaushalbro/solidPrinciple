@@ -31,7 +31,7 @@ class DatabaseSeeder extends Seeder
             'status' => 1,
             'super_admin' => 1,
         ];
-//        $user->updateOrInsert($users);
+        $user->updateOrInsert($users);
 //        for ($i = 100010; $i < 2000000; $i++) {
 //            $users= [
 //                'name' => 'name_' . $i,
