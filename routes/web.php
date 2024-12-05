@@ -1,4 +1,4 @@
-<?php
+ <?php
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\OrderController;
@@ -32,13 +32,15 @@ Route::get('/admin/dashboard', function () {
 })->middleware(['auth'])->name('dashboard');
 
 Route::group(['middleware'=>"auth",'prefix' => 'admin/products', 'as' => 'products.'], function(){
-    Route::get('/', [ProductController::class, 'index'])->name('index');
-    Route::get('list', [ProductController::class, 'getList'])->name('list');
-    Route::get('create', [ProductController::class, 'create'])->name('create');
-    Route::get('{id}/edit', [ProductController::class, 'edit'])->name('edit');
-    Route::get('{id}/show', [ProductController::class, 'show'])->name('show');
-    Route::post('/', [ProductController::class, 'store'])->name('store');
-    Route::patch('{id}', [ProductController::class, 'update'])->name('update');
+    $controller= ProductController::class;
+    Route::get('/', [$controller, 'index'])->name('index');
+    Route::get('list', [$controller, 'getList'])->name('list');
+    Route::get('create', [$controller, 'create'])->name('create');
+    Route::get('{id}/edit', [$controller, 'edit'])->name('edit');
+    Route::get('{id}/show', [$controller, 'show'])->name('show');
+    Route::post('/', [$controller, 'store'])->name('store');
+    Route::patch('{id}', [$controller, 'update'])->name('update');
+    Route::delete('{id}/delete', [$controller, 'destroy'])->name('destroy');
 });
 Route::group(['middleware'=>"auth",'prefix' => 'admin/categories', 'as' => 'categories.'], function(){
     Route::get('/', [CategoryController::class, 'index'])->name('index');

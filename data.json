@@ -33,18 +33,5 @@
         "'Image'=>image|file",
         "'Status'=>status|onOff|active:inactive"
     ]
-},
-{
-    "model_name": "Category",
-    "fillable":["name", "Description"],
-    "sidebar": [true, "icon|fa-brands fa-product-hunt", "sub_link=create,index"],
-    "table_column_name": ["name|string|nullable|no-default","description|string|notnull|no-default"],
-    "request_rules":["name-required|string","description-nullable|string"],
-    "routes": ["category"],
-    "view_for": "frontend",
-    "view_input": [
-        "'Name'=>name|text",
-        "'Description'=>description|textarea"
-    ]
 }
 ]

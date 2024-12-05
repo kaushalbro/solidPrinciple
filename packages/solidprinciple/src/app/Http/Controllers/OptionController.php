@@ -5,8 +5,8 @@ use Devil\Solidprinciple\app\Http\Controllers\Admin\MakeAdminPanelController;
 use Devil\Solidprinciple\app\Traits\CheckConfigFile;
 use Devil\Solidprinciple\app\Traits\GetPath;
 use Devil\Solidprinciple\app\Traits\MakeSidebar;
-use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Str;
 
 class OptionController extends Controller
@@ -31,7 +31,11 @@ class OptionController extends Controller
         }
         $data_path=config('solid.raw_json_data_path');
         $model_name = $this->arguments['model_name'];
+        new MakeComponents();
         switch ($this->options) {
+            case $this->options['test']:
+                dd('fdfdf');
+                break;
             case $this->options['config']:
                 new MakeConfig();
                 break;
@@ -73,6 +77,7 @@ class OptionController extends Controller
                 new MakeLayout(($model_name=='frontend'||$model_name=='admin')?$model_name:"frontend",$data_path);
                 break;
             case $this->options['new-admin-panel']:
+                Artisan::call('solid:make --layout');
                 new MakeAdminPanelController($data_path);
                 break;
             case $this->options['repo-crud']:

@@ -15,5 +15,6 @@ class {{ classname }} extends Model
     protected $casts= {{ casts }};   //dates to cast
     protected $with= {{ with }};     // default relation
 
+    public IMAGE_PATH="storage/{{ table_name }}";
 
 }

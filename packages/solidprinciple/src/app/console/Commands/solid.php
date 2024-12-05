@@ -31,6 +31,7 @@ class solid extends Command
                          {--layout|layout  } layout_type? : Generate Layout}
                          {--newAdminPanel|new-admin-panel : Generate fresh Admin panel}
                          {--h|help}
+                         {--t|test}
 
                          ';
     /**

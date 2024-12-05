@@ -20,6 +20,7 @@ class UserController extends Controller
 
     protected $repository;
     protected $view_path="backend.admin.user.";
+    protected $route_prefix="users";
 
 
     public function __construct()
@@ -49,30 +50,9 @@ class UserController extends Controller
                     ->rawColumns(['action'])
                     ->make(true);
     }
-        public function actionButtons($user){
-             $is_auth_id=(Auth::id()==$user->id)?true:false;
-            $show_btn=$delete_btn=$edit_btn="";
-            $actionBtns='';
-            if (Auth::user()->can('user-view')){
-                $show_btn = '<a href="'.route("users.show", $user->id).'" class="actions btn btn-sm btn-info" data-tooltip="true" title="Show">
-                    <i class="far fa-eye" aria-hidden="true"></i></a>';
-            }
-            if (Auth::user()->can('user-edit')){
-                $edit_btn= '<a  href="'.route("users.edit", $user->id).'" class="actions btn btn-sm btn-warning" data-tooltip="true" title="Edit">
-                    <i class="fas fa-pencil-alt" aria-hidden="true"></i></a>';
-            }
-            if (Auth::user()->can('user-delete')){
-                $delete_btn= '
-                    <form style="display:contents" method="get" class="delete_form" action="' .route("users.destroy",$user->id). '">
-                    <button type="submit"  class="btn btn-danger btn-sm actions" title="delete" >
-                    <i class="fas fa-trash"></i></button>';
-            }
-            $actionBtns = '
-                    <nobr>
-                        '.$show_btn.' '.$edit_btn.' '.$delete_btn.'
-                    </nobr>
-                    ';
-            return $actionBtns;
+        public function actionButtons($model){
+            $attributes= ['model'=>$model, 'route_prefix'=>$this->route_prefix];
+            return  view('components.actionButtons',compact('attributes'));
         }
 
     public function show($id)
