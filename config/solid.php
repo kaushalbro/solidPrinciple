@@ -37,7 +37,7 @@ return [
 
         'backend_admin_view_path' => "resources/views/backend/admin",
 
-        'has_blade_view'=>false,
+         'is_api' => false,
 
         'frontend_view_path' => "resources/views/frontend",
 

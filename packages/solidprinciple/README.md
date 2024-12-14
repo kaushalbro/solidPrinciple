@@ -1,4 +1,8 @@
 Initial Package required: laravel breeze, spatie (for roles, logs, etc,)
+<br>composer require laravel/breeze --dev  php artisan breeze:install blade
+<br>composer require spatie/laravel-permission
+
+
 
 Steps: 1)(Optional): Add: the below code in app/Providers/AuthServiceProvider.php inside boot function at last</br>  
         Gate::before(function ($user, $ability) {</br>  

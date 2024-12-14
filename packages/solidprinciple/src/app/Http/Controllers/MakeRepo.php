@@ -3,14 +3,14 @@ namespace Devil\Solidprinciple\app\Http\Controllers;
 
 use Devil\Solidprinciple\app\Traits\FileFolderManage;
 use Devil\Solidprinciple\app\Traits\GetStubContents;
-use Illuminate\Routing\Controller;
 
-class MakeRepo extends Controller
+class MakeRepo extends BaseController
 {
     use FileFolderManage,GetStubContents;
     protected $className,$stub_path,$dir_name;
     public function __construct($className)
     {
+        parent::__construct();
         $this->className = $className;
         $this->stub_path =__DIR__.'/../../stubs/repo.stub';
         $this->dir_name='Repositories';

@@ -24,7 +24,7 @@ Route::get('/', function () {
 
 //Route::get('/dashboard', function () {
 //    return view('dashboard');
-//})->middleware(['auth'])->name('dashboard');
+//})->middleware(['auth'])->name('dashboard');/home/devil/Desktop/laravel_package_test
 //
 
 Route::get('/admin/dashboard', function () {
@@ -42,25 +42,6 @@ Route::group(['middleware'=>"auth",'prefix' => 'admin/products', 'as' => 'produc
     Route::patch('{id}', [$controller, 'update'])->name('update');
     Route::delete('{id}/delete', [$controller, 'destroy'])->name('destroy');
 });
-Route::group(['middleware'=>"auth",'prefix' => 'admin/categories', 'as' => 'categories.'], function(){
-    Route::get('/', [CategoryController::class, 'index'])->name('index');
-    Route::get('list', [CategoryController::class, 'getList'])->name('list');
-    Route::get('create', [CategoryController::class, 'create'])->name('create');
-    Route::get('{id}/edit', [CategoryController::class, 'edit'])->name('edit');
-    Route::get('{id}/show', [CategoryController::class, 'show'])->name('show');
-    Route::post('/', [CategoryController::class, 'store'])->name('store');
-    Route::patch('{id}', [CategoryController::class, 'update'])->name('update');
-});
-Route::group(['middleware'=>"auth",'prefix' => 'admin/orders', 'as' => 'orders.'], function(){
-    Route::get('/', [OrderController::class, 'index'])->name('index');
-    Route::get('list', [OrderController::class, 'getList'])->name('list');
-    Route::get('create', [OrderController::class, 'create'])->name('create');
-    Route::get('{id}/edit', [OrderController::class, 'edit'])->name('edit');
-    Route::get('{id}/show', [OrderController::class, 'show'])->name('show');
-    Route::post('/', [OrderController::class, 'store'])->name('store');
-    Route::patch('{id}', [OrderController::class, 'update'])->name('update');
-});
-
 Route::group(['middleware'=>"auth",'prefix' => 'admin/users', 'as' => 'users.'], function(){
     Route::get('/', [UserController::class, 'index'])->name('index');
     Route::get('list', [UserController::class, 'getList'])->name('list');

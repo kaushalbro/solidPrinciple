@@ -1,123 +1,196 @@
 <?php
 
 namespace {{ namespace }};
-
+@if('repo_pattern')
 use {{ rootNamespace }}Repositories\{{ classname }}Repository;
+@else
+@endif
 use {{ rootNamespace }}Models\{{ classname }};
+@if('is_api')
+use {{ rootNamespace }}Http\Requests\API\Create{{ classname }}Request;
+@else
 use {{ rootNamespace }}Http\Requests\Create{{ classname }}Request;
+@endif
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Traits\FileManager;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
+@if('is_api')
+use App\Traits\Api_Response;
+@else
+@endif
+@if('laravel_11')
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
+@else
+use Illuminate\Support\Facades\Auth;
+@endif
 
-
-class {{ classname }}Controller extends Controller
+class {{ classname }}Controller extends Controller @if('laravel_11')implements HasMiddleware @endif
 {
-
+    use FileManager @if('is_api'),Api_Response  @else @endif;
+    @if('repo_pattern')
     protected $repository;
+    @else
+    @endif
+    @if('is_api')
+    @else
     protected $view_path="backend.admin.{{ viewfolder }}.";
+    @endif
     protected $model;
-    protected $is_api;
-    protected $user_permissions;
     protected $route_prefix="{{ viewfolder }}s";
-
 
     public function __construct()
     {
-        $this->middleware('auth');
+        @if('laravel_10')$this->middleware('auth');
         $this->middleware(['permission:{{ viewfolder }}-view|{{ viewfolder }}-create|{{ viewfolder }}-edit|{{ viewfolder }}-delete'], ['only' => ['show']]);
         $this->middleware(['permission:{{ viewfolder }}-create'], ['only' => ['create', 'store', 'show']]);
         $this->middleware(['permission:{{ viewfolder }}-edit'], ['only' => ['edit', 'update', 'show']]);
         $this->middleware(['permission:{{ viewfolder }}-delete'], ['only' => ['destroy']]);
         $this->middleware(['permission:{{ viewfolder }}-view'], ['only' => ['index']]);
-        $this->is_api = \request()->expectsJson();
+        @endif
         $this->model = new {{ classname }}();
-        $this->user_permissions = "";
-        $this->repository =  new {{ classname }}Repository($this->model);
+        @if('repo_pattern')$this->repository =  new {{ classname }}Repository($this->model); @else @endif
     }
+
+    @if('laravel_11')
+    public static function middleware(): array
+        {
+            return [
+                'auth',
+                new Middleware('permission:{{ viewfolder }}-view|{{ viewfolder }}-create|{{ viewfolder }}-edit|{{ viewfolder }}-delete', only: ['show']),
+                new Middleware('permission:{{ viewfolder }}-create', only:['create', 'store', 'show']),
+                new Middleware('permission:{{ viewfolder }}-edit', only:['edit', 'update', 'show']),
+                new Middleware('permission:{{ viewfolder }}-delete', only:['destroy']),
+                new Middleware('permission:{{ viewfolder }}-view', only:['only' => ['index']])
+            ];
+        }
+    @endif
 
     public function index()
     {
-        ${{ viewfolder }}s=$this->repository->getAll();
+        @if('repo_pattern')
+        ${{ viewfolder }}s = $this->repository->getAll();
+        @else
+        ${{ viewfolder }}s = {{ classname }}::all();
+        @endif
+        @if('is_api')
+        ${{ viewfolder }}_list = $this->getList(\request());
+        return $this->apiFetchResponse('{{ classname }}', ${{ viewfolder }}_list);
+        @else
         return view($this->view_path."index",compact('{{ viewfolder }}s'));
+        @endif
     }
 
     public function getList(Request $request)
     {
-        ${{ viewfolder }}s=$this->repository->getAll();
-             return Datatables::of(${{ viewfolder }}s)
-                    ->addIndexColumn()
-                    ->addColumn('action', function(${{ viewfolder }}){
-                        return $this->actionButtons(${{ viewfolder }});
-                    })
-                    ->rawColumns(['action'])
-                    ->make(true);
+        @if('repo_pattern')
+         ${{ viewfolder }}s = $this->repository->getAll();
+        @else
+         ${{ viewfolder }}s = {{ classname }}::all();
+        @endif
+         return Datatables::of(${{ viewfolder }}s)
+                ->addIndexColumn()
+                @if('is_api')
+                @else
+                ->addColumn('action', function(${{ viewfolder }}){
+                                    return $this->actionButtons(${{ viewfolder }});
+                                })
+                ->rawColumns(['action'])
+                @endif
+                ->make(true)
+                @if('is_api') ->toJson(); @else ; @endif
     }
-
+    @if('is_api')
+    @else
    public function actionButtons($model){
      $attributes= ['model'=>$model, 'route_prefix'=>$this->route_prefix];
      return  view('components.actionButtons',compact('attributes'));
    }
+   @endif
 
     public function show($id)
     {
+        @if('repo_pattern')
          ${{ viewfolder }}=$this->repository->getById($id);
-         if($this->is_api){
-              return response()->json([]);
-         }
+        @else
+         ${{ viewfolder }} = {{ classname }}::find($id);
+        @endif
+        @if('is_api')
+        return $this->apiFetchResponse('{{ classname }}', ${{ viewfolder }});
+        @else
          return view($this->view_path."show",compact('{{ viewfolder }}'));
+        @endif
     }
-
-    public function edit($id)
-    {
-          ${{ viewfolder }}=$this->repository->getById($id);
-          if($this->is_api){
-            return '';
-          }
-          return view($this->view_path."edit",compact('{{ viewfolder }}'));
-    }
-
+@if('is_api')
+@else
     public function create()
     {
-         return view($this->view_path."create");
+        $attributes=[];
+        return view($this->view_path."create", compact('attributes'));
     }
+    public function edit($id)
+    {
+        ${{ viewfolder }} = {{ classname }}::find($id);
+        return view($this->view_path."edit",compact('{{ viewfolder }}'));
+    }
+@endif
 
     public function store(Create{{ classname }}Request $request)
     {
       try {
             DB::beginTransaction();
             $attributes= $request->only($this->model->getFillable());
-            $attributes['image']=$this->repository->storeOrUpdateFile($request, $this->model);
+            $attributes['image']=$this->storeOrUpdateFile($request, $this->model);
+            @if('repo_pattern')
             $this->repository->create($attributes);
+            @else
+            {{ classname }}::create($attributes);
+            @endif
             DB::commit();
-            if($request->expectsJson()){
-              return response()->json([]);
-            }
+            @if('is_api')
+            return $this->apiCreatedResponse('{{ classname }}', []);
+            @else
             return redirect()->back()->with('success', '{{ classname }} created successfully.');
+            @endif
           } catch (\Exception $e) {
             DB::rollback();
-            return redirect()->back()->withInput()->with('failed', "Failed to update {{ classname }} : ".$e->getMessage());
+            $error_message="Failed to create. {{ classname }} : " .$e->getMessage();
+            @if('is_api')
+            return $this->apiErrorResponse($error_message);
+            @else
+            return redirect()->route($this->route_prefix.'.index')->withInput()->with('failed', $error_message);
+            @endif
           }
 
     }
-
-
 
     public function update(Create{{ classname }}Request $request, $id)
     {
       try {
             DB::beginTransaction();
             $attributes= $request->only($this->model->getFillable());
-            $attributes['image']=$this->repository->storeOrUpdateFile($request, $this->model::find($id));
+            ${{ classname }}= $this->model::find($id);
+            $attributes['image']=$this->storeOrUpdateFile($request, ${{ classname }});
+            @if('repo_pattern')
             $this->repository->update($id,$attributes);
+            @else
+            ${{ classname }}->update($attributes);
+            @endif
             DB::commit();
-            if($request->expectsJson()){
-              return response()->json([]);
-            }
+            @if('is_api')
+            return $this->apiUpdatedResponse('{{ classname }}', []);
+            @else
             return redirect()->route($this->route_prefix.'.index')->with('success','{{ classname }} updated successfully.');
+            @endif
           } catch (\Exception $e) {
             DB::rollback();
-            return redirect()->route($this->route_prefix.'.index')->withInput()->with('failed', "Failed to update. {{ classname }} : " .$e->getMessage());
+            $error_message="Failed to update. {{ classname }} : " .$e->getMessage();
+            @if('is_api')
+            return $this->apiErrorResponse($error_message);
+            @else
+            return redirect()->route($this->route_prefix.'.index')->withInput()->with('failed',$error_message);
+            @endif
           }
     }
 
@@ -125,18 +198,32 @@ class {{ classname }}Controller extends Controller
     {
       try {
             DB::beginTransaction();
+            @if('repo_pattern')
             $this_model= $this->repository->getById($id);
+            @else
+            $this_model= $this->model::find($id);
+            @endif
             $image= $this_model->image??null;
+            @if('repo_pattern')
             $this->repository->delete($id);
+            @else
+            $this->model::destroy($id);
+            @endif
             if ($image && file_exists( base_path("public/".$image)))  unlink($image);
             DB::commit();
-            if($this->is_api){
-              return response()->json([]);
-            }
+            @if('is_api')
+            return $this->apiDeletedResponse('{{ classname }}', []);
+            @else
             return redirect()->back()->with('success','{{ classname }} deleted successfully.');
+            @endif
           } catch (\Exception $e) {
              DB::rollback();
-             return redirect()->back()->withInput()->with('failed', 'Failed to delete {{ classname }} : '.$e->getMessage());
+             $error_message="Failed to delete. {{ classname }} : " .$e->getMessage();
+             @if('is_api')
+             return $this->apiErrorResponse($error_message);
+             @else
+             return redirect()->back()->withInput()->with('failed', $error_message);
+             @endif
           }
     }
 }

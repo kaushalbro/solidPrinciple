@@ -3,15 +3,14 @@ namespace Devil\Solidprinciple\app\Http\Controllers;
 
 use Devil\Solidprinciple\app\Traits\FileFolderManage;
 use Devil\Solidprinciple\app\Traits\GetStubContents;
-use Illuminate\Routing\Controller;
 
-
-class MakeConfig extends Controller
+class MakeConfig extends BaseController
 {
     use FileFolderManage,GetStubContents;
     protected $stub_path;
     public function __construct()
     {
+        parent::__construct();
         $this->stub_path =__DIR__.'/../../stubs/config.stub';
         $this->make();
     }

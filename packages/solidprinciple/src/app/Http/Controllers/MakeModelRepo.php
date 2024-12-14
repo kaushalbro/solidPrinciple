@@ -3,15 +3,15 @@ namespace Devil\Solidprinciple\app\Http\Controllers;
 
 use Devil\Solidprinciple\app\Traits\FileFolderManage;
 use Devil\Solidprinciple\app\Traits\GetStubContents;
-use Illuminate\Routing\Controller;
 
-class MakeModelRepo extends Controller
+class MakeModelRepo extends BaseController
 {
     use FileFolderManage, GetStubContents;
 
     protected $model_data,$stub_path,$dir_name;
     public function __construct($model_data_path)
     {
+        parent::__construct();
         $data =is_array($model_data_path)?$model_data_path[1]:file_get_contents($model_data_path);
         $this->model_data =$data;
         $this->stub_path =__DIR__.'/../../stubs/model-repo.stub';

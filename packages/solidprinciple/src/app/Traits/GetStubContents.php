@@ -6,11 +6,13 @@ trait GetStubContents
     public function getStubContents($stub_path,$stubVariables = [])
     {
         $contents = file_get_contents($stub_path);
+        $conditions = $stubVariables['stub_conditions']??[];
+        unset($stubVariables['stub_conditions']);
         foreach ($stubVariables as $search => $replace)
         {
             $contents = str_replace('{{ '.$search.' }}' , $replace, $contents);
         }
-        return $contents;
+        return $this->replaceCondition($contents, $conditions);
     }
     public function removeDoubleQuote($array){
         $fillableCount = count($array);
@@ -28,5 +30,26 @@ trait GetStubContents
             }
         }
         return $newFillable;
+    }
+    protected function replaceCondition($content, array $data)
+    {
+        foreach ($data as $key => $value) {
+            $content = preg_replace_callback(
+                "/@if\(\'$key'\)(.*?)@else(.*?)@endif/s",
+                function ($matches) use ($value) {
+                    return $value ? $matches[1] : $matches[2];
+                },
+                $content
+            );
+            $content = preg_replace_callback(
+                "/@if\(\'$key'\)(.*?)@endif/s",
+                function ($matches) use ($value) {
+                    return $value ? $matches[1] : '';
+                },
+                $content
+            );
+        }
+
+        return $content;
     }
 }

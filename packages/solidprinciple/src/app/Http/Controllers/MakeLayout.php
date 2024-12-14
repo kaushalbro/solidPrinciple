@@ -4,16 +4,16 @@ namespace Devil\Solidprinciple\app\Http\Controllers;
 use Devil\Solidprinciple\app\Traits\FileFolderManage;
 use Devil\Solidprinciple\app\Traits\GetPath;
 use Devil\Solidprinciple\app\Traits\GetStubContents;
-use Illuminate\Routing\Controller;
-use Illuminate\Support\Str;
 
-class MakeLayout extends Controller
+
+class MakeLayout extends BaseController
 { use FileFolderManage,GetStubContents,GetPath;
 
     protected $model_data,$stub_path,$model_data_path,$layout_type;
 
     public function __construct($layout_type, $model_data_path=null)
     {
+        parent::__construct();
         $data =!$model_data_path?"":(is_array($model_data_path)?$model_data_path[1]:file_get_contents($model_data_path));
         $this->model_data = $data;
         $this->layout_type = $layout_type;

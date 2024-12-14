@@ -3,16 +3,16 @@ namespace Devil\Solidprinciple\app\Http\Controllers;
 
 use Devil\Solidprinciple\app\Traits\FileFolderManage;
 use Devil\Solidprinciple\app\Traits\GetStubContents;
-use Illuminate\Routing\Controller;
 use Illuminate\Support\Str;
 
-class MakeRoute extends Controller
+class MakeRoute extends BaseController
 {
     use FileFolderManage, GetStubContents;
 
     protected $model_data,$stub_path,$dir_name;
     public function __construct($model_data)
     {
+        parent::__construct();
         $this->model_data= $model_data;
         $this->stub_path =__DIR__.'/../../stubs/route.stub';
         $this->dir_name='routes';

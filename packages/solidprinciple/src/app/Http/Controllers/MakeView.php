@@ -4,17 +4,16 @@ namespace Devil\Solidprinciple\app\Http\Controllers;
 use Devil\Solidprinciple\app\Traits\FileFolderManage;
 use Devil\Solidprinciple\app\Traits\GetPath;
 use Devil\Solidprinciple\app\Traits\GetStubContents;
-use Illuminate\Routing\Controller;
 use Illuminate\Support\Str;
-use function PHPUnit\Framework\fileExists;
 
-class MakeView extends Controller
+class MakeView extends BaseController
 {
     use FileFolderManage, GetStubContents,GetPath;
 
     protected $model_data,$stub_path,$controller_name, $view_path;
     public function __construct($model_data, $view_path)
     {
+        parent::__construct();
         $this->model_data =is_array($model_data)?json_decode($model_data[1]):json_decode(file_get_contents($model_data));
         $this->view_path = $view_path;
         $this->stub_path =__DIR__.'/../../../stubs/view.stub';

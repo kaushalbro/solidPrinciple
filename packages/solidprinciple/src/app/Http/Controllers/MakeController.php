@@ -3,17 +3,17 @@ namespace Devil\Solidprinciple\app\Http\Controllers;
 
 use Devil\Solidprinciple\app\Traits\FileFolderManage;
 use Devil\Solidprinciple\app\Traits\GetStubContents;
-use Illuminate\Routing\Controller;
 
-class MakeController extends Controller
+class MakeController extends BaseController
 {
     use FileFolderManage, GetStubContents;
 
     protected $model_data,$stub_path,$dir_name,$controller_name,$folder;
     public function __construct($model_data_or_path, $folder=null)
     {
+        parent::__construct();
         if (is_array($model_data_or_path) && ($model_data_or_path[0] != 'from_param')){
-          $this->controller_name = $model_data_or_path[0];
+            $this->controller_name = $model_data_or_path[0];
         }else{
             $data =is_array($model_data_or_path)?$model_data_or_path[1]:file_get_contents($model_data_or_path);
             $this->model_data =$data;
@@ -37,6 +37,13 @@ class MakeController extends Controller
                     'classname'=> ucwords($model_name),
                     'reponame'=> strtolower($model_name),
                     'viewfolder'=>strtolower($model_name),
+                    'stub_conditions'=>[
+                        'is_api'=>$this->is_api,
+                        'repo_pattern'=>$this->repo_pattern,
+                        'laravel_11'=>$this->laravel_11,
+                        'laravel_10'=>$this->laravel_10,
+                        'is_api_without_api_with_resource_classes'=>$this->is_api_without_api_with_resource_classes,
+                    ],
                 ]);
                 $this->makeFile($this->dir_name.'/'.ucwords($model->model_name).'Controller.php', $contents);
             }
@@ -46,10 +53,10 @@ class MakeController extends Controller
                 'rootNamespace'=>'App\\',
                 'classname'=> ucwords($this->controller_name),
                 'viewfolder'=>strtolower($this->controller_name),
-                'reponame'=> ''
+                'reponame'=> '',
+                'stub_conditions'=>['is_api'=>$this->is_api, 'repo_pattern'=>$this->repo_pattern]
             ]);
             $this->makeFile($this->dir_name.'/'.ucwords($this->controller_name).'Controller.php', $contents);
         }
-
     }
 }

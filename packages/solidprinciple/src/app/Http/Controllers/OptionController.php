@@ -4,17 +4,20 @@ namespace Devil\Solidprinciple\app\Http\Controllers;
 use Devil\Solidprinciple\app\Http\Controllers\Admin\MakeAdminPanelController;
 use Devil\Solidprinciple\app\Traits\CheckConfigFile;
 use Devil\Solidprinciple\app\Traits\GetPath;
+use Devil\Solidprinciple\app\Traits\HelperTrait;
 use Devil\Solidprinciple\app\Traits\MakeSidebar;
-use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Str;
 
-class OptionController extends Controller
+class OptionController extends BaseController
 {
-    use CheckConfigFile,GetPath, MakeSidebar;
-    public $options,$arguments;
+    use CheckConfigFile,GetPath, MakeSidebar, HelperTrait;
+    protected $options;
+    protected $arguments;
+    protected  $solid_command="solid:make";
     public function __construct($options,$arguments)
     {
+        parent::__construct();
         $this->options=$options;
         $this->arguments=$arguments;
     }
@@ -31,16 +34,24 @@ class OptionController extends Controller
         }
         $data_path=config('solid.raw_json_data_path');
         $model_name = $this->arguments['model_name'];
-        new MakeComponents();
+        new MakeTrait('FileManager');
+        if ($this->is_api){
+            new MakeTrait('Api_Response');
+        }
         switch ($this->options) {
             case $this->options['test']:
+                new MakeAdminPanelController($data_path);
                 dd('fdfdf');
                 break;
             case $this->options['config']:
                 new MakeConfig();
                 break;
             case $this->options['interface']:
-                new MakeInterface(config('solid.base_interface_name'));
+                if ($this->repo_pattern){
+                    new MakeInterface(config('solid.base_interface_name'));
+                }else{
+                    error_log(sprintf("\033[31m%s\033[0m", "Is not"));
+                }
                 break;
             case $this->options['repo']:
                 new MakeRepo(config('solid.base_repository_name'));
@@ -70,36 +81,47 @@ class OptionController extends Controller
                 break;
             case $this->options['view']:
                 if ($model_name){
+                    new MakeComponents();
                     new MakeView($this->makeModelRepoCrud($model_name), $this->path('view_admin'));
                 }
                 break;
             case $this->options['layout']:
+                // for frontend
+                new MakeComponents();
                 new MakeLayout(($model_name=='frontend'||$model_name=='admin')?$model_name:"frontend",$data_path);
                 break;
             case $this->options['new-admin-panel']:
                 Artisan::call('solid:make --layout');
+                Artisan::call('solid:make --repo');
+                Artisan::call('solid:make --interface');
+                new MakeComponents();
                 new MakeAdminPanelController($data_path);
                 break;
-            case $this->options['repo-crud']:
+            case $this->options['crud']:
+                // creates crud for model
                 $this->makeRepoCrud($model_name?( $this->makeModelRepoCrud($model_name)):$data_path);
                 break;
             default:
                 if ($model_name){
                     $this->makeRepoCrud($model_name?( $this->makeModelRepoCrud($model_name)):$data_path);
                 }
-                 exit();
+                exit();
         }
 
     }
     public function makeRepoCrud($data_path){
-        //Generating Base Interface for Base Repository
-        new MakeInterface(config('solid.base_interface_name'));
-        //Generating Base Repository for Model Repository
-        new MakeRepo(config('solid.base_repository_name'));
-        //Generating Models
+        if ($this->repo_pattern){
+            //Generating Base Interface for Base Repository
+            new MakeInterface(config('solid.base_interface_name'));
+            //Generating Base Repository for Model Repository
+            new MakeRepo(config('solid.base_repository_name'));
+            //Generating Models
+        }
         new MakeModel($data_path);
         //Generating Model's Repositories
-        new MakeModelRepo($data_path);
+        if ($this->repo_pattern){
+            new MakeModelRepo($data_path);
+        }
         //Generating Custom Request
         new MakeRequest($data_path);
         //Generating Controller
@@ -107,8 +129,10 @@ class OptionController extends Controller
         //Generating Migrations
         new MakeMigration($data_path);
         //Generating View
-        new MakeView($data_path, $this->path('view_admin'));
+        if (!$this->is_api){
+            new MakeView($data_path, $this->path('view_admin'));
 //            new MakeView(is_array($data_path)?$data_path:file_get_contents($data_path), $this->path('view_admin'));
+        }
         $this->appendToSidebar($data_path);
         //Generating Routes
         //new MakeRoute($data_path);

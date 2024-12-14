@@ -9,12 +9,15 @@ class {{ classname }} extends Model
 {
     use HasFactory;
 
-    protected $table= '{{ table_name }}';
-    protected $fillable= {{ fillable }};
-    protected $hidden= {{ hidden }}; //hidden fields
-    protected $casts= {{ casts }};   //dates to cast
-    protected $with= {{ with }};     // default relation
+    protected $table = '{{ table_name }}';
+    protected $fillable = {{ fillable }};
+    protected $hidden = {{ hidden }}; //hidden fields
+    protected $casts = {{ casts }};   //dates to cast
+    protected $with = {{ with }};     // default relations fetched when call this model.
+    public string $IMAGE_PATH = "storage/{{ table_name }}";
 
-    public IMAGE_PATH="storage/{{ table_name }}";
+
+
+
 
 }

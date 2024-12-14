@@ -25,6 +25,12 @@ class AlterUserTable extends Migration
             $table->tinyInteger('super_admin')->default(0);
         });
         }
+        if (!Schema::hasColumn('users', 'image'))
+        {Schema::table('users', function (Blueprint $table)
+        {
+            $table->string('image')->default('images/default/default_person_icon.png');
+        });
+        }
     }
 
     /**
@@ -43,6 +49,11 @@ class AlterUserTable extends Migration
         {Schema::table('users', function (Blueprint $table)
         {
             $table->dropColumn('super_admin');
+        });}
+        if (Schema::hasColumn('users', 'image'))
+        {Schema::table('users', function (Blueprint $table)
+        {
+            $table->dropColumn('image');
         });}
     }
 }

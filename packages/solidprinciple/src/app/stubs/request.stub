@@ -3,6 +3,10 @@
 namespace {{ namespace }};
 
 use Illuminate\Foundation\Http\FormRequest;
+@if('is_api')
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
+@endif
 
 class Create{{ classname }}Request extends FormRequest
 {
@@ -23,6 +27,29 @@ class Create{{ classname }}Request extends FormRequest
      */
     public function rules()
     {
-        return {{ rules }};
+        $rules = {{ rules }} ;
+
+        return $rules;
     }
+
+    public function messages()
+    {
+        $message=[];
+        return $message;
+    }
+@if('is_api')
+    protected function failedValidation(Validator $validator)
+     {
+       $errors = $validator->errors();
+       $response = response()->json([
+           'success'=>false,
+           'message' =>  $errors->messages()
+           ], 422);
+
+       throw new HttpResponseException($response);
+     }
+@endif
+
+
+
 }

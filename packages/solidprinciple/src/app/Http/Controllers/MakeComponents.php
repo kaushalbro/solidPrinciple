@@ -3,10 +3,9 @@ namespace Devil\Solidprinciple\app\Http\Controllers;
 
 use Devil\Solidprinciple\app\Traits\FileFolderManage;
 use Devil\Solidprinciple\app\Traits\GetStubContents;
-use Illuminate\Routing\Controller;
 
 
-class MakeComponents extends Controller
+class MakeComponents extends BaseController
 {
     use FileFolderManage,GetStubContents;
     protected $componentName;
@@ -17,6 +16,7 @@ class MakeComponents extends Controller
 
     public function __construct()
     {
+        parent::__construct();
         $this->componentName = 'actionButtons.blade.php';
         $this->stub_path =__DIR__.'/../../stubs/components/actionButtons.blade.php';
         $this->dir_name='components';

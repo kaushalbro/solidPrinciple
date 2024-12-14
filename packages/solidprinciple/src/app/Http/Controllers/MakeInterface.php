@@ -3,15 +3,15 @@ namespace Devil\Solidprinciple\app\Http\Controllers;
 
 use Devil\Solidprinciple\app\Traits\FileFolderManage;
 use Devil\Solidprinciple\app\Traits\GetStubContents;
-use Illuminate\Routing\Controller;
 
 
-class MakeInterface extends Controller
+class MakeInterface extends BaseController
 {
     use FileFolderManage,GetStubContents;
     protected $interfaceName,$stub_path,$dir_name;
     public function __construct($interfaceName)
     {
+        parent::__construct();
         $this->interfaceName = $interfaceName;
         $this->stub_path =__DIR__.'/../../stubs/interface.stub';
         $this->dir_name='Interfaces';

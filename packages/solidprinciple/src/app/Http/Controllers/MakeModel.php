@@ -3,15 +3,15 @@ namespace Devil\Solidprinciple\app\Http\Controllers;
 
 use Devil\Solidprinciple\app\Traits\FileFolderManage;
 use Devil\Solidprinciple\app\Traits\GetStubContents;
-use Illuminate\Routing\Controller;
 use Illuminate\Support\Str;
 
-class MakeModel extends Controller
+class MakeModel extends BaseController
 {
     use FileFolderManage,GetStubContents;
     protected $model_data,$stub_path,$dir_name,$model_data_path;
     public function __construct($model_data_path)
     {
+        parent::__construct();
         $data =is_array($model_data_path)?$model_data_path[1]:file_get_contents($model_data_path);
         $this->model_data =$data;
         $this->model_data_path = $model_data_path;

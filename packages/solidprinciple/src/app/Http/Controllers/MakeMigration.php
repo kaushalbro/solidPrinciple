@@ -3,15 +3,15 @@ namespace Devil\Solidprinciple\app\Http\Controllers;
 
 use Devil\Solidprinciple\app\Traits\FileFolderManage;
 use Devil\Solidprinciple\app\Traits\GetStubContents;
-use Illuminate\Routing\Controller;
 use Illuminate\Support\Str;
 
-class MakeMigration extends Controller
+class MakeMigration extends BaseController
 {
     use FileFolderManage, GetStubContents;
     protected $model_data,$stub_path,$dir_name;
     public function __construct($model_data)
     {
+            parent::__construct();
             $data =is_array($model_data)?$model_data[1]:file_get_contents($model_data);
             $this->model_data =$data;
             $this->stub_path =__DIR__.'/../../stubs/migration.stub';
@@ -39,7 +39,10 @@ class MakeMigration extends Controller
                             $enum_value.="'".$enumval."',";
                         }
                         $col = '$table->'.$datatype.'("'.$column_name.'",'.$enum_value.'])'.$null.$default;
-                }else{
+                } elseif ($datatype=='file'){
+                    $col = '$table->string("'.$column_name.'")'.$null.$default;
+                }
+                else{
                     $col = '$table->'.$datatype.'("'.$column_name.'")'.$null.$default;
                 }
                 $column .= $col .';'."\n\t\t\t";
