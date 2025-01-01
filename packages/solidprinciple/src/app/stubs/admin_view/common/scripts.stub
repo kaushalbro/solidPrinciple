@@ -1,0 +1,6 @@
+
+<script>
+    window.onload = function() {
+        CKEDITOR.replace('myeditor');
+    };
+</script>

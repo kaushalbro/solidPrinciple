@@ -1,0 +1,28 @@
+<?php
+
+namespace {{ namespace }};
+
+use Illuminate\Http\Resources\Json\JsonResource;
+use Carbon\Carbon;
+
+class {{ ResourcesName }}Resource extends JsonResource
+{
+    public function toArray($request): array
+    {
+
+         $data = [{{ data }}];
+
+         $defaultData = [
+            'id' => $this->id??[],
+            'reference_number' =>  $this->reference_number ?? $this->generateReferenceNumber(),
+            'attributes' => $this->attributes ?? [],
+            'created_at' => Carbon::make($this->created_at)->format('Y-m-d'),
+            'updated_at' => Carbon::make($this->updated_at)->format('Y-m-d')
+         ];
+         return array_merge($data, $defaultData) ;
+    }
+
+    public function generateReferenceNumber($n=10){
+        return strtoupper(bin2hex(random_bytes($n / 2)));
+    }
+}
