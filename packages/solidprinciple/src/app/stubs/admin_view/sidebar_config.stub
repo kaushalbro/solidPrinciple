@@ -1,4 +1,0 @@
-<?php
-$current_route="request()->getRequestUri()";
-
-return {{ sidebar }};
