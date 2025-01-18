@@ -33,7 +33,9 @@ class OptionController extends BaseController
             return exit();
         }
         $data_path=config('solid.raw_json_data_path');
-        $model_name = $this->arguments['model_name']?? 'Empty';
+        $model_name = $this->arguments['model_name'];
+        if (!$model_name)
+            return error_log(sprintf("\033[31m%s\033[0m",  "Model name or flags is required. "));
         new MakeTrait('FileManager');
         if ($this->is_api){
             new MakeTrait('Api_Response');
