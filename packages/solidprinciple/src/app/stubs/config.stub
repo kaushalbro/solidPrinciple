@@ -23,7 +23,7 @@ return [
 
         'api_with_resource_classes'=>false,  // Depends on is_api, This will create an api resources for models if is_api is true.
 
-        'react_with_inertia'=>false, // coming soon..
+        'react_with_inertia'=>false, // coming soon...
 
         'model_path' => "app/Models",
 
