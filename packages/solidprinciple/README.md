@@ -25,3 +25,8 @@ Steps: 3) Add: trait 'HasRoles' in User Model;
 Steps: 4) Run: php artisan db:seed
 
 Steps: 5) Seed:  UserRolePermissionSeeder; command here <br>  php artisan db:seed --class=UserRolePermissionSeeder
+
+php artisan vendor:publish --tag=solidRoutes // this will copy routes to app/routes
+
+Global function
+app('sidebar')

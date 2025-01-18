@@ -42,13 +42,13 @@ trait FileFolderManage
 //                }
 //            }
             if (!$is_file){
-                file_put_contents($filePath, $data);
+                file_put_contents($path, $data);
 //              remove new and empty lines of file
-                $newContent =file($filePath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+                $newContent =file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
                 $newContent=array_values(array_filter($newContent, function($value) {
                     return trim($value) !== '';
                 }));
-                file_put_contents($filePath, implode(PHP_EOL, $newContent));
+                file_put_contents($path, implode(PHP_EOL, $newContent));
                 error_log(sprintf($this->greenColor,$path_array[count($path_array)-2]. ' '.end($path_array).' File Created.'));
                 return $filePath;
             }

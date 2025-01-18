@@ -173,7 +173,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        Devil\Solidprinciple\SolidprincipleServiceProvider::class,
+        Devil\Solidprinciple\SolidPrincipleServiceProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
     ],

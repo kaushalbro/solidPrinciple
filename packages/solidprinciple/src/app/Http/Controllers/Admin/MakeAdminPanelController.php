@@ -18,7 +18,7 @@ class MakeAdminPanelController extends BaseController
 {
     use FileFolderManage, GetStubContents, GetPath, MakeSidebar;
 
-    protected $model_data,$stub_path,$dir_name, $model_data_path,$admin_view_path, $stub_conditions ;
+    public $model_data,$stub_path,$dir_name, $model_data_path,$admin_view_path, $stub_conditions ;
     public function __construct($model_data)
     {
         parent::__construct();
@@ -28,15 +28,16 @@ class MakeAdminPanelController extends BaseController
         $this->dir_name=$this->path('controller');
         $this->admin_view_path = $this->path('view').'/backend/admin';
         $this->makeLayout(); //Creates all resources like: View, Repo ,Controller,Request, Model
-        $this->setUpRole();
-        $this->setUpUser();
-        $this->stub_conditions=[
+        $this->stub_conditions=[ //order should be matched
+            'is_api_with_api_resource_classes'=>$this->is_api_with_api_resource_classes,
             'is_api'=>$this->is_api,
             'repo_pattern'=>$this->repo_pattern,
             'laravel_11'=>$this->laravel_11,
             'laravel_10'=>$this->laravel_10,
-            'is_api_without_api_with_resource_classes', $this->is_api_without_api_with_resource_classes
+            'is_api_without_api_with_resource_classes'=>$this->is_api_without_api_with_resource_classes,
         ];
+        $this->setUpRole();
+        $this->setUpUser();
     }
     public function make(): void
     {
@@ -52,7 +53,8 @@ class MakeAdminPanelController extends BaseController
             $this->makeFile($this->dir_name.'/'.ucwords($model->model_name).'Controller.php', $contents);
         }
     }
-    public function makeLayout(){
+    public function makeLayout(): void
+    {
         $admin_path = $this->admin_view_path;
         $this->makeDirectory($admin_path);
         if (!$this->is_api){
@@ -117,7 +119,8 @@ class MakeAdminPanelController extends BaseController
             new MakeMigration($data);
         }
     }
-    public function setUpUser(){
+    public function setUpUser(): void
+    {
         $include_files =['create','edit','index','script','show','form'];
         $source_path= __DIR__.'/../../../stubs/admin_view/setupEntities/user';
         $this->makeDirectory($this->admin_view_path);
@@ -141,7 +144,7 @@ class MakeAdminPanelController extends BaseController
             }
         }
         }
-    public function setUpRole()
+    public function setUpRole(): void
     {
         $include_files =['create','edit','index','Controller','script','show','form'];
         $source_path= __DIR__.'/../../../stubs/admin_view/setupEntities/role';

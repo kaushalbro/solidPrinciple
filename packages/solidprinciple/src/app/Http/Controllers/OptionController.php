@@ -50,7 +50,7 @@ class OptionController extends BaseController
                 if ($this->repo_pattern){
                     new MakeInterface(config('solid.base_interface_name'));
                 }else{
-                    error_log(sprintf("\033[31m%s\033[0m", "Is not"));
+//                    error_log(sprintf("\033[31m%s\033[0m", "Is not report pattern."));
                 }
                 break;
             case $this->options['repo']:
@@ -61,7 +61,7 @@ class OptionController extends BaseController
                     new MakeModel($this->makeModelRepoCrud($model_name));
                 }
                 break;
-            case $this->options['resource']:
+            case $this->options['api']:
                     new MakeApiResources($this->makeModelRepoCrud($model_name));
                 break;
             case $this->options['controller']:
@@ -94,6 +94,18 @@ class OptionController extends BaseController
                 new MakeLayout(($model_name=='frontend'||$model_name=='admin')?$model_name:"frontend",$data_path);
                 break;
             case $this->options['new-admin-panel']:
+//                $sidebarFile=base_path('config/sidebar.php');
+//                $sidebar= config('sidebar');
+//                dd($sidebarFile);
+//                foreach ($sidebar as  $key =>$model){
+//                    if (!array_key_exists('Kaushal', $sidebar)){
+//                        $sidebar['Kaushal']=$key;
+//                    }
+////                    if (!in_array($sidebar['kaushal'],$sidebar)){
+////
+////                    }
+////                    $sidebar['kaushal'] += ['hello'=>'ram'];
+//                }
                 Artisan::call('solid:make --layout');
                 Artisan::call('solid:make --repo');
                 Artisan::call('solid:make --interface');

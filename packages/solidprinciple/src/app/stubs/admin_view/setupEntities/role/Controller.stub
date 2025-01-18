@@ -4,31 +4,35 @@ namespace App\Http\Controllers;
 
 use App\Models\Role;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Permission;
-use Yajra\DataTables\DataTables;
 @if('is_api')
 use App\Traits\Api_Response;
+@else
+use Yajra\DataTables\DataTables;
 @endif
 @if('laravel_11')
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
+@else
+use Illuminate\Support\Facades\Auth;
 @endif
 
-class RoleController extends Controller @if('laravel_11')implements HasMiddleware @endif
+class RoleController extends Controller @if('laravel_11')implements HasMiddleware @else @endif
 {
-    @if('is_api')use Api_Response @else @endif;
+    @if('is_api') use Api_Response; @else @endif
     @if('is_api')
     @else
     protected $view_path="backend.admin.role.";
     @endif
+
     protected $model;
     protected $route_prefix='roles';
 
     public function __construct()
     {
-    @if('laravel_10')$this->middleware('auth');
+    @if('laravel_10')
+        $this->middleware('auth');
         $this->middleware(['permission:role-create|role-view|role-edit|role-delete'], ['only' => ['show']]);
         $this->middleware(['permission:role-create'], ['only' => ['create', 'store', 'show']]);
         $this->middleware(['permission:role-edit'], ['only' => ['edit', 'update', 'show']]);
@@ -37,6 +41,7 @@ class RoleController extends Controller @if('laravel_11')implements HasMiddlewar
      @endif
         $this->model= new Role();
     }
+
     @if('laravel_11')
     public static function middleware(): array
         {
@@ -73,19 +78,23 @@ class RoleController extends Controller @if('laravel_11')implements HasMiddlewar
                     return $this->actionButtons($role);
                 })
                 ->addColumn('permissions', function($role){
-                    $role=\Spatie\Permission\Models\Role::findByName($role->name);
-                    $total_permission=$role->permissions()->get()->count();
-                 return '<span href="" class="label label-primary">'.$total_permission.'</span>';
+                   $role=\Spatie\Permission\Models\Role::findByName($role->name);
+                   $total_permission=$role->permissions()->get();
+                   return '<span href="" class="label label-primary">('.$total_permission->count().') '.implode(' | ',$total_permission->pluck('name')->toArray()).'</span>';
+
                 })
-                ->rawColumns(['action','permissions'])
-                ->make(true)
-                @if('is_api') ->toJson(true); @else ; @endif
+                 ->addColumn('users', function ($role){
+                    $role=\Spatie\Permission\Models\Role::findByName($role->name);
+                    return implode(',',$role->users()->pluck('name')->toArray());
+                 })
+                ->rawColumns(['action','permissions','users'])
+                ->make(true);
     }
 
     @if('is_api')
     @else
-    public function actionButtons($user){
-           $attributes= ['model'=>$model, 'route_prefix'=>$this->route_prefix];
+    public function actionButtons($role){
+           $attributes= ['model'=>$role, 'route_prefix'=>$this->route_prefix];
            return  view('components.actionButtons',compact('attributes'));
     }
     @endif
@@ -121,7 +130,7 @@ class RoleController extends Controller @if('laravel_11')implements HasMiddlewar
 
     public function store(Request $request)
     {
-        $this->validate($request, [
+        $request->validate([
             'name' => 'required|unique:roles,name',
             'permissions' => 'required',
         ]);
@@ -154,7 +163,7 @@ class RoleController extends Controller @if('laravel_11')implements HasMiddlewar
     }
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
+        $request->validate([
             'name' => 'required',
             'permissions' => 'required',
         ]);

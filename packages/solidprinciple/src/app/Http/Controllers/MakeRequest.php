@@ -8,7 +8,11 @@ class MakeRequest extends BaseController
 {
     use FileFolderManage, GetStubContents;
 
-    protected $model_data,$stub_path,$dir_name;
+    protected $model_data;
+
+    protected $stub_path;
+
+    protected $dir_name;
     public function __construct($model_data_path)
     {
         parent::__construct();
@@ -35,16 +39,17 @@ class MakeRequest extends BaseController
                 $rules.="]";
             }else{
                 foreach ($request_rules as $key_1=>$rule){
-                    $fillable_vaiable = explode('-',$rule)[0];
-                    $fillable_rule = explode('-',$rule)[1];
+                    $attributes= explode('|',$rule);
+                    $aa= explode(':',array_shift($attributes));
+                    $fillable_variable = $aa[0];
+                    $fillable_rule = implode('|',array_merge(array($aa[1]),$attributes));
                     if ($key_1 == $rules_count-1) {
-                        $rules .= "\n\t\t\t'".$fillable_vaiable."' => "."'".$fillable_rule."',\n"."\n\t\t\t]";
+                        $rules .= "\n\t\t\t'".$fillable_variable."' => "."'".$fillable_rule."',\n"."\n\t\t\t]";
                     }else{
-                        $rules .= "\n\t\t\t'".$fillable_vaiable."' => "."'".$fillable_rule."',";
+                        $rules .= "\n\t\t\t'".$fillable_variable."' => "."'".$fillable_rule."',";
                     }
                 }
             }
-
             $name_space= $this->is_api?'App\\Http\\Requests\\API':'App\\Http\\Requests';
             $contents =$this->getStubContents($this->stub_path,[
                 'namespace' =>$name_space,

@@ -31,17 +31,17 @@ Route::get('/admin/dashboard', function () {
     return view('backend.admin.dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-Route::group(['middleware'=>"auth",'prefix' => 'admin/products', 'as' => 'products.'], function(){
-    $controller= ProductController::class;
-    Route::get('/', [$controller, 'index'])->name('index');
-    Route::get('list', [$controller, 'getList'])->name('list');
-    Route::get('create', [$controller, 'create'])->name('create');
-    Route::get('{id}/edit', [$controller, 'edit'])->name('edit');
-    Route::get('{id}/show', [$controller, 'show'])->name('show');
-    Route::post('/', [$controller, 'store'])->name('store');
-    Route::patch('{id}', [$controller, 'update'])->name('update');
-    Route::delete('{id}/delete', [$controller, 'destroy'])->name('destroy');
-});
+//Route::group(['middleware'=>"auth",'prefix' => 'admin/products', 'as' => 'products.'], function(){
+//    $controller= ProductController::class;
+//    Route::get('/', [$controller, 'index'])->name('index');
+//    Route::get('list', [$controller, 'getList'])->name('list');
+//    Route::get('create', [$controller, 'create'])->name('create');
+//    Route::get('{id}/edit', [$controller, 'edit'])->name('edit');
+//    Route::get('{id}/show', [$controller, 'show'])->name('show');
+//    Route::post('/', [$controller, 'store'])->name('store');
+//    Route::patch('{id}', [$controller, 'update'])->name('update');
+//    Route::delete('{id}/delete', [$controller, 'destroy'])->name('destroy');
+//});
 Route::group(['middleware'=>"auth",'prefix' => 'admin/users', 'as' => 'users.'], function(){
     Route::get('/', [UserController::class, 'index'])->name('index');
     Route::get('list', [UserController::class, 'getList'])->name('list');

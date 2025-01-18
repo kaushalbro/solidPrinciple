@@ -23,11 +23,11 @@
     </div>
     <div class="col-md-6 d-flex mb-3">
         <label for="password" class="col-2 text-left col-form-label">Password:</label>
-        <input type="password" name="password" class="form-control {{$errors->has("password")?"is-invalid":""}}" id="password" placeholder="Password" value="{{old("password")}}">
+        <input autocomplete="new-password" type="password" name="password" class="form-control {{$errors->has("password")?"is-invalid":""}}" id="password" placeholder="Password" value="{{old("password")}}" >
     </div>
     <div class="col-md-6 d-flex mb-3">
         <label for="confirm-password" class="col-2 text-left col-form-label">Confirm Password:</label>
-        <input type="password" name="confirm-password" class="form-control {{$errors->has("confirm-password")?"is-invalid":""}}" id="confirm-password" placeholder="Confirm Password" value="{{old("confirm-password")}}">
+        <input autocomplete="new-password-confirm" type="password" name="confirm-password" class="form-control {{$errors->has("confirm-password")?"is-invalid":""}}" id="confirm-password" placeholder="Confirm Password" value="{{old("confirm-password")}}">
     </div>
     <div class="col-md-6 d-flex mb-3">
         <label for="status" class="col-2 text-left col-form-label">Status:</label>

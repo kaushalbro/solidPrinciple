@@ -104,7 +104,7 @@ class {{ classname }}Controller extends Controller @if('laravel_11')implements H
                                          return $this->actionButtons(${{ viewfolder }});
                                      })
                      ->rawColumns(['action'])
-                     ->make(true)->toJson();
+                     ->make(true);
         @endif
         @if('is_api_with_api_resource_classes')
         return {{ classname }}ListResource::collection(${{ viewfolder }}s);

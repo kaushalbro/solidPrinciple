@@ -18,6 +18,7 @@ class MakeApiResources extends BaseController
         $namespace= 'App\\Http\\Resources',
         $rootNameSpace='App\\',
         $actionsResourceToGenerate=  ['List','Create','Show','Edit'];
+
     public function __construct($model_data_or_path, $folder=null)
     {
         parent::__construct();

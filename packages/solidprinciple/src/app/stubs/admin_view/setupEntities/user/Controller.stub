@@ -7,20 +7,22 @@ use App\Models\User;
 use App\Http\Requests\CreateUserRequest;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Traits\FileManager;
 @if('is_api')
 use App\Traits\Api_Response;
+@else
+use Yajra\DataTables\DataTables;
 @endif
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Yajra\DataTables\DataTables;
 @if('laravel_11')
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
+@else
+use Illuminate\Support\Facades\Auth;
 @endif
 
-class UserController extends Controller @if('laravel_11')implements HasMiddleware @endif
+class UserController extends Controller @if('laravel_11')implements HasMiddleware @else @endif
 {
     use FileManager @if('is_api'),Api_Response  @else @endif;
     @if('is_api')
@@ -33,14 +35,15 @@ class UserController extends Controller @if('laravel_11')implements HasMiddlewar
 
     public function __construct()
     {
-    @if('laravel_10')$this->middleware('auth');
-        $this->middleware(['permission:user-create|user-edit|user-delete'], ['only' => ['show']]);
-        $this->middleware(['permission:user-create'], ['only' => ['create', 'store', 'show']]);
-        $this->middleware(['permission:user-edit'], ['only' => ['edit', 'update', 'show']]);
-        $this->middleware(['permission:user-delete'], ['only' => ['destroy']]);
-        $this->middleware(['permission:user-view'], ['only' => ['index']]);
-     @endif
-        $this->model= new User();
+        @if('laravel_10')
+            $this->middleware('auth');
+            $this->middleware(['permission:user-create|user-edit|user-delete'], ['only' => ['show']]);
+            $this->middleware(['permission:user-create'], ['only' => ['create', 'store', 'show']]);
+            $this->middleware(['permission:user-edit'], ['only' => ['edit', 'update', 'show']]);
+            $this->middleware(['permission:user-delete'], ['only' => ['destroy']]);
+            $this->middleware(['permission:user-view'], ['only' => ['index']]);
+         @endif
+            $this->model= new User();
     }
     @if('laravel_11')
     public static function middleware(): array
@@ -75,14 +78,13 @@ class UserController extends Controller @if('laravel_11')implements HasMiddlewar
                         return $this->actionButtons($user);
                     })
                     ->rawColumns(['action'])
-                    ->make(true)
-                    @if('is_api') ->toJson(true); @else ; @endif
+                    ->make(true);
     }
 
     @if('is_api')
     @else
     public function actionButtons($user){
-           $attributes= ['model'=>$model, 'route_prefix'=>$this->route_prefix];
+           $attributes= ['model'=>$user, 'route_prefix'=>$this->route_prefix];
            return  view('components.actionButtons',compact('attributes'));
     }
     @endif
@@ -147,8 +149,6 @@ class UserController extends Controller @if('laravel_11')implements HasMiddlewar
           }
 
     }
-
-
 
     public function update(CreateUserRequest $request, $id)
     {
