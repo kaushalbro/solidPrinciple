@@ -43,20 +43,17 @@ class OptionController extends BaseController
         switch ($this->options) {
             case $this->options['test']:
                 new MakeAdminPanelController($data_path);
-                dd('fdfdf');
                 break;
             case $this->options['config']:
                 new MakeConfig();
                 break;
             case $this->options['interface']:
-                if ($this->repo_pattern){
-                    new MakeInterface(config('solid.base_interface_name'));
-                }else{
-//                    error_log(sprintf("\033[31m%s\033[0m", "Is not report pattern."));
-                }
+                if ($this->repo_pattern)
+                   new MakeInterface(config('solid.base_interface_name'));
                 break;
             case $this->options['repo']:
-                new MakeRepo(config('solid.base_repository_name'));
+                if ($this->repo_pattern)
+                   new MakeRepo(config('solid.base_repository_name'));
                 break;
             case $this->options['model']:
                 if ($model_name){
@@ -96,18 +93,6 @@ class OptionController extends BaseController
                 new MakeLayout(($model_name=='frontend'||$model_name=='admin')?$model_name:"frontend",$data_path);
                 break;
             case $this->options['new-admin-panel']:
-//                $sidebarFile=base_path('config/sidebar.php');
-//                $sidebar= config('sidebar');
-//                dd($sidebarFile);
-//                foreach ($sidebar as  $key =>$model){
-//                    if (!array_key_exists('Kaushal', $sidebar)){
-//                        $sidebar['Kaushal']=$key;
-//                    }
-////                    if (!in_array($sidebar['kaushal'],$sidebar)){
-////
-////                    }
-////                    $sidebar['kaushal'] += ['hello'=>'ram'];
-//                }
                 Artisan::call('solid:make --layout');
                 Artisan::call('solid:make --repo');
                 Artisan::call('solid:make --interface');
