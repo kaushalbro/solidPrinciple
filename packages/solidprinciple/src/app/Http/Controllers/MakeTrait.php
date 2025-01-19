@@ -14,7 +14,7 @@ class MakeTrait extends BaseController
     {
         parent::__construct();
         $this->traitName = $traitName;
-        $this->stub_path =__DIR__.'/../../Traits/'.$traitName.'.stub';
+        $this->stub_path =__DIR__.'/../../Traits/stubs/'.$traitName.'.stub';
         $this->dir_name='app/Traits';
         $this->make();
     }
