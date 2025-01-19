@@ -103,37 +103,41 @@ class SideBar {
             return $a->order <=> $b->order; // Compare the 'order' keys
         });
         $sidebar=[];
-        foreach (self::$collection as $s) {
+        foreach (self::$collection as $side_bar) {
             $links=[];
             $for_section='core';
-            if ($s->group) $for_section=$s->group;
-            $sidebar[$for_section][$s->name]=
-            [
-                'model'=>$s->model,
-                'title' => $s->title,
-                'name' => $s->name,
-                'total_data'=>$s->with_count&&$s->model?$s->model::all()->count():null,
-                'icon' => $s->icon,
-                'group'=> $s->group,
-                'order'=> $s->order,
-                'redirect_route' => $s->redirect_route,
-                'class' => $s->class,
-                'hide' => $s->hide,
-                'permission' => $s->permission,
-            ];
-            foreach ($s->sub_links as $sub) {
-                $sub_build=$sub->build();
-                $sidebar[$for_section][$s->name]['sub_links'][$sub_build['name']] = $sub_build;
-                if(is_array($sub_build['active_on_routes'])) {
-                    foreach ($sub_build['active_on_routes'] as $rut){
-                        $links[]=$rut;
+            if ($side_bar->group) $for_section=$side_bar->group;
+            if (!$side_bar->hide){
+                $sidebar[$for_section][$side_bar->name]=
+                    [
+                        'model'=>$side_bar->model,
+                        'title' => $side_bar->title,
+                        'name' => $side_bar->name,
+                        'total_data'=>$side_bar->with_count&&$side_bar->model?$side_bar->model::all()->count():null,
+                        'icon' => $side_bar->icon,
+                        'group'=> $side_bar->group,
+                        'order'=> $side_bar->order,
+                        'redirect_route' => $side_bar->redirect_route,
+                        'class' => $side_bar->class,
+                        'hide' => $side_bar->hide,
+                        'permission' => $side_bar->permission,
+                    ];
+                foreach ($side_bar->sub_links as $sub) {
+                    if (!$sub->hide){
+                        $sub_build=$sub->build();
+                        $sidebar[$for_section][$side_bar->name]['sub_links'][$sub_build['name']] = $sub_build;
+                        if(is_array($sub_build['active_on_routes'])) {
+                            foreach ($sub_build['active_on_routes'] as $rut){
+                                $links[]=$rut;
+                            }
+                        }else{
+                            $links[]=$sub_build['active_on_routes'];
+                        }
                     }
-                }else{
-                    $links[]=$sub_build['active_on_routes'];
+                }
+                $sidebar[$for_section][$side_bar->name]['active_on_routes'] =array_filter(array_unique(array_merge(is_array($side_bar->active_on_route)?$side_bar->active_on_route:[$side_bar->active_on_route],$links)));
                 }
             }
-            $sidebar[$for_section][$s->name]['active_on_routes'] =array_filter(array_unique(array_merge(is_array($s->active_on_route)?$s->active_on_route:[$s->active_on_route],$links)));
-        }
         return $sidebar;
     }
     public static function getSidebarMetadata(): array
@@ -157,7 +161,9 @@ class SideBar {
                 'active_on_routes' => $this->active_on_route,
                 'permission' => $this->permission,
                 'sub_links' =>  array_map(function($sublink) {
-                    return $sublink->build();
+                    if (!$sublink->hide)
+                        return $sublink->build();
+                    return [];
                 }, $this->sub_links),
             ]
         ];

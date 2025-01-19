@@ -21,13 +21,15 @@ return [
 
         'is_api' => true,  // Is this application is developing an api's.
 
-        'api_with_resource_classes'=>false,  // Depends on is_api, This will create an api resources for models if is_api is true.
+        'api_with_resource_classes'=>true,  // Depends on is_api, This will create an api resources for models if is_api is true.
 
         'react_with_inertia'=>false, // coming soon...
 
         'model_path' => "app/Models",
 
         'controller_path' => "app/Http/Controllers",
+
+        'api_resources_path' => "app/Http/Resources",
 
         'request_path'=>"app/Http/Requests",
 

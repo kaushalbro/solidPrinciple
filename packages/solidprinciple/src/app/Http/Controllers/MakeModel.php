@@ -8,7 +8,11 @@ use Illuminate\Support\Str;
 class MakeModel extends BaseController
 {
     use FileFolderManage,GetStubContents;
-    protected $model_data,$stub_path,$dir_name,$model_data_path;
+    protected $model_data;
+    protected $stub_path;
+    protected $dir_name="app/Models";
+    protected $model_data_path;
+
     public function __construct($model_data_path)
     {
         parent::__construct();
@@ -16,7 +20,7 @@ class MakeModel extends BaseController
         $this->model_data =$data;
         $this->model_data_path = $model_data_path;
         $this->stub_path =__DIR__.'/../../stubs/model.stub';
-        $this->dir_name='Models';
+        $this->dir_name= config('solid.model_path')?:$this->dir_name;
         $this->make();
     }
 
@@ -30,7 +34,7 @@ class MakeModel extends BaseController
           $casts = $this->removeDoubleQuote($model->casts ?? []);
           $with = $this->removeDoubleQuote($model->with ?? []);
           $contents =$this->getStubContents($this->stub_path,[
-            'namespace' => 'App\\'.$this->dir_name,
+            'namespace' => $this->pathToNameSpace($this->dir_name),
             'classname'=> $model->model_name,
             'table_name'=> $model->table_name??strtolower(Str::plural($model->model_name)),
             'fillable'=>$fillable,
@@ -38,7 +42,7 @@ class MakeModel extends BaseController
             'casts'=>$casts,
             'with'=>$with
           ]);
-        $this->makeFile('app/'.$this->dir_name.'/'.$model->model_name.'.php', $contents);
+        $this->makeFile($this->dir_name.'/'.$model->model_name.'.php', $contents);
       }
 //      new MakeController(['Admin'], 'Admin');
     }

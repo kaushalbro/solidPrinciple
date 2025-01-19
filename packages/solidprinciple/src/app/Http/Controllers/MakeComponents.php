@@ -26,7 +26,9 @@ class MakeComponents extends BaseController
     {
         $fileDIRPath= 'resources/views/'.$this->dir_name;
         $this->makeDirectory($fileDIRPath);
-        $contents =$this->getStubContents($this->stub_path, ['namespace' => 'App\\'.$this->dir_name,'classname'=> $this->componentName]);
+        $contents =$this->getStubContents($this->stub_path, [
+            'namespace' => $this->pathToNameSpace('app/'.$this->dir_name),
+            'classname'=> $this->componentName]);
         $this->makeFile($fileDIRPath.'/'.$this->componentName, $contents);
     }
 

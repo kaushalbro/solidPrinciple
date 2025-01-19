@@ -7,10 +7,11 @@ class SolidPrincipleServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        $this->app->singleton('sidebar', function ()
-        {
+        if (file_exists(app_path("Providers/SolidAppServiceProvider.php")))
+               $this->app->register(\App\Providers\SolidAppServiceProvider::class);
+        $this->app->singleton('sidebar', function () {
             try {
-                return SideBar::getSidebarMetadata();
+              return SideBar::getSidebarMetadata();
             }catch (\Exception $exception){
                 return ['error' => $exception->getMessage()];
             }
@@ -21,6 +22,7 @@ class SolidPrincipleServiceProvider extends ServiceProvider
       $this->loadRoutesFrom(__DIR__.'/routes/web.php');
       $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
       $this->publishes([__DIR__ . '/routes/route.php' =>base_path('routes/solid.php')], 'solidRoutes');
+      $this->publishes([__DIR__ . '/provider/app.php' => base_path('app/Providers/SolidAppServiceProvider.php')], 'solidAppServiceProvider');
       $this->commands([solid::class]);
     }
 

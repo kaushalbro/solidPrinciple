@@ -3,20 +3,22 @@ namespace Devil\Solidprinciple\app\Http\Controllers;
 
 use Devil\Solidprinciple\app\Traits\FileFolderManage;
 use Devil\Solidprinciple\app\Traits\GetStubContents;
+use Psy\Util\Str;
 
 class MakeController extends BaseController
 {
     use FileFolderManage, GetStubContents;
 
-    protected
-        $model_data,
-        $stub_path,
-        $dir_name='app/Http/Controllers',
-        $controller_name,
-        $folder;
+    protected $model_data;
+    protected $stub_path;
+    protected $dir_name = '/app/Http/Controllers';
+    protected $controller_name;
+    protected $folder;
+
     public function __construct($model_data_or_path, $folder=null)
     {
         parent::__construct();
+        if (config('solid.controller_path')) $this->dir_name = config('solid.controller_path');
         if (is_array($model_data_or_path) && ($model_data_or_path[0] != 'from_param')){
           $this->controller_name = $model_data_or_path[0];
         }else{
@@ -38,7 +40,7 @@ class MakeController extends BaseController
             foreach ($model_data as $key => $model){
                 $model_name = $model->model_name;
                 $contents =$this->getStubContents($this->stub_path,[
-                    'namespace' => 'App\\Http\\Controllers',
+                    'namespace' => $this->pathToNameSpace($this->dir_name),
                     'rootNamespace'=>'App\\',
                     'classname'=> ucwords($model_name),
                     'reponame'=> strtolower($model_name),
@@ -56,8 +58,9 @@ class MakeController extends BaseController
             }
         }else{
             $contents =$this->getStubContents($this->stub_path,[
-                'namespace' =>$this->folder?('App\\Http\\Controllers\\'.$this->folder):'App\\Http\\Controllers',
-                'rootNamespace'=>'App\\',
+                'namespace' =>$this->folder
+                                ?$this->pathToNameSpace($this->dir_name.'/'.$this->folder)
+                                :$this->pathToNameSpace($this->dir_name),
                 'classname'=> ucwords($this->controller_name),
                 'viewfolder'=>strtolower($this->controller_name),
                 'reponame'=> '',

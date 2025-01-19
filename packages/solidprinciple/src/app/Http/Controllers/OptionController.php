@@ -34,8 +34,8 @@ class OptionController extends BaseController
         }
         $data_path=config('solid.raw_json_data_path');
         $model_name = $this->arguments['model_name'];
-        if (!$model_name)
-            return error_log(sprintf("\033[31m%s\033[0m",  "Model name or flags is required. "));
+//        if (!$model_name)
+//            return error_log(sprintf("\033[31m%s\033[0m",  "Model name or flags is required. "));
         new MakeTrait('FileManager');
         if ($this->is_api){
             new MakeTrait('Api_Response');
@@ -43,6 +43,10 @@ class OptionController extends BaseController
         switch ($this->options) {
             case $this->options['test']:
                 new MakeAdminPanelController($data_path);
+                break;
+            case $this->options['publish']:
+                Artisan::call('vendor:publish --tag=solidRoutes');
+                Artisan::call('vendor:publish --tag=solidAppServiceProvider');
                 break;
             case $this->options['config']:
                 new MakeConfig();
@@ -102,6 +106,9 @@ class OptionController extends BaseController
             case $this->options['crud']:
                 // creates crud for model
                 $this->makeRepoCrud($model_name?( $this->makeModelRepoCrud($model_name)):$data_path);
+                if ($this->is_api_with_api_resource_classes){
+                    Artisan::call('solid:make --api');
+                }
                 break;
             default:
                 if ($model_name){
@@ -111,7 +118,8 @@ class OptionController extends BaseController
         }
 
     }
-    public function makeRepoCrud($data_path){
+    public function makeRepoCrud($data_path): void
+    {
         if ($this->repo_pattern){
             //Generating Base Interface for Base Repository
             new MakeInterface(config('solid.base_interface_name'));
@@ -140,11 +148,12 @@ class OptionController extends BaseController
         //new MakeRoute($data_path);
     }
 
-    public function makeModelRepoCrud($model_name)
+    public function makeModelRepoCrud($model_name): array
     {
-        $model_name_formated =ucfirst(Str::singular($model_name));
-        $table_name = strtolower(Str::plural($model_name));
-        return ['from_param','
+        if ($model_name){
+            $model_name_formated =ucfirst(Str::singular($model_name));
+            $table_name = strtolower(Str::plural($model_name));
+            return ['from_param','
                 [ {
                     "model_name": "'.$model_name_formated.'",
                     "table_name": "'.$table_name.'",
@@ -159,6 +168,7 @@ class OptionController extends BaseController
                     "view_input":[]
                    }
                 ]'];
+        }
+       return [];
     }
-
 }

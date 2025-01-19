@@ -9,11 +9,11 @@ class MakeMigration extends BaseController
 {
     use FileFolderManage, GetStubContents;
 
-    protected mixed $model_data;
+    protected $model_data;
 
     protected string $stub_path;
 
-    protected string $dir_name;
+    protected string $dir_name='database/migrations';
 
     public function __construct($model_data)
     {
@@ -21,7 +21,8 @@ class MakeMigration extends BaseController
             $data =is_array($model_data)?$model_data[1]:file_get_contents($model_data);
             $this->model_data =$data;
             $this->stub_path =__DIR__.'/../../stubs/migration.stub';
-            $this->dir_name=base_path('database/migrations');
+//            $this->dir_name=base_path('database/migrations');
+            if (config('solid.migration_path')) $this->dir_name=config('solid.migration_path');
             $this->make();
     }
 
@@ -124,8 +125,8 @@ class MakeMigration extends BaseController
 
     public function migrationCreated($migration_name): bool
     {
-        $dir_path = $this->dir_name;
-        $files = scandir($dir_path);
+        // TO check if the migration is already created or not
+        $files = scandir(base_path($this->dir_name));
         foreach ($files as $file) {
             $file_name = substr($file,  18);
              if ($migration_name == $file_name){
@@ -135,7 +136,8 @@ class MakeMigration extends BaseController
         return false;
     }
 
-    function laravelMigrationDataType(){
+    function laravelMigrationDataType(): array
+    {
          return [
             'bigIncrements',    // Auto-incrementing UNSIGNED BIGINT
             'bigInteger',       // BIGINT

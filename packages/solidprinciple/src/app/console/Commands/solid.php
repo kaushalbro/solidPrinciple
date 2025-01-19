@@ -31,6 +31,7 @@ class solid extends Command
                          {--ro|route : Generate routes}
                          {--layout|layout  } layout_type? : Generate Layout}
                          {--newAdminPanel|new-admin-panel : Generate fresh Admin panel}
+                         {--publish|publish : Generate Publish files }
                          {--h|help}
                          {--t|test}
 
@@ -59,7 +60,11 @@ class solid extends Command
      */
     public function handle()
     {
-        $optionController = new OptionController($this->options(),$this->arguments());
-        $optionController->chooseOption();
+        try {
+            $optionController = new OptionController($this->options(),$this->arguments());
+            $optionController->chooseOption();
+        }catch (\Exception $exception){
+            $this->error($exception->getMessage());
+        }
     }
 }

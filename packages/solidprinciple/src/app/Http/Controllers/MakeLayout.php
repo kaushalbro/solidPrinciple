@@ -9,7 +9,10 @@ use Illuminate\Support\Str;
 class MakeLayout extends BaseController
 { use FileFolderManage,GetStubContents,GetPath;
 
-    protected $model_data,$stub_path,$model_data_path,$layout_type;
+    protected $model_data;
+    protected $stub_path;
+    protected $model_data_path;
+    protected $layout_type;
 
     public function __construct($layout_type, $model_data_path=null)
     {

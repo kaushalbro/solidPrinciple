@@ -15,7 +15,8 @@ trait GetStubContents
         $conditionRemovedContent=  $this->replaceCondition($contents, $conditions);
         return $conditionRemovedContent;
     }
-    public function removeDoubleQuote($array){
+    public function removeDoubleQuote($array): string
+    {
         $fillableCount = count($array);
         $newFillable = '[';
         if ($fillableCount == 0){
@@ -55,7 +56,8 @@ trait GetStubContents
 
         return $content;
     }
-    public function removeEmptyLines($fileContents) {
+    public function removeEmptyLines($fileContents): array|string|null
+    {
         // Read the contents of the file
         // Remove empty lines between curly braces
          $pattern = '/{(\s*?)}/';
@@ -63,5 +65,14 @@ trait GetStubContents
         // Write the modified contents back to the file
         return preg_replace($pattern, $replacement, $fileContents);
 //        file_put_contents($filePath, $fileContents);
+    }
+    public function pathToNameSpace($directory): string
+    {
+        return implode("\\",
+            array_map(
+                fn($data)=> $data= \Illuminate\Support\Str::ucfirst($data),
+                explode("/",$directory)
+            )
+        );
     }
 }

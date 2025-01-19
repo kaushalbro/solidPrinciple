@@ -1,5 +1,5 @@
 <?php
-namespace provider;
+namespace App\Providers;
 use App\Models\Product;
 use App\Models\Role;
 use App\Models\User;

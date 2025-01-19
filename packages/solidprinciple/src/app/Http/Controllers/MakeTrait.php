@@ -7,20 +7,24 @@ use Devil\Solidprinciple\app\Traits\GetStubContents;
 class MakeTrait extends BaseController
 {
     use FileFolderManage,GetStubContents;
-    protected $traitName,$stub_path,$dir_name;
+    protected $traitName;
+    protected $stub_path;
+    protected $dir_name;
     public function __construct($traitName)
     {
         parent::__construct();
         $this->traitName = $traitName;
         $this->stub_path =__DIR__.'/../../Traits/'.$traitName.'.stub';
-        $this->dir_name='Traits';
+        $this->dir_name='app/Traits';
         $this->make();
     }
 
     public function make(): void
     {
-        $this->makeDirectory('app/'.$this->dir_name);
-        $contents =$this->getStubContents($this->stub_path, ['namespace' => 'App\\'.$this->dir_name]);
-        $this->makeFile('app/'.$this->dir_name.'/'.$this->traitName.'.php', $contents);
+        $this->makeDirectory($this->dir_name);
+        $contents =$this->getStubContents($this->stub_path,
+                ['namespace' => $this->pathToNameSpace($this->dir_name)]
+        );
+        $this->makeFile($this->dir_name.'/'.$this->traitName.'.php', $contents);
     }
 }

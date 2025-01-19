@@ -6,7 +6,7 @@ class SubLink
     private mixed $icon = 'fa fa-circle';
     private mixed $route = null;
     private mixed $title = null;
-    private bool $hide = false;
+    public bool $hide = false;
     private bool $permission = true;
     private bool $with_count = true;
     private mixed $active_on_route=false;

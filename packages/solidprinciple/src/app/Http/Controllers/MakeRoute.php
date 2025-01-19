@@ -9,7 +9,10 @@ class MakeRoute extends BaseController
 {
     use FileFolderManage, GetStubContents;
 
-    protected $model_data,$stub_path,$dir_name;
+    protected $model_data;
+    protected $stub_path;
+    protected $dir_name;
+
     public function __construct($model_data)
     {
         parent::__construct();
@@ -32,8 +35,6 @@ class MakeRoute extends BaseController
                 $current .= 'Route::resource("'.$table_name.'",'.$model->model_name.'Controller::class);'."\n";
                 file_put_contents($this->dir_name.'/web.php', $current);
             }
-
-
         }
     }
 

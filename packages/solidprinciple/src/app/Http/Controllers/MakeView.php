@@ -10,7 +10,10 @@ class MakeView extends BaseController
 {
     use FileFolderManage, GetStubContents,GetPath;
 
-    protected $model_data,$stub_path,$controller_name, $view_path;
+    protected $model_data;
+    protected $stub_path;
+    protected $controller_name;
+    protected $view_path;
     public function __construct($model_data, $view_path)
     {
         parent::__construct();
@@ -24,7 +27,8 @@ class MakeView extends BaseController
     {
         $model_data  = $this->model_data;
         $view_path = $this->view_path."/";
-        foreach ($model_data as $key => $model){
+        foreach ($model_data as $key => $model)
+        {
                 $model_name = $model->model_name;
                 $view_input = $model->view_input;
                 $view_folder_path = $view_path.strtolower($model_name);
@@ -39,10 +43,7 @@ class MakeView extends BaseController
                 $error_stub= __DIR__.'/../../stubs/admin_view/model_views/errors.stub';
                 $errors_contents =$this->getStubContents($error_stub);
                 $this->makeFile($admin_path.'/includes/'.'errors.blade.php', $errors_contents);
-
-
-
-            $final_input_template = "";
+                $final_input_template = "";
                 foreach ($view_input as $input){
                     try {
                         $label = str_replace("'", '', explode('=>',$input)[0]);

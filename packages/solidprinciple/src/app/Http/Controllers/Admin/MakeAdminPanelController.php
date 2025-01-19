@@ -46,7 +46,6 @@ class MakeAdminPanelController extends BaseController
             $model_name = $model->model_name;
             $contents =$this->getStubContents($this->stub_path,[
                 'namespace' => 'App\\Http\\Controllers',
-                'rootNamespace'=>'App\\',
                 'classname'=> ucwords($model_name),
                 'reponame'=> strtolower($model_name)
             ]);

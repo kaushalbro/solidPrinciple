@@ -18,8 +18,8 @@ class BaseController extends Controller
 
     public function __construct(){
 //        These are stub conditions
-        $this->laravel_10 = app()->version()<11;
-        $this->laravel_11 = app()->version()>=11;
+        $this->laravel_10 = (int) app()->version() < 11;
+        $this->laravel_11 = (int) app()->version() >= 11;
         $this->is_api = config('solid.is_api')??false;
         $this->custom_request = config('solid.custom_request')??false;
         $this->repo_pattern = (config('solid.design_pattern')??'')=='repository' || (config('solid.design_pattern')??'')=='Repository';

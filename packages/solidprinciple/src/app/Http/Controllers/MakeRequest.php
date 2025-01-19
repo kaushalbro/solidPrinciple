@@ -12,16 +12,16 @@ class MakeRequest extends BaseController
 
     protected $stub_path;
 
-    protected $dir_name;
+    protected $dir_name="app/Http/Requests";
     public function __construct($model_data_path)
     {
         parent::__construct();
         $data =is_array($model_data_path)?$model_data_path[1]:file_get_contents($model_data_path);
         $this->model_data =$data;
         $this->stub_path =__DIR__.'/../../stubs/request.stub';
-        $this->dir_name='app/Http/Requests';
+        $this->dir_name=config("solid.request_path")?:$this->dir_name;
         if ($this->is_api){
-            $this->dir_name='app/Http/Requests/API';
+            $this->dir_name=$this->dir_name.'/API';
             $this->makeDirectory($this->dir_name);
         }
         $this->make();
@@ -50,11 +50,10 @@ class MakeRequest extends BaseController
                     }
                 }
             }
-            $name_space= $this->is_api?'App\\Http\\Requests\\API':'App\\Http\\Requests';
+//            $name_space= $this->is_api?'App\\Http\\Requests\\API':'App\\Http\\Requests';
             $contents =$this->getStubContents($this->stub_path,[
-                'namespace' =>$name_space,
-                'rootNamespace'=>'App\\',
-                'classname'=> ucwords($model_name),
+                'namespace' => $this->pathToNameSpace($this->dir_name),
+                'classname' => ucwords($model_name),
                 'rules'=>$rules,
                 'stub_conditions'=>['is_api'=>$this->is_api]
             ]);

@@ -1,7 +1,6 @@
 <?php
 namespace Devil\Solidprinciple\app\Http\Controllers;
 
-use Devil\Solidprinciple\app\Http\Controllers\BaseController;
 use Devil\Solidprinciple\app\Traits\FileFolderManage;
 use Devil\Solidprinciple\app\Traits\GetStubContents;
 
@@ -9,19 +8,20 @@ class MakeApiResources extends BaseController
 {
     use FileFolderManage, GetStubContents;
 
-    protected
-        $model_data,
-        $stub_path,
-        $dir_name='app/Http/Resources',
-        $resource_name,
-        $folder,
-        $namespace= 'App\\Http\\Resources',
-        $rootNameSpace='App\\',
-        $actionsResourceToGenerate=  ['List','Create','Show','Edit'];
+    protected $model_data;
+    protected $stub_path;
+    protected $dir_name = 'app/Http/Resources';
+    protected $resource_name;
+    protected $folder;
+    protected $namespace;
+    protected $actionsResourceToGenerate = ['List', 'Create', 'Show', 'Edit'];
+
 
     public function __construct($model_data_or_path, $folder=null)
     {
         parent::__construct();
+        if (config('solid.api_resources_path')) $this->dir_name= config('solid.api_resources_path');
+        $this->namespace = $this->pathToNameSpace($this->dir_name);
         if (is_array($model_data_or_path) && ($model_data_or_path[0] != 'from_param')){
           $this->resource_name = $model_data_or_path[0];
         } else {
@@ -44,7 +44,6 @@ class MakeApiResources extends BaseController
                 foreach ($this->actionsResourceToGenerate as $action){
                     $contents =$this->getStubContents($this->stub_path,[
                         'namespace' => $this->namespace.'\\'.ucwords($model->model_name),
-                        'rootNamespace'=>$this->rootNameSpace,
                         'classname'=> ucwords($model_name),
                         'ResourcesName'=>ucwords($model->model_name).$action,
                         'data'=>'',
@@ -64,7 +63,6 @@ class MakeApiResources extends BaseController
             foreach ($this->actionsResourceToGenerate as $action){
                 $contents =$this->getStubContents($this->stub_path,[
                     'namespace' =>$this->folder?($this->namespace.'\\'.$this->folder):$this->namespace,
-                    'rootNamespace'=>$this->rootNameSpace,
                     'classname'=> ucwords($this->resource_name),
                     'viewfolder'=>strtolower($this->resource_name),
                     'reponame'=> '',
