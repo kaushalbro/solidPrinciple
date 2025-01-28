@@ -31,7 +31,7 @@ class MakeMigration extends BaseController
         $model_data  = json_decode($this->model_data);
         foreach ($model_data as $key => $model){
             $table_name = $model->table_name??strtolower(Str::plural($model->model_name));
-            $table_column = $model->table_column_name;
+            $table_column = $model->model_attributes->db_rules;
             $column= "";
             foreach ($table_column as $key_1 => $value){
                 $column_name='';

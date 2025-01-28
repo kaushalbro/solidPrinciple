@@ -65,7 +65,7 @@ class OptionController extends BaseController
                 }
                 break;
             case $this->options['api']:
-                    new MakeApiResources($this->makeModelRepoCrud($model_name));
+                    new MakeApiResources($model_name?( $this->makeModelRepoCrud($model_name)):$data_path);
                 break;
             case $this->options['controller']:
                 if ($model_name){

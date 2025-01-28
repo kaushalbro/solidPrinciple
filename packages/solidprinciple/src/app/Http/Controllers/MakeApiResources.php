@@ -41,18 +41,24 @@ class MakeApiResources extends BaseController
             $model_data  = json_decode($this->model_data);
             foreach ($model_data as $key => $model){
                 $model_name = $model->model_name;
+                $data ="";
+                foreach ($model->model_attributes->db_rules as $key => $rule){
+                    $text=explode(':', $rule)[0];
+                    $data.="\n\t".'"'.$text.'" => $this->'.$text.'??[],'."\t\n";
+                }
                 foreach ($this->actionsResourceToGenerate as $action){
                     $contents =$this->getStubContents($this->stub_path,[
                         'namespace' => $this->namespace.'\\'.ucwords($model->model_name),
                         'classname'=> ucwords($model_name),
                         'ResourcesName'=>ucwords($model->model_name).$action,
-                        'data'=>'',
+                        'data'=>$action!="Create"?$data:"",
                         'stub_conditions'=>[
                             'is_api'=>$this->is_api,
                             'repo_pattern'=>$this->repo_pattern,
                             'laravel_11'=>$this->laravel_11,
                             'laravel_10'=>$this->laravel_10,
                             'is_api_without_api_with_resource_classes'=>$this->is_api_without_api_with_resource_classes,
+                            "create"=>$action=="Create"
                         ],
                     ]);
                     $this->makeDirectory($this->dir_name.'/'.ucwords($model->model_name));

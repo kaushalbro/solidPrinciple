@@ -32,7 +32,7 @@ class MakeRequest extends BaseController
         $model_data  = json_decode($this->model_data);
         foreach ($model_data as $key => $model){
             $model_name = $model->model_name;
-            $request_rules = $model->request_rules;
+            $request_rules = $model->model_attributes->request_rules;
             $rules_count = count($request_rules);
             $rules = "["."\n\t\t\t";
             if ($rules_count == 0){

@@ -24,7 +24,7 @@ class AuthenticatedSessionController extends Controller
      * Handle an incoming authentication request.
      *
      * @param  \App\Http\Requests\Auth\LoginRequest  $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(LoginRequest $request)
     {
@@ -32,7 +32,9 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(RouteServiceProvider::ADMIN_DASHBOARD);
+        return response()->json('');
+
+//        return redirect()->intended(RouteServiceProvider::ADMIN_DASHBOARD);
     }
 
     /**

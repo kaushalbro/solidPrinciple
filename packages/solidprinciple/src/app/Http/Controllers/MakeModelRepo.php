@@ -28,14 +28,12 @@ class MakeModelRepo extends BaseController
         $model_data = json_decode($this->model_data);
         foreach ($model_data as $key => $model) {
             $model_name = $model->model_name;
-            $fillable = $this->removeDoubleQuote($model->fillable);
             $contents = $this->getStubContents($this->stub_path, [
                 'namespace' => $this->pathToNameSpace($this->dir_name),
                 'rootNamespace'=>'App\\',
                 'classname' => ucwords($model_name),
                 'reponame' => strtolower($model_name),
                 'baseRepository'=>config('solid.base_repository_name'),
-                'fillable' => $fillable
             ]);
             $this->makeFile( $this->dir_name . '/' . $model_name . 'Repository.php', $contents);
         }

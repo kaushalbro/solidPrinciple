@@ -29,10 +29,14 @@ class MakeModel extends BaseController
         $json_model_details= $this->model_data;
        $model_data  = json_decode($json_model_details);
       foreach ($model_data as $key => $model){
-          $fillable = $this->removeDoubleQuote($model->fillable);
-          $hidden = $this->removeDoubleQuote($model->hidden ?? []);
-          $casts = $this->removeDoubleQuote($model->casts ?? []);
-          $with = $this->removeDoubleQuote($model->with ?? []);
+          $fillables= [];
+          foreach ($model->model_attributes->db_rules as $fillable){
+              $fillables[] = explode(':', $fillable)[0];
+          }
+          $fillable = $this->removeDoubleQuote($fillables);
+          $hidden = $this->removeDoubleQuote($model->model_variables->hidden ?? []);
+          $casts = $this->removeDoubleQuote($model->model_variables->casts ?? []);
+          $with = $this->removeDoubleQuote($model->model_variables->with ?? []);
           $contents =$this->getStubContents($this->stub_path,[
             'namespace' => $this->pathToNameSpace($this->dir_name),
             'classname'=> $model->model_name,

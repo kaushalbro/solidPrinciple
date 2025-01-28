@@ -1,37 +1,23 @@
 [ {
     "model_name": "Product",
-    "fillable": ["name", "description", "price", "stock_quantity", "category_id"],
-    "hidden": [],
-    "casts": [],
-    "with": [],
-    "sidebar": [true, "icon|fa-brands fa-product-hunt", "sub_link=create,index"],
-    "table_column_name": [
-        "name|string|notnull|no-default",
-        "description|string|notnull|no-default",
-        "price|float|nullable|no-default",
-        "status|enum|notnullable|active|active:inactive",
-        "stock_quantity|float|nullable|no-default"
-    ],
-    "table_foreign_key": [
-        "user_id:unsigned_integer|users:id|nullable|cascade:delete,update",
-        "category_id:unsigned_integer|categories:id|notnull|cascade:delete,update"
-    ],
-    "request_rules":[
-        "name-required|string",
-        "description-nullable|string",
-        "price-required|numeric|min:|max:10",
-        "stock_quantity-required|numeric|min:|max:10",
-        "category_id-required|numeric"],
-    "routes": ["product"],
-
-    "view_input": [
-        "'Name'=>name|text",
-        "'Description'=>description|textarea",
-        "'Price'=>price|float",
-        "'Stock Quantity'=>stock_quantity|float",
-        "'Category'=>category_id|select",
-        "'Image'=>image|file",
-        "'Status'=>status|onOff|active:inactive"
-    ]
-}
+    "model_attributes": {
+        "db_rules": [
+            "name:string|required|default:hari",
+            "description:string|required",
+            "price:float|nullable",
+            "status:enum(active,inactive)|required",
+            "stock_quantity:float|nullable",
+            "image:file|nullable",
+            "user_id:foreign_key"
+        ],
+        "request_rules": [
+            "name:required|numeric|min:2|max:10",
+            "description:nullable|string",
+            "price:required|numeric|min:2|max:10",
+            "stock_quantity:required|numeric|min:2|max:10",
+            "category_id:required|numeric"
+        ]
+    },
+    "sidebar": [true, "icon|fa-brands fa-product-hunt", "sub_link=create,index"]
+  }
 ]
