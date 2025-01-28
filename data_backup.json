@@ -96,3 +96,30 @@
         ]
     }
 ]
+
+
+
+//Final
+
+[ {
+    "model_name": "Product",
+    "model_attributes": {
+        "db_rules": [
+            "name:string|required|default:hari",
+            "description:string|required",
+            "price:float|nullable",
+            "status:enum(active,inactive)|required",
+            "stock_quantity:float|nullable",
+            "image:file|nullable",
+            "user_id:foreign_key"
+        ],
+        "request_rules": [
+            "name:required|numeric|min:2|max:10",
+            "description:nullable|string",
+            "price:required|numeric|min:2|max:10",
+            "stock_quantity:required|numeric|min:2|max:10",
+            "category_id:required|numeric"
+        ]
+    }
+}
+]
