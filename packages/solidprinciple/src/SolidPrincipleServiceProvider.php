@@ -3,6 +3,8 @@ namespace Devil\Solidprinciple;
 use Devil\Solidprinciple\app\console\Commands\solid;
 use Devil\Solidprinciple\app\Services\SideBar;
 use Illuminate\Support\ServiceProvider;
+use Carbon\CarbonImmutable;
+use Illuminate\Support\Facades\Date;
 class SolidPrincipleServiceProvider extends ServiceProvider
 {
     public function register(): void
@@ -19,6 +21,7 @@ class SolidPrincipleServiceProvider extends ServiceProvider
     }
     public function boot(): void
     {
+      if (config("solid.carbon_immutable")) Date::use(CarbonImmutable::class);
       $this->loadRoutesFrom(__DIR__.'/routes/web.php');
       $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
       $this->publishes([__DIR__ . '/routes/route.php' =>base_path('routes/solid.php')], 'solidRoutes');
