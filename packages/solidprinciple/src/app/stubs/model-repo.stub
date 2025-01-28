@@ -11,8 +11,6 @@ class {{ classname }}Repository extends {{ baseRepository }}
     }
 
    public function getFillable(){
-        return {{ fillable }};
+        return {{ classname }}::getFillable();
     }
-
-
 }
