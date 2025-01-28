@@ -90,7 +90,7 @@ class MakeMigration extends BaseController
                 $col_attributes= (
                     ($is_required?'':'->nullable()').
                     ($is_unique?'->unique()':'').
-                    ($default?  "->default(".(!is_numeric($default)?"'".$default."'":$default).")":'')
+                    ($default?  "->default(".((!is_numeric($default) && !($default=="true"||$default=="false"))?"'".$default."'":$default).")":'')
                     );
                 if ($column_datatype=='foreign_key') {
                     $is_foreign_key= true;
