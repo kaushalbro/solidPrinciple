@@ -3,6 +3,8 @@ namespace Devil\Solidprinciple\app\Http\Controllers;
 
 use Devil\Solidprinciple\app\Traits\FileFolderManage;
 use Devil\Solidprinciple\app\Traits\GetStubContents;
+use Facade\FlareClient\View;
+use Illuminate\Support\Facades\Storage;
 
 class MakeApiResources extends BaseController
 {
@@ -47,6 +49,12 @@ class MakeApiResources extends BaseController
                     $data.="\n\t".'"'.$text.'" => $this->'.$text.'??[],'."\t\n";
                 }
                 foreach ($this->actionsResourceToGenerate as $action){
+//                    try {
+//                        $content=\view("solid::apiResources", compact("data"))->render();
+//                        dd($content);
+//                    }catch (\Exception $exception){
+//                        dd($exception);
+//                    }
                     $contents =$this->getStubContents($this->stub_path,[
                         'namespace' => $this->namespace.'\\'.ucwords($model->model_name),
                         'classname'=> ucwords($model_name),

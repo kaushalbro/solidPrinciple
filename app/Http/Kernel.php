@@ -14,6 +14,7 @@ class Kernel extends HttpKernel
      * @var array<int, class-string|string>
      */
     protected $middleware = [
+        \ErlandMuchasaj\LaravelGzip\Middleware\GzipEncodeResponse::class,
         // \App\Http\Middleware\TrustHosts::class,
         \App\Http\Middleware\TrustProxies::class,
         \Fruitcake\Cors\HandleCors::class,

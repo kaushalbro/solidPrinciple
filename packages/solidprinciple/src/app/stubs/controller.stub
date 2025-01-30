@@ -89,10 +89,13 @@ class {{ classname }}Controller extends Controller @if('laravel_11')implements H
     public function getList()
     {
         $request=\request();
+        $filter=request("filter");
+        $query = $this->model::query();
+        $limit=50;
         @if('repo_pattern')
-        ${{ viewfolder }}s = $this->repository->getAll();
+        ${{ viewfolder }}s =$query->paginate($limit);
         @else
-        ${{ viewfolder }}s = {{ classname }}::all();
+        ${{ viewfolder }}s = $query->paginate($limit);
         @endif
         @if('is_api')
         @else

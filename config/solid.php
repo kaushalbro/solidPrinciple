@@ -14,7 +14,7 @@ return [
 //                                                                        //
 ////////////////////////////////////////////////////////////////////////////
         'modular_app'=>false, // If the app is built on top of module based system design. (Coming soon...)
-        'raw_json_data_path' => base_path("data.json"),  // root path/base_path
+        'model_schema_json_path' => base_path("data.json"),  // root path/base_path
         'is_api' => true,  // Is this application is developing an api's.
         'api_with_resource_classes'=>true,  // Depends on is_api, This will create an api resources for models if is_api is true.
         'react_with_inertia'=>false, // coming soon...

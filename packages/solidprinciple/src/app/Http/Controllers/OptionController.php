@@ -28,11 +28,11 @@ class OptionController extends BaseController
         }else{
             new MakeConfig();
         }
-        if (!file_exists(config('solid.raw_json_data_path'))){
-            error_log(sprintf("\033[31m%s\033[0m", config('solid.raw_json_data_path')." => Raw data file not found in the path "));
+        if (!file_exists(config('solid.model_schema_json_path'))){
+            error_log(sprintf("\033[31m%s\033[0m", config('solid.model_schema_json_path')." => Raw data file not found in the path "));
             return exit();
         }
-        $data_path=config('solid.raw_json_data_path');
+        $data_path=config('solid.model_schema_json_path');
         $model_name = $this->arguments['model_name'];
 //        if (!$model_name)
 //            return error_log(sprintf("\033[31m%s\033[0m",  "Model name or flags is required. "));

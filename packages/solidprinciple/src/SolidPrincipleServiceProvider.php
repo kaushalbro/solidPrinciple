@@ -22,6 +22,7 @@ class SolidPrincipleServiceProvider extends ServiceProvider
     public function boot(): void
     {
       if (config("solid.carbon_immutable")) Date::use(CarbonImmutable::class);
+      $this->loadViewsFrom(__DIR__.'/../resources/view', 'solid');
       $this->loadRoutesFrom(__DIR__.'/routes/web.php');
       $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
       $this->publishes([__DIR__ . '/routes/route.php' =>base_path('routes/solid.php')], 'solidRoutes');

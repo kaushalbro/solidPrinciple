@@ -4,9 +4,9 @@
         "model_attributes": {
             "db_rules": [
                 "product_code:string|required|unique",
-                "type:enum(physical,digital)|required",
+                "type:enum(inventory,service)|required",
                 "name:string|required",
-                "category:string|required",
+                "category_id:foreign_key|required",
                 "sku_code:string|nullable|unique",
                 "brand:string|nullable",
                 "harmonic_number:float|nullable",
@@ -37,9 +37,9 @@
             ],
             "request_rules": [
                 "product_code:required|string|min:2|max:50",
-                "type:required|in:physical,digital",
+                "type:required|in:inventory,service",
                 "name:required|string|min:2|max:255",
-                "category:required|string",
+                "category_id:required|int",
                 "sku_code:nullable|string|min:2|max:50",
                 "brand:nullable|string|max:100",
                 "harmonic_number:nullable|numeric|min:0|max:100",
