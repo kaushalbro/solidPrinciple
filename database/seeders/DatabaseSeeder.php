@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Product;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
@@ -51,7 +52,7 @@ class DatabaseSeeder extends Seeder
         }catch (\Exception $exception){
             dd($exception);
         }
-
+//        Product::factory()->count(50000)->create();
         // \App\Models\User::factory(10)->create();
     }
 }
