@@ -1,26 +1,161 @@
-                      php artisan solid:make
-                         'solid:make {model_name? : Optional model_name parameter}
-                         {--config|config : Generate Package configuration }
-                         {--crud|crud : Generate Plain CRUD files }
-                         {--repo-crud|repo-crud : Generate CRUD files for Repository design pattern }
-                         {--m|model : Generate model}
-                         {--view|view : Generate model}
-                         {--c|controller : Generate Controller }
-                         {--i|interface : Generate interface}
-                         {--re|repo  : Generate repository}
-                         {--mi|migration  : Generate migration}
-                         {--r|request : Generate custom request}
-                         {--ro|route : Generate routes}
-                         {--layout|layout  } layout_type? : Generate Layout}
-                         {--newAdminPanel|new-admin-panel : Generate fresh Admin panel}
-                         {--h|help}
+Package: devil999/solidgenerator: 
+
+     Solid Generator generates solid code with controller api resources, custom request, with repo pattern, migrations based on model_schema_json file  with admin panel for blade etc..
+     Note: For better result: 
+            Think to design software and write your schema 
+            according in model_schema_json.json file formate stored in root path and run solid:make commands 
+        AdminLte is being used for admin panel/dashboard:
+        Laravel breeze for Auth is necessary:
+        Analyse the output files and complete your project with ease.
+#### For collaboration or contribution: Mail to: official.kaushalg+devil@gmail.com 
+
+Initial Required packages:
+    
+    laravel breeze, spatie (for roles, logs, etc,)
+    installation:
+            composer require laravel/breeze --dev  OR php artisan breeze:install blade
+            composer require spatie/laravel-permission
+
+Register Service Provider :
+    
+    Laravel 11 :
+            Add :    SolidPrincipleServiceProvider::class to bootstrap/providers.php
+        Laravel 10 : Find you self 
+
+    Public solid-generator assets :    php artisan vendor:publish --tag=solid-app
+    Globle :   php artisan solid:make --publish
+    
+Operations:
+    
+    Role and permission (options)
+    Steps: 1)(Optional): Add: 
+            the below code in app/Providers/AuthServiceProvider.php inside boot function at last</br>  
+            Gate::before(function ($user, $ability) {</br>  
+                return ($user->super_admin == 1 && $user->status == 1) ? true : null;</br>  
+           });
+
+        For laravel 10:
+            Steps: 2): Add: following inside app/Kernel inside: protected $routeMiddleware = [] at last, like</br>
+            protected $routeMiddleware = [</br>
+            '...'=>'...',</br>
+            '...'=>'...',</br>
+            '...'=>'...',</br>
+            'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,</br>
+            'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,</br>
+            'role_or_permission' => \Spatie\Permission\Middlewares\RoleOrPermissionMiddleware::class,</br>
+            ]</br> 
+        For laravel 11: find spatie way to add middleware alias 
+
+            Steps: 3) Add: trait 'HasRoles' in User Model;
+
+            Steps: 5) Seed:  UserRolePermissionSeeder; command here <br>  php artisan db:seed --class=UserRolePermissionSeeder
+
+First test command after setup :
+    
+    php artisan solid:make --crud 
+
+    // This will Generates Following files: Example for api enabled and repo design patter, Vary in Configuration you provides
+
+    1. Traits FileManager.php . // to manage file uploading
+    2. Traits Api_Response.php . // to manage api response
+    3. Interfaces SolidInterface.php File. 
+    4. Repositories SolidBaseRepository.php File.
+    5. Models DemoProduct.php File.
+    6. Repositories DemoProductRepository.php File.
+    7. API CreateDemoProductRequest.php File.
+    8. Controllers DemoProductController.php File.
+    9. migrations 2025_02_02_070024_create_demoproducts_table.php File.
+    Resources:  
+        10. DemoProductListResource.php File.
+        11. DemoProductCreateResource.php File.
+        12. DemoProductShowResource.php File.
+        13. DemoProductEditResource.php File.
+        
+    
+    Notice incide configuration file:   'design_pattern'=> "repository", //Design patterns are : none or repository
 
 
+Global function :
+
+    app('sidebar')
+
+`Commands: (depends on solid configuration file)`
+ 
+      php artisan solid:make {model_name? : Optional model_name parameter}
+
+                 {--config|config : Generate Package configuration }
+                 {--crud|crud : Generate Plain CRUD files }
+                 {--api|api : Generate api resources}
+                 {--repo-crud|repo-crud : Generate CRUD files for Repository design pattern }
+                 {--m|model : Generate model}
+                 {--view|view : Generate model}
+                 {--c|controller : Generate Controller }
+                 {--i|interface : Generate interface}
+                 {--re|repo  : Generate repository}
+                 {--mi|migration  : Generate migration}
+                 {--r|request : Generate custom request}
+                 {--ro|route : Generate routes}
+                 {--layout|layout  } layout_type? : Generate Layout}
+                 {--newAdminPanel|new-admin-panel : Generate fresh Admin panel}
+                 {--publish|publish : Generate Publish files }
+                 {--h|help}
+                 {--t|test}
+
+
+`Config : config/solid.php`
+
+    ////////////////////////////////////////////////////////////////////////////
+    //                                                                        //
+    //                   WARNING :  DEVIL000/SOLID - PACKAGE                  //
+    //            DO NO ALTER DEFAULT CONFIGURATION UNLESS REQUIRED           //
+    //                   ALTERING HERE MAY CAUSE MALFUNCTION                  //
+    //                                                                        //
+    ////////////////////////////////////////////////////////////////////////////
+    //--NOTE:NOTE--//
+    ////////////////////////////////////////////////////////////////////////////
+    //                                                                        //
+    //         All Directory Name pattern should match the pattern below      //
+    //                                                                        //
+    ////////////////////////////////////////////////////////////////////////////
+
+    'modular_app'=>false, // If the app is built on top of module based system design. (Coming soon...)
+    'model_schema_json_path' => base_path("model_schema_json.json"),  // root path/base_path
+    'is_api' => true,  // Is this application is developing an api's.
+    'api_with_resource_classes'=>true,  // Depends on is_api, This will create an api resources for models if is_api is true.
+    'react_with_inertia'=>false, // coming soon...
+    'model_path' => "app/Models",
+    'controller_path' => "app/Http/Controllers",
+    'api_resources_path' => "app/Http/Resources",
+    'request_path'=>"app/Http/Requests",
+    'view_path' =>"resources/views",  // When is_api is true this will be disabled automatically.
+    'migration_path'=>"database/migrations", // Migration Path
+    'seeder_path'=>"database/seeders",   // Seeder Path
+    'backend_admin_view_path' => "resources/views/backend/admin",  // Storage for View files of Admin/backend.
+    'frontend_view_path' => "resources/views/frontend",  // Storage for View files of Frontend.
+    // Configuration for Repository design pattern
+    'design_pattern'=> "repository", //Design patterns are : none or repository
+    'interface_path' => "app/Interfaces",  // Interface Path
+    'repo_path' => "app/Repositories",   // Repository Path
+    'base_interface_name' => "SolidInterface",  // Base Interface name
+    'base_repository_name' => "SolidBaseRepository",  // Base Repository name
+    // Other Configuration
+    'show_file_already_exists_warning' => false,  //
+    'show_folder_already_exists_warning' => false,
+    // Override created file : This may delete the contents of previous file generated by SOLID (Not applied Yet)
+    'override_previous_file_data' => false,
+    "carbon_immutable" => true
+
+
+
+# Bugs:
+
+    1. By default, the middlware function are applied in Controller files 
+       you need to remove it manually if you dont use auth and spatie permission package
 
 
 # Sidebar Configuration Documentation
 
-This documentation describes how to use the `SideBar::add()` method to create a custom sidebar configuration with multiple options, including sub-links, icons, visibility, permissions, and active routes.
+This documentation describes how to use the `SideBar::add() OR route: localhost://sidebar`  method to create a custom sidebar configuration with multiple options, including sub-links, icons, visibility, permissions, and active routes.
 
 ## Sidebar Configuration Example
 
@@ -252,26 +387,82 @@ Let me know if you need any further enhancements!
 ### Future Implementation Grouping like this. coming soon...
 
 ```
- SideBar::group('setting',function(){
-             SideBar::add('User Management')
-                 ->icon('fa-solid fa-users')
-                 ->subLinks(
-                     SubLink::add('Users', User::class)
-                         ->icon('fa-solid fa-user ')
-                         ->route('/admin/users'),
-                     SubLink::add('Roles', Role::class)
-                         ->icon('fa-solid fa-user ')
-                         ->route('/admin/roles')
-                 );
-             SideBar::add('User Management')
-                 ->icon('fa-solid fa-users')
-                 ->subLinks(
-                     SubLink::add('Users', User::class)
-                         ->icon('fa-solid fa-user ')
-                         ->route('/admin/users'),
-                     SubLink::add('Roles', Role::class)
-                         ->icon('fa-solid fa-user ')
-                         ->route('/admin/roles')
-                 );
- });
+On App : 
+    Generate factory generator for every model.
+On sidebar: 
+         SideBar::group('setting',function(){
+                     SideBar::add('User Management')
+                         ->icon('fa-solid fa-users')
+                         ->subLinks(
+                             SubLink::add('Users', User::class)
+                                 ->icon('fa-solid fa-user ')
+                                 ->route('/admin/users'),
+                             SubLink::add('Roles', Role::class)
+                                 ->icon('fa-solid fa-user ')
+                                 ->route('/admin/roles')
+                         );
+                     SideBar::add('User Management')
+                         ->icon('fa-solid fa-users')
+                         ->subLinks(
+                             SubLink::add('Users', User::class)
+                                 ->icon('fa-solid fa-user ')
+                                 ->route('/admin/users'),
+                             SubLink::add('Roles', Role::class)
+                                 ->icon('fa-solid fa-user ')
+                                 ->route('/admin/roles')
+                         );
+         });
 ```
+`Data formate`
+
+````
+[
+  {
+    "model_name": "DemoProduct",
+    "model_attributes": {
+      "db_rules": [
+        "product_code:string|required|unique",
+        "type:enum(inventory,service)|required",
+        "name:string|required",
+        "category_id:foreign_key|required",
+        "sku_code:string|nullable|unique",
+        "brand:string|nullable",
+        "unit:string|required",
+        "units:string|nullable",
+        "description:text|nullable",
+        "status:enum(active,inactive)|required",
+        "variation:boolean|default:false",
+        "image:file|nullable",
+        "supplier_id:foreign_key",
+        "purchase_unit:string|nullable|required",
+        "reorder_threshold_quantity:float|nullable",
+        "selling_price:float|required",
+        "selling_unit:string|nullable|required",
+        "discount_amount:float|nullable"
+      ],
+      "request_rules": [
+        "product_code:required|string|min:2|max:50",
+        "type:required|in:inventory,service",
+        "name:required|string|min:2|max:255",
+        "category_id:required|int",
+        "sku_code:nullable|string|min:2|max:50",
+        "brand:nullable|string|max:100",
+        "unit:required|string|max:50",
+        "units:nullable|string|max:255",
+        "description:nullable|string",
+        "status:required|in:active,inactive",
+        "variation:nullable|boolean",
+        "image:nullable|file|mimes:jpeg,png,jpg|max:2048",
+        "supplier_id:nullable|integer|exists:suppliers,id",
+        "purchase_unit:nullable|string|max:50",
+        "reorder_threshold_quantity:nullable|numeric|min:0",
+        "selling_price:required|numeric|min:0",
+        "selling_unit:nullable|string|max:50",
+        "discount_amount:nullable|numeric|min:0"
+      ]
+    }
+  }
+]
+
+````
+

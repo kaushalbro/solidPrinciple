@@ -1,70 +1,29 @@
 {
-    "name": "laravel/laravel",
-    "type": "project",
-    "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "name": "devil999/solidgenerator",
+    "description": "Solid Generator generates solid code with controller api resources, custom request, with repo pattern, migrations based on model_schema_json file  with admin panel for blade etc..",
+    "type": "library",
     "license": "MIT",
-    "require": {
-        "php": "^8.0",
-        "ext-dom": "*",
-        "ext-json": "*",
-        "ext-zip": "*",
-        "erlandmuchasaj/laravel-gzip": "^1.1",
-        "fruitcake/laravel-cors": "^2.0",
-        "guzzlehttp/guzzle": "^7.0.1",
-        "laravel/framework": "^8.75",
-        "laravel/sanctum": "^2.11",
-        "laravel/tinker": "^2.5",
-        "spatie/laravel-permission": "^5.11",
-        "yajra/laravel-datatables-oracle": "^9.21"
-    },
-    "require-dev": {
-        "facade/ignition": "^2.5",
-        "fakerphp/faker": "^1.9.1",
-        "laravel/breeze": "^1.10",
-        "laravel/sail": "^1.0.1",
-        "mockery/mockery": "^1.4.4",
-        "nunomaduro/collision": "^5.10",
-        "phpunit/phpunit": "^9.5.10"
-    },
     "autoload": {
         "psr-4": {
-            "App\\": "app/",
-            "Database\\Factories\\": "database/factories/",
-            "Database\\Seeders\\": "database/seeders/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Tests\\": "tests/",
-            "Devil\\Solidprinciple\\": "packages/solidprinciple/src"
-        }
-    },
-    "scripts": {
-        "post-autoload-dump": [
-            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-            "@php artisan package:discover --ansi"
-        ],
-        "post-update-cmd": [
-            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
-        ],
-        "post-root-package-install": [
-            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
-        ],
-        "post-create-project-cmd": [
-            "@php artisan key:generate --ansi"
+            "App\\": "src/app/",
+            "Devil\\Solidprinciple\\": "src/"
+        },
+        "files": [
+            "src/helpers.php"
         ]
     },
-    "extra": {
-        "laravel": {
-            "dont-discover": []
+    "authors": [
+        {
+            "name": "kaushal ghimire",
+            "email": "official.kaushalg+devil@gmail.com"
         }
-    },
-    "config": {
-        "optimize-autoloader": true,
-        "preferred-install": "dist",
-        "sort-packages": true
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true
+    ],
+
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "require": {
+      "ext-zip": "*",
+      "ext-dom": "*",
+      "ext-json": "*"
+    }
 }
