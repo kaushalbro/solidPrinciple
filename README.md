@@ -1,4 +1,4 @@
-Package: devil999/solidgenerator: 
+Package:composer require devil999/solidgenerator: 
 
      Solid Generator generates solid code with controller api resources, custom request, with repo pattern, migrations based on model_schema_json file  with admin panel for blade etc..
      Note: For better result: 
